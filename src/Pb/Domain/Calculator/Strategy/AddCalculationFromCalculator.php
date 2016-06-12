@@ -4,9 +4,8 @@ namespace Pb\Domain\Calculator\Strategy;
 
 use Pb\Domain\Calculator\CalculatorInterface;
 use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
 
-class AddCalculationFromCalculator implements PricingConceptInterface
+class AddCalculationFromCalculator extends CalculatorStrategy
 {
     /**
      * @var CalculatorInterface

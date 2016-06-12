@@ -4,14 +4,12 @@ namespace Pb\Domain\Calculator\Strategy;
 
 use Money\Money;
 use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
 
 /**
  * Class AddFixedAmount
  * @package Pb\Domain\Calculator\Strategy
  */
-class AddFixedAmount implements PricingConceptInterface
+class AddFixedAmount extends CalculatorStrategy
 {
     /**
      * @var Money
@@ -20,26 +18,16 @@ class AddFixedAmount implements PricingConceptInterface
     /**
      * @var string
      */
-    protected $type;
-    /**
-     * @var float
-     */
-    protected $vatToApply;
-    /**
-     * @var ItemFactoryInterface
-     */
-    protected $itemFactory;
+    protected $conceptName;
 
     /**
      * AddAmount constructor.
-     * @param ItemFactoryInterface $itemFactory
-     * @param string $type
+     * @param string $conceptName
      * @param Money $gross
      */
-    public function __construct(ItemFactoryInterface $itemFactory, $type, $gross)
+    public function __construct($conceptName, Money $gross)
     {
-        $this->itemFactory = $itemFactory;
-        $this->type = $type;
+        $this->conceptName = $conceptName;
         $this->gross = $gross;
     }
 
@@ -50,7 +38,7 @@ class AddFixedAmount implements PricingConceptInterface
     public function apply(CollectionInterface $collection)
     {
         return $collection->add(
-            $this->type,
+            $this->conceptName,
             $this->itemFactory->buildWithGross($this->gross)
         );
     }

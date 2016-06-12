@@ -2,7 +2,9 @@
 
 namespace Pb\Domain\Calculator;
 
+use Pb\Domain\PricingConcept\CollectionFactoryInterface;
 use Pb\Domain\PricingConcept\CollectionInterface;
+use Pb\Domain\PricingConcept\ItemFactoryInterface;
 use Pb\Domain\PricingConcept\PricingConceptInterface;
 
 /**
@@ -19,7 +21,13 @@ interface CalculatorInterface
 
     /**
      * @param PricingConceptInterface $concept
+     * @param CollectionFactoryInterface $collectionFactory
+     * @param ItemFactoryInterface $itemFactory
      * @return CalculatorInterface
      */
-    public function addPricingConcept(PricingConceptInterface $concept);
+    public function addPricingConcept(
+        PricingConceptInterface $concept,
+        CollectionFactoryInterface $collectionFactory = null,
+        ItemFactoryInterface $itemFactory = null
+    );
 }

@@ -2,7 +2,9 @@
 
 namespace Pb\Domain\Calculator;
 
+use Pb\Domain\PricingConcept\CollectionFactoryInterface;
 use Pb\Domain\PricingConcept\CollectionInterface;
+use Pb\Domain\PricingConcept\ItemFactoryInterface;
 use Pb\Domain\PricingConcept\PricingConceptInterface;
 
 /**
@@ -15,6 +17,25 @@ class Calculator implements CalculatorInterface
      * @var PricingConceptInterface[]
      */
     protected $pricingConcepts = [];
+    /**
+     * @var CollectionFactoryInterface
+     */
+    protected $collectionFactory;
+    /**
+     * @var ItemFactoryInterface
+     */
+    protected $itemFactory;
+
+    /**
+     * Calculator constructor.
+     * @param CollectionFactoryInterface $collectionFactory
+     * @param ItemFactoryInterface $itemFactory
+     */
+    public function __construct(CollectionFactoryInterface $collectionFactory, ItemFactoryInterface $itemFactory)
+    {
+        $this->collectionFactory = $collectionFactory;
+        $this->itemFactory = $itemFactory;
+    }
 
     /**
      * @param CollectionInterface $collection
@@ -31,10 +52,20 @@ class Calculator implements CalculatorInterface
 
     /**
      * @param PricingConceptInterface $pricingConcept
+     * @param CollectionFactoryInterface $collectionFactory
+     * @param ItemFactoryInterface $itemFactory
      * @return CalculatorInterface
      */
-    public function addPricingConcept(PricingConceptInterface $pricingConcept)
+    public function addPricingConcept(
+        PricingConceptInterface $pricingConcept,
+        CollectionFactoryInterface $collectionFactory = null,
+        ItemFactoryInterface $itemFactory = null
+    )
     {
+        $pricingConcept->setCollectionFactory(
+            $collectionFactory === null ? $this->collectionFactory : $collectionFactory
+        );
+        $pricingConcept->setItemFactory($itemFactory === null ? $this->itemFactory : $itemFactory);
         $this->pricingConcepts[] = $pricingConcept;
         return $this;
     }

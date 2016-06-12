@@ -3,14 +3,12 @@
 namespace Pb\Domain\Calculator\Strategy;
 
 use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
 
 /**
  * Class AddMultiplierIncrement
  * @package Pb\Domain\Calculator\Strategy
  */
-class AddMultiplierIncrement  implements PricingConceptInterface
+class AddMultiplierIncrement extends CalculatorStrategy
 {
     /**
      * @var MultiplierInterface
@@ -19,26 +17,16 @@ class AddMultiplierIncrement  implements PricingConceptInterface
     /**
      * @var string
      */
-    protected $type;
-    /**
-     * @var float
-     */
-    protected $vatToApply;
-    /**
-     * @var ItemFactoryInterface
-     */
-    protected $itemFactory;
+    protected $conceptName;
 
     /**
      * AddAmount constructor.
-     * @param ItemFactoryInterface $itemFactory
-     * @param string $type
+     * @param string $conceptName
      * @param MultiplierInterface $multiplier
      */
-    public function __construct(ItemFactoryInterface $itemFactory, $type, MultiplierInterface $multiplier)
+    public function __construct($conceptName, MultiplierInterface $multiplier)
     {
-        $this->itemFactory = $itemFactory;
-        $this->type = $type;
+        $this->conceptName = $conceptName;
         $this->multiplier = $multiplier;
     }
     /**
@@ -48,7 +36,7 @@ class AddMultiplierIncrement  implements PricingConceptInterface
     public function apply(CollectionInterface $collection)
     {
         return $collection->add(
-            $this->type,
+            $this->conceptName,
             $this->itemFactory->buildWithGross($collection->gross()->multiply($this->multiplier->multiplier()))
         );
     }

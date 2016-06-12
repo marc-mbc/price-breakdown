@@ -13,4 +13,16 @@ interface PricingConceptInterface
      * @return CollectionInterface
      */
     public function apply(CollectionInterface $collection);
+
+    /**
+     * @param ItemFactoryInterface $factory
+     * @return PricingConceptInterface
+     */
+    public function setItemFactory(ItemFactoryInterface $factory);
+
+    /**
+     * @param CollectionFactoryInterface $factory
+     * @return PricingConceptInterface
+     */
+    public function setCollectionFactory(CollectionFactoryInterface $factory);
 }

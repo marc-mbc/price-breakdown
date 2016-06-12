@@ -5,16 +5,14 @@ namespace Pb\Test\Domain\Calculator\Strategy;
 use Pb\Domain\Calculator\Strategy\AddMultiplierIncrement;
 use Pb\Domain\Calculator\Strategy\Multiplier;
 use Pb\Domain\Calculator\Strategy\MultiplierInterface;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
 use Pb\Domain\PricingConcept\PricingConceptInterface;
-use Pb\Test\Domain\Calculator\CalculatorTestHelper;
 
-class AddMultiplierIncrementTest extends CalculatorTestHelper
+class AddMultiplierIncrementTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
-        $taxableItemFactory = $this->getItemFactory();
-        $taxableCollectionFactory = $this->getCollectionFactory();
+        $itemFactory = $this->getItemFactory();
+        $collectionFactory = $this->getCollectionFactory();
         $conceptName = 'basePrice';
         $multiplierType = 'extraFee';
         $currencyCode = 'EUR';
@@ -24,23 +22,26 @@ class AddMultiplierIncrementTest extends CalculatorTestHelper
 
 
         $expectedCollection = $this->getCollectionWithSingleItem(
-            $taxableCollectionFactory,
-            $taxableItemFactory,
+            $collectionFactory,
+            $itemFactory,
             $currencyCode,
             $conceptName,
             $gross
         );
         $expectedCollection->add(
             $multiplierType,
-            $taxableItemFactory->buildWithGross($gross->multiply($multiplierStrategy->multiplier()))
+            $itemFactory->buildWithGross($gross->multiply($multiplierStrategy->multiplier()))
         );
 
+        $strategy = $this->getStrategy($multiplierType, $multiplierStrategy);
+        $strategy->setItemFactory($itemFactory);
+        $strategy->setCollectionFactory($collectionFactory);
         $this->assertEquals(
             $expectedCollection,
-            $this->getStrategy($taxableItemFactory, $multiplierType, $multiplierStrategy)->apply(
+            $strategy->apply(
                 $this->getCollectionWithSingleItem(
-                    $taxableCollectionFactory,
-                    $taxableItemFactory,
+                    $collectionFactory,
+                    $itemFactory,
                     $currencyCode,
                     $conceptName,
                     $gross
@@ -50,14 +51,13 @@ class AddMultiplierIncrementTest extends CalculatorTestHelper
     }
 
     /**
-     * @param ItemFactoryInterface $factory
      * @param string $conceptName
      * @param MultiplierInterface $multiplier
      * @return PricingConceptInterface
      */
-    protected function getStrategy(ItemFactoryInterface $factory, $conceptName, MultiplierInterface $multiplier)
+    protected function getStrategy($conceptName = 'default', MultiplierInterface $multiplier = null)
     {
-        return new AddMultiplierIncrement($factory, $conceptName, $multiplier);
+        return new AddMultiplierIncrement($conceptName, $multiplier === null ? $this->getMultiplier(0.5) : $multiplier);
     }
 
     /**

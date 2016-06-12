@@ -3,19 +3,17 @@
 namespace Pb\Test\Domain\Calculator\Strategy;
 use Money\Money;
 use Pb\Domain\Calculator\Strategy\AddFixedAmount;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
 use Pb\Domain\PricingConcept\PricingConceptInterface;
-use Pb\Test\Domain\Calculator\CalculatorTestHelper;
 
 /**
  * Class AddFixedAmountTest
  * @package Pb\Test\Domain\Calculator\Strategy
  */
-class AddFixedAmountTest extends CalculatorTestHelper
+class AddFixedAmountTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
-        $taxableItemFactory = $this->getItemFactory();
+        $itemFactory = $this->getItemFactory();
         $conceptName = 'basePrice';
         $currencyCode = 'EUR';
         $gross = $this->getMoney(120.24, $currencyCode);
@@ -23,25 +21,30 @@ class AddFixedAmountTest extends CalculatorTestHelper
         $expectedCollection = $this->getEmptyCollection($currencyCode);
         $expectedCollection->add(
             $conceptName,
-            $taxableItemFactory->buildWithGross($gross)
+            $itemFactory->buildWithGross($gross)
         );
 
+        $strategy = $this->getStrategy($conceptName, $gross);
+        $strategy->setCollectionFactory($this->getCollectionFactory());
+        $strategy->setItemFactory($itemFactory);
         $this->assertEquals(
             $expectedCollection,
-            $this->getStrategy($taxableItemFactory, $conceptName, $gross)->apply(
+            $strategy->apply(
                 $this->getEmptyCollection($currencyCode)
             )
         );
     }
 
     /**
-     * @param ItemFactoryInterface $factory
      * @param string $conceptName
      * @param Money $gross
      * @return PricingConceptInterface
      */
-    protected function getStrategy(ItemFactoryInterface $factory, $conceptName, Money $gross)
+    protected function getStrategy($conceptName = 'default', Money $gross = null)
     {
-        return new AddFixedAmount($factory, $conceptName, $gross);
+        return new AddFixedAmount(
+            $conceptName,
+            $gross === null ? $this->getMoney(20.25) : $gross
+        );
     }
 }

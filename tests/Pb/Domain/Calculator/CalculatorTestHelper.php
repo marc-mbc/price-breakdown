@@ -16,11 +16,18 @@ use Pb\Test\Domain\PricingConcept\PricingConceptTestHelper;
 abstract class CalculatorTestHelper extends PricingConceptTestHelper
 {
     /**
+     * @param CollectionFactoryInterface $collectionFactory
+     * @param ItemFactoryInterface $itemFactory
      * @return Calculator
      */
-    protected function getCalculator()
+    protected function getCalculator(
+        CollectionFactoryInterface $collectionFactory = null, ItemFactoryInterface $itemFactory = null
+    )
     {
-        return new Calculator();
+        return new Calculator(
+            $collectionFactory === null ? $this->getCollectionFactory() : $collectionFactory,
+            $itemFactory === null ? $this->getItemFactory() : $itemFactory
+        );
     }
 
     /**

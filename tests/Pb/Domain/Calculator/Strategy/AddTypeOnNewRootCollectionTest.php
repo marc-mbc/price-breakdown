@@ -3,15 +3,13 @@
 namespace Pb\Test\Domain\Calculator\Strategy;
 
 use Pb\Domain\Calculator\Strategy\AddTypeOnNewRootCollection;
-use Pb\Domain\PricingConcept\CollectionFactoryInterface;
 use Pb\Domain\PricingConcept\PricingConceptInterface;
-use Pb\Test\Domain\Calculator\CalculatorTestHelper;
 
 /**
  * Class AddTypeOnNewRootCollectionTest
  * @package Pb\Domain\Calculator\Strategy
  */
-class AddTypeOnNewRootCollectionTest extends CalculatorTestHelper
+class AddTypeOnNewRootCollectionTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
@@ -29,21 +27,23 @@ class AddTypeOnNewRootCollectionTest extends CalculatorTestHelper
             $gross
         );
 
+        $strategy = $this->getStrategy($conceptName);
+        $strategy->setCollectionFactory($collectionFactory);
+        $strategy->setItemFactory($itemFactory);
         $this->assertEquals(
             $simpleCollection,
-            $this->getStrategy($collectionFactory, $conceptName)->apply(
+            $strategy->apply(
                 $simpleCollection
             )->find($conceptName)
         );
     }
 
     /**
-     * @param CollectionFactoryInterface $factory
      * @param string $conceptName
      * @return PricingConceptInterface
      */
-    protected function getStrategy(CollectionFactoryInterface $factory, $conceptName)
+    protected function getStrategy($conceptName = 'default')
     {
-        return new AddTypeOnNewRootCollection($factory, $conceptName);
+        return new AddTypeOnNewRootCollection($conceptName);
     }
 }
