@@ -16,19 +16,19 @@ class AddFixedAmountTest extends CalculatorTestHelper
     public function testStrategyWorksAsExpected()
     {
         $taxableItemFactory = $this->getItemFactory();
-        $type = 'basePrice';
+        $conceptName = 'basePrice';
         $currencyCode = 'EUR';
         $gross = $this->getMoney(120.24, $currencyCode);
 
         $expectedCollection = $this->getEmptyCollection($currencyCode);
         $expectedCollection->add(
-            $type,
+            $conceptName,
             $taxableItemFactory->buildWithGross($gross)
         );
 
         $this->assertEquals(
             $expectedCollection,
-            $this->getStrategy($taxableItemFactory, $type, $gross)->apply(
+            $this->getStrategy($taxableItemFactory, $conceptName, $gross)->apply(
                 $this->getEmptyCollection($currencyCode)
             )
         );
@@ -36,12 +36,12 @@ class AddFixedAmountTest extends CalculatorTestHelper
 
     /**
      * @param ItemFactoryInterface $factory
-     * @param string $type
+     * @param string $conceptName
      * @param Money $gross
      * @return PricingConceptInterface
      */
-    protected function getStrategy(ItemFactoryInterface $factory, $type, Money $gross)
+    protected function getStrategy(ItemFactoryInterface $factory, $conceptName, Money $gross)
     {
-        return new AddFixedAmount($factory, $type, $gross);
+        return new AddFixedAmount($factory, $conceptName, $gross);
     }
 }

@@ -11,22 +11,22 @@ use Money\Currency;
 interface CollectionInterface extends ItemInterface
 {
     /**
-     * @param string $type
+     * @param string $conceptName
      * @param ItemInterface $item
      * @return CollectionInterface
      */
-    public function add($type, ItemInterface $item);
+    public function add($conceptName, ItemInterface $item);
     /**
-     * @param string $type
+     * @param string $conceptName
      * @param ItemInterface $item
      * @return CollectionInterface
      */
-    public function subtract($type, ItemInterface $item);
+    public function subtract($conceptName, ItemInterface $item);
     /**
-     * @param string $type
+     * @param string $conceptName
      * @return CollectionInterface
      */
-    public function find($type);
+    public function find($conceptName);
 
     /**
      * @return string[]

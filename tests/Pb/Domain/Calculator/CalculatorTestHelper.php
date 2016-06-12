@@ -36,7 +36,7 @@ abstract class CalculatorTestHelper extends PricingConceptTestHelper
      * @param CollectionFactoryInterface $taxableCollectionFactory
      * @param ItemFactoryInterface $taxableItemFactory
      * @param string $currencyCode
-     * @param string $type
+     * @param string $conceptName
      * @param Money $gross
      * @return CollectionInterface
      */
@@ -44,13 +44,13 @@ abstract class CalculatorTestHelper extends PricingConceptTestHelper
         CollectionFactoryInterface $taxableCollectionFactory,
         ItemFactoryInterface $taxableItemFactory,
         $currencyCode,
-        $type,
+        $conceptName,
         Money $gross
     )
     {
         $expectedCollection = $taxableCollectionFactory->build($this->getCurrency($currencyCode));
         $expectedCollection->add(
-            $type,
+            $conceptName,
             $taxableItemFactory->buildWithGross($gross)
         );
         return $expectedCollection;

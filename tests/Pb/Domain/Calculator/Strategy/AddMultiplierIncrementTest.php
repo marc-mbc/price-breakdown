@@ -15,7 +15,7 @@ class AddMultiplierIncrementTest extends CalculatorTestHelper
     {
         $taxableItemFactory = $this->getItemFactory();
         $taxableCollectionFactory = $this->getCollectionFactory();
-        $type = 'basePrice';
+        $conceptName = 'basePrice';
         $multiplierType = 'extraFee';
         $currencyCode = 'EUR';
         $gross = $this->getMoney(120.24, $currencyCode);
@@ -27,7 +27,7 @@ class AddMultiplierIncrementTest extends CalculatorTestHelper
             $taxableCollectionFactory,
             $taxableItemFactory,
             $currencyCode,
-            $type,
+            $conceptName,
             $gross
         );
         $expectedCollection->add(
@@ -42,7 +42,7 @@ class AddMultiplierIncrementTest extends CalculatorTestHelper
                     $taxableCollectionFactory,
                     $taxableItemFactory,
                     $currencyCode,
-                    $type,
+                    $conceptName,
                     $gross
                 )
             )
@@ -51,13 +51,13 @@ class AddMultiplierIncrementTest extends CalculatorTestHelper
 
     /**
      * @param ItemFactoryInterface $factory
-     * @param string $type
+     * @param string $conceptName
      * @param MultiplierInterface $multiplier
      * @return PricingConceptInterface
      */
-    protected function getStrategy(ItemFactoryInterface $factory, $type, MultiplierInterface $multiplier)
+    protected function getStrategy(ItemFactoryInterface $factory, $conceptName, MultiplierInterface $multiplier)
     {
-        return new AddMultiplierIncrement($factory, $type, $multiplier);
+        return new AddMultiplierIncrement($factory, $conceptName, $multiplier);
     }
 
     /**

@@ -60,56 +60,56 @@ class TaxableCollection implements CollectionInterface
     }
 
     /**
-     * @param string $type
+     * @param string $conceptName
      * @param ItemInterface $item
      * @return CollectionInterface
      */
-    public function add($type, ItemInterface $item)
+    public function add($conceptName, ItemInterface $item)
     {
-        return $this->operate($type, $item, 'add');
+        return $this->operate($conceptName, $item, 'add');
     }
 
     /**
-     * @param string $type
+     * @param string $conceptName
      * @param ItemInterface $item
      * @return CollectionInterface
      */
-    public function subtract($type, ItemInterface $item)
+    public function subtract($conceptName, ItemInterface $item)
     {
-        return $this->operate($type, $item, 'subtract');
+        return $this->operate($conceptName, $item, 'subtract');
     }
 
     /**
-     * @param string $type
+     * @param string $conceptName
      * @return CollectionInterface
      */
-    public function find($type)
+    public function find($conceptName)
     {
-        return isset($this->items[$type]) ? $this->items[$type] : null;
+        return isset($this->items[$conceptName]) ? $this->items[$conceptName] : null;
     }
 
     /**
-     * @param string $type
+     * @param string $conceptName
      * @param ItemInterface $item
      * @param string $operation
      * @return CollectionInterface
      */
-    protected function operate($type, ItemInterface $item, $operation)
+    protected function operate($conceptName, ItemInterface $item, $operation)
     {
         if (!$this->currency->equals($item->gross()->getCurrency()))
         {
             throw new \InvalidArgumentException('New TaxableItem must operate in the same currency');
         }
-        if (!isset($this->items[$type]))
+        if (!isset($this->items[$conceptName]))
         {
-            $this->items[$type] = $item;
+            $this->items[$conceptName] = $item;
             $this->aggregate = new TaxableItem(
                 $this->aggregate->net()->{$operation}($item->net()),
                 $this->aggregate->vat()->{$operation}($item->vat())
             );
             return $this;
         }
-        throw new \InvalidArgumentException('Taxable Item: ' . $type . ' already exists.');
+        throw new \InvalidArgumentException('Taxable Item: ' . $conceptName . ' already exists.');
     }
 
     /**

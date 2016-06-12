@@ -42,18 +42,18 @@ class TaxableCollectionTest extends PricingConceptTestHelper
     {
         $currency = 'EUR';
         $aggregate = $this->getItemFactory()->buildFromBasicTypes($currency, 100, 1, 101);
-        $item1 = 'TestA';
-        $items[$item1] = $this->getItemFactory()->buildFromBasicTypes($currency, 100.25, 12.5);
-        $item2 = 'TestB';
-        $items[$item2] = $this->getItemFactory()->buildFromBasicTypes($currency, 101.25, 11.5);
-        $item3 = 'TestC';
-        $items[$item3] = $this->getItemFactory()->buildFromBasicTypes($currency, 50.25, 12.5);
+        $conceptNameItem1 = 'TestA';
+        $items[$conceptNameItem1] = $this->getItemFactory()->buildFromBasicTypes($currency, 100.25, 12.5);
+        $conceptNameItem2 = 'TestB';
+        $items[$conceptNameItem2] = $this->getItemFactory()->buildFromBasicTypes($currency, 101.25, 11.5);
+        $conceptNameItem3 = 'TestC';
+        $items[$conceptNameItem3] = $this->getItemFactory()->buildFromBasicTypes($currency, 50.25, 12.5);
 
         $collection = $this->getCollectionFactory()->build($this->getCurrency($currency), $aggregate, $items);
 
-        $this->assertEquals($items[$item1], $collection->find($item1));
-        $this->assertEquals($items[$item2], $collection->find($item2));
-        $this->assertEquals($items[$item3], $collection->find($item3));
+        $this->assertEquals($items[$conceptNameItem1], $collection->find($conceptNameItem1));
+        $this->assertEquals($items[$conceptNameItem2], $collection->find($conceptNameItem2));
+        $this->assertEquals($items[$conceptNameItem3], $collection->find($conceptNameItem3));
     }
 
     /**
@@ -86,15 +86,36 @@ class TaxableCollectionTest extends PricingConceptTestHelper
         $collection->{$operation}('testC', $itemC);
 
         $this->assertEquals(
-            $emptyItem->gross()->{$operation}($itemA->gross())->{$operation}($itemB->gross())->{$operation}($itemC->gross()), $collection->gross(),
+            $emptyItem->gross()->{$operation}(
+                $itemA->gross()
+            )->{$operation}(
+                $itemB->gross()
+            )->{$operation}(
+               $itemC->gross()
+            ),
+            $collection->gross(),
             'Error operating with ' . $operation . ' calculating gross'
         );
         $this->assertEquals(
-            $emptyItem->net()->{$operation}($itemA->net())->{$operation}($itemB->net())->{$operation}($itemC->net()), $collection->net(),
+            $emptyItem->net()->{$operation}(
+                $itemA->net()
+            )->{$operation}(
+                $itemB->net()
+            )->{$operation}(
+                $itemC->net()
+            ),
+            $collection->net(),
             'Error operating with ' . $operation . ' calculating net'
         );
         $this->assertEquals(
-            $emptyItem->vat()->{$operation}($itemA->vat())->{$operation}($itemB->vat())->{$operation}($itemC->vat()), $collection->vat(),
+            $emptyItem->vat()->{$operation}(
+                $itemA->vat()
+            )->{$operation}(
+                $itemB->vat()
+            )->{$operation}(
+                $itemC->vat()
+            ),
+            $collection->vat(),
             'Error operating with ' . $operation . ' calculating vat'
         );
     }
@@ -108,9 +129,9 @@ class TaxableCollectionTest extends PricingConceptTestHelper
         $currency = 'EUR';
         $collection = $this->getCollectionFactory()->build($this->getCurrency($currency));
         $item = $this->getItemFactory()->buildFromBasicTypes($currency, 100.25, 12.5);
-        $type = 'testA';
-        $collection->{$operation}($type, $item);
-        $this->assertEquals($item, $collection->find($type));
+        $conceptName = 'testA';
+        $collection->{$operation}($conceptName, $item);
+        $this->assertEquals($item, $collection->find($conceptName));
     }
 
     /**

@@ -94,10 +94,10 @@ class ArraySerializer implements SerializerInterface
             static::AGGREGATE => $this->serializeItem($collection),
             static::ITEMS => []
         ];
-        foreach ($collection->itemTypes() as $type)
+        foreach ($collection->itemTypes() as $conceptName)
         {
-            $item = $collection->find($type);
-            $data[static::ITEMS][$type] = $item instanceof CollectionInterface ?
+            $item = $collection->find($conceptName);
+            $data[static::ITEMS][$conceptName] = $item instanceof CollectionInterface ?
                 $this->getArrayFromCollection($item) :
                 $this->serializeItem($item);
         }
@@ -139,9 +139,9 @@ class ArraySerializer implements SerializerInterface
     {
         $aggregate = $this->unserializeItem($data[static::CURRENCY], $data[static::AGGREGATE]);
         $items = [];
-        foreach ($data[static::ITEMS] as $type => $item)
+        foreach ($data[static::ITEMS] as $conceptName => $item)
         {
-            $items[$type] = $this->checkValidCollection($item) ?
+            $items[$conceptName] = $this->checkValidCollection($item) ?
                 $this->getCollectionFromArray($item) :
                 $this->unserializeItem($data[static::CURRENCY], $item)
             ;

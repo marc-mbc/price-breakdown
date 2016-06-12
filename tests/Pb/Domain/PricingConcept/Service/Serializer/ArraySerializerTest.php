@@ -4,6 +4,7 @@ namespace Pb\Test\Domain\PricingConcept\Service\Serializer;
 
 use Money\Currency;
 use Pb\Domain\PricingConcept\CollectionInterface;
+use Pb\Domain\PricingConcept\ItemInterface;
 use Pb\Domain\PricingConcept\Service\Serializer\ArraySerializer;
 use Pb\Test\Domain\PricingConcept\PricingConceptTestHelper;
 
@@ -41,26 +42,26 @@ class ArraySerializerTest extends PricingConceptTestHelper
 
     public function getSerializationCases()
     {
-        $currency = 'EUR';
-        $netA = 100.25;
-        $vatA = 20.25;
-        $grossA = 120.5;
-        $arrayItemA = $this->getArrayItem($netA, $vatA, $grossA);
-        $itemA = $this->getItemFactory()->buildFromBasicTypes($currency, $netA, $vatA, $grossA);
-        $itemAType = 'Margin';
+        $currencyCode = 'EUR';
+        $net = 100.25;
+        $vat = 20.25;
+        $gross = 120.5;
+        $arrayItem = $this->getArrayItem($net, $vat, $gross);
+        $item = $this->getItemFactory()->buildFromBasicTypes($currencyCode, $net, $vat, $gross);
+        $conceptName = 'Margin';
         $simpleCollectionType = 'simpleCollection';
 
-        $arrayFromEmptyCollection = $this->getArrayFromEmptyCollection($currency);
-        $emptyCollection = $this->getEmptyCollection($currency);
+        $arrayFromEmptyCollection = $this->getArrayFromEmptyCollection($currencyCode);
+        $emptyCollection = $this->getEmptyCollection($currencyCode);
 
-        $arrayFromSimpleCollection = $this->getArrayFromSimpleCollection($currency, $arrayItemA, $itemAType);
-        $simpleCollection = $this->getSimpleCollection($currency, $itemA, $itemAType);
+        $arrayFromSimpleCollection = $this->getArrayFromSimpleCollection($currencyCode, $arrayItem, $conceptName);
+        $simpleCollection = $this->getSimpleCollection($currencyCode, $item, $conceptName);
 
         $arrayFromNestedCollection = $this->getArrayFromNestedCollection(
-            $currency, $arrayItemA, $itemAType, $simpleCollectionType, $arrayFromSimpleCollection
+            $currencyCode, $arrayItem, $conceptName, $simpleCollectionType, $arrayFromSimpleCollection
         );
         $nestedCollection = $this->getNestedCollection(
-            $currency, $itemA, $itemAType, $simpleCollectionType, $simpleCollection
+            $currencyCode, $item, $conceptName, $simpleCollectionType, $simpleCollection
         );
 
         return [
@@ -99,18 +100,18 @@ class ArraySerializerTest extends PricingConceptTestHelper
 
     public function getInvalidArrayCases()
     {
-        $currency = 'EUR';
+        $currencyCode = 'EUR';
         $netA = 100.25;
         $vatA = 20.25;
         $grossA = 120.5;
-        $arrayItemA = $this->getArrayItem($netA, $vatA, $grossA);
-        $itemAType = 'Margin';
+        $arrayItem = $this->getArrayItem($netA, $vatA, $grossA);
+        $conceptName = 'Margin';
         $simpleCollectionType = 'simpleCollection';
 
-        $arrayFromSimpleCollection = $this->getArrayFromSimpleCollection($currency, $arrayItemA, $itemAType);
+        $arrayFromSimpleCollection = $this->getArrayFromSimpleCollection($currencyCode, $arrayItem, $conceptName);
 
         $arrayFromNestedCollection = $this->getArrayFromNestedCollection(
-            $currency, $arrayItemA, $itemAType, $simpleCollectionType, $arrayFromSimpleCollection
+            $currencyCode, $arrayItem, $conceptName, $simpleCollectionType, $arrayFromSimpleCollection
         );
 
         return [
@@ -133,13 +134,13 @@ class ArraySerializerTest extends PricingConceptTestHelper
                 $this->removeKeyFromAggregate($arrayFromSimpleCollection, ArraySerializer::NET),
             ],
             'item_without_gross' => [
-                $this->removeKeyFromItem($arrayFromSimpleCollection, $itemAType, ArraySerializer::GROSS),
+                $this->removeKeyFromItem($arrayFromSimpleCollection, $conceptName, ArraySerializer::GROSS),
             ],
             'item_without_net' => [
-                $this->removeKeyFromItem($arrayFromSimpleCollection, $itemAType, ArraySerializer::NET),
+                $this->removeKeyFromItem($arrayFromSimpleCollection, $conceptName, ArraySerializer::NET),
             ],
             'item_without_vat' => [
-                $this->removeKeyFromItem($arrayFromSimpleCollection, $itemAType, ArraySerializer::VAT),
+                $this->removeKeyFromItem($arrayFromSimpleCollection, $conceptName, ArraySerializer::VAT),
             ],
             'nested_collection_without_aggregate' => [
                 $this->removeKeyFromNestedCollection($arrayFromNestedCollection, $simpleCollectionType, ArraySerializer::AGGREGATE),
@@ -160,26 +161,38 @@ class ArraySerializerTest extends PricingConceptTestHelper
                 $this->removeKeyFromNestedAggregate($arrayFromNestedCollection, $simpleCollectionType, ArraySerializer::NET),
             ],
             'nested_item_without_gross' => [
-                $this->removeKeyFromNestedItem($arrayFromNestedCollection, $simpleCollectionType, $itemAType, ArraySerializer::GROSS),
+                $this->removeKeyFromNestedItem($arrayFromNestedCollection, $simpleCollectionType, $conceptName, ArraySerializer::GROSS),
             ],
             'nested_item_without_net' => [
-                $this->removeKeyFromNestedItem($arrayFromNestedCollection, $simpleCollectionType, $itemAType, ArraySerializer::NET),
+                $this->removeKeyFromNestedItem($arrayFromNestedCollection, $simpleCollectionType, $conceptName, ArraySerializer::NET),
             ],
             'nested_item_without_vat' => [
-                $this->removeKeyFromNestedItem($arrayFromNestedCollection, $simpleCollectionType, $itemAType, ArraySerializer::VAT),
+                $this->removeKeyFromNestedItem($arrayFromNestedCollection, $simpleCollectionType, $conceptName, ArraySerializer::VAT),
             ]
         ];
     }
 
-    protected function getArrayFromCollection($currency, array $aggregate, array $items = [])
+    /**
+     * @param string $currencyCode
+     * @param array $aggregate
+     * @param array $items
+     * @return array
+     */
+    protected function getArrayFromCollection($currencyCode, array $aggregate, array $items = [])
     {
         return [
-            ArraySerializer::CURRENCY => $currency,
+            ArraySerializer::CURRENCY => $currencyCode,
             ArraySerializer::AGGREGATE => $aggregate,
             ArraySerializer::ITEMS => $items
         ];
     }
 
+    /**
+     * @param float|int $net
+     * @param float|int $vat
+     * @param float|int $gross
+     * @return array
+     */
     protected function getArrayItem($net, $vat, $gross)
     {
         return [
@@ -190,94 +203,102 @@ class ArraySerializerTest extends PricingConceptTestHelper
     }
 
     /**
-     * @param $currency
+     * @param string $currencyCode
      * @return array
      */
-    protected function getArrayFromEmptyCollection($currency)
+    protected function getArrayFromEmptyCollection($currencyCode)
     {
         return $this->getArrayFromCollection(
-            $currency,
+            $currencyCode,
             $this->getArrayItem(0, 0, 0)
         );
     }
 
     /**
-     * @param $currency
+     * @param string $currencyCode
      * @return CollectionInterface
      */
-    protected function getEmptyCollection($currency)
+    protected function getEmptyCollection($currencyCode)
     {
         return $this->getCollectionFactory()->build(
-            new Currency($currency)
+            new Currency($currencyCode)
         );
     }
 
     /**
-     * @param $currency
-     * @param $arrayItemA
-     * @param $itemAType
+     * @param string $currencyCode
+     * @param array $arrayItem
+     * @param string $conceptName
      * @return array
      */
-    protected function getArrayFromSimpleCollection($currency, $arrayItemA, $itemAType)
+    protected function getArrayFromSimpleCollection($currencyCode, array $arrayItem, $conceptName)
     {
         return $this->getArrayFromCollection(
-            $currency,
-            $arrayItemA,
-            [$itemAType => $arrayItemA]
+            $currencyCode,
+            $arrayItem,
+            [$conceptName => $arrayItem]
         );
     }
 
     /**
-     * @param $currency
-     * @param $itemA
-     * @param $itemAType
+     * @param string $currencyCode
+     * @param ItemInterface $item
+     * @param string $conceptName
      * @return CollectionInterface
      */
-    protected function getSimpleCollection($currency, $itemA, $itemAType)
+    protected function getSimpleCollection($currencyCode, ItemInterface $item, $conceptName)
     {
         return $this->getCollectionFactory()->build(
-            new Currency($currency),
-            $itemA,
-            [$itemAType => $itemA]
+            new Currency($currencyCode),
+            $item,
+            [$conceptName => $item]
         );
     }
 
     /**
-     * @param $currency
-     * @param $arrayItemA
-     * @param $itemAType
-     * @param $simpleCollectionType
-     * @param $arrayFromSimpleCollection
+     * @param string $currencyCode
+     * @param array $arrayItem
+     * @param string $conceptNameItem
+     * @param string $conceptNameCollection
+     * @param array $arrayFromSimpleCollection
      * @return array
      */
-    protected function getArrayFromNestedCollection($currency, $arrayItemA, $itemAType, $simpleCollectionType, $arrayFromSimpleCollection)
+    protected function getArrayFromNestedCollection(
+        $currencyCode, array $arrayItem, $conceptNameItem, $conceptNameCollection, array $arrayFromSimpleCollection
+    )
     {
         return $this->getArrayFromCollection(
-            $currency,
-            $arrayItemA,
+            $currencyCode,
+            $arrayItem,
             [
-                $itemAType => $arrayItemA,
-                $simpleCollectionType => $arrayFromSimpleCollection
+                $conceptNameItem => $arrayItem,
+                $conceptNameCollection => $arrayFromSimpleCollection
             ]
         );
     }
 
     /**
-     * @param $currency
-     * @param $itemA
-     * @param $itemAType
-     * @param $simpleCollectionType
-     * @param $simpleCollection
+     * @param string $currencyCode
+     * @param ItemInterface $item
+     * @param string $conceptNameItem
+     * @param string $conceptNameCollection
+     * @param CollectionInterface $simpleCollection
      * @return CollectionInterface
      */
-    protected function getNestedCollection($currency, $itemA, $itemAType, $simpleCollectionType, $simpleCollection)
+    protected function getNestedCollection(
+        $currencyCode,
+        ItemInterface $item,
+        $conceptNameItem,
+        $conceptNameCollection,
+        CollectionInterface $simpleCollection
+    )
     {
         return $this->getCollectionFactory()->build(
-            new Currency($currency),
-            $itemA,
+            new Currency($currencyCode),
+            $item,
             [
-                $itemAType => $itemA,
-                $simpleCollectionType => $simpleCollection
+                $conceptNameItem => $item,
+                $conceptNameCollection => $simpleCollection
             ]
         );
     }
@@ -291,7 +312,7 @@ class ArraySerializerTest extends PricingConceptTestHelper
     }
 
     /**
-     * @param $arrayFromCollection
+     * @param array $arrayFromCollection
      * @param string $key
      * @return array
      */
@@ -314,50 +335,50 @@ class ArraySerializerTest extends PricingConceptTestHelper
 
     /**
      * @param array $arrayFromCollection
-     * @param string $itemType
+     * @param string $conceptNameItem
      * @param string $key
      * @return array
      */
-    protected function removeKeyFromItem($arrayFromCollection, $itemType, $key)
+    protected function removeKeyFromItem($arrayFromCollection, $conceptNameItem, $key)
     {
-        unset($arrayFromCollection[ArraySerializer::ITEMS][$itemType][$key]);
+        unset($arrayFromCollection[ArraySerializer::ITEMS][$conceptNameItem][$key]);
         return $arrayFromCollection;
     }
 
     /**
      * @param array $arrayFromCollection
-     * @param string $collectionType
+     * @param string $conceptNameCollection
      * @param string $key
      * @return array
      */
-    protected function removeKeyFromNestedCollection(array $arrayFromCollection, $collectionType, $key)
+    protected function removeKeyFromNestedCollection(array $arrayFromCollection, $conceptNameCollection, $key)
     {
-        unset($arrayFromCollection[ArraySerializer::ITEMS][$collectionType][$key]);
+        unset($arrayFromCollection[ArraySerializer::ITEMS][$conceptNameCollection][$key]);
         return $arrayFromCollection;
     }
 
     /**
      * @param array $arrayFromCollection
-     * @param string $collectionType
+     * @param string $conceptNameCollection
      * @param string $key
      * @return array
      */
-    protected function removeKeyFromNestedAggregate(array $arrayFromCollection, $collectionType, $key)
+    protected function removeKeyFromNestedAggregate(array $arrayFromCollection, $conceptNameCollection, $key)
     {
-        unset($arrayFromCollection[ArraySerializer::ITEMS][$collectionType][ArraySerializer::AGGREGATE][$key]);
+        unset($arrayFromCollection[ArraySerializer::ITEMS][$conceptNameCollection][ArraySerializer::AGGREGATE][$key]);
         return $arrayFromCollection;
     }
 
     /**
      * @param array $arrayFromCollection
-     * @param string $collectionType
-     * @param string $itemType
+     * @param string $conceptNameCollection
+     * @param string $conceptNameItem
      * @param string $key
      * @return array
      */
-    protected function removeKeyFromNestedItem(array $arrayFromCollection, $collectionType, $itemType, $key)
+    protected function removeKeyFromNestedItem(array $arrayFromCollection, $conceptNameCollection, $conceptNameItem, $key)
     {
-        unset($arrayFromCollection[ArraySerializer::ITEMS][$collectionType][ArraySerializer::ITEMS][$itemType][$key]);
+        unset($arrayFromCollection[ArraySerializer::ITEMS][$conceptNameCollection][ArraySerializer::ITEMS][$conceptNameItem][$key]);
         return $arrayFromCollection;
     }
 }

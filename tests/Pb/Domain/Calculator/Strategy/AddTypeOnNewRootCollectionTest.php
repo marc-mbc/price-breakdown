@@ -17,7 +17,7 @@ class AddTypeOnNewRootCollectionTest extends CalculatorTestHelper
     {
         $collectionFactory = $this->getCollectionFactory();
         $itemFactory = $this->getItemFactory();
-        $type = 'basePrice';
+        $conceptName = 'basePrice';
         $currencyCode = 'EUR';
         $gross = $this->getMoney(120.24, $currencyCode);
 
@@ -25,25 +25,25 @@ class AddTypeOnNewRootCollectionTest extends CalculatorTestHelper
             $collectionFactory,
             $itemFactory,
             $currencyCode,
-            $type,
+            $conceptName,
             $gross
         );
 
         $this->assertEquals(
             $simpleCollection,
-            $this->getStrategy($collectionFactory, $type)->apply(
+            $this->getStrategy($collectionFactory, $conceptName)->apply(
                 $simpleCollection
-            )->find($type)
+            )->find($conceptName)
         );
     }
 
     /**
      * @param CollectionFactoryInterface $factory
-     * @param string $type
+     * @param string $conceptName
      * @return PricingConceptInterface
      */
-    protected function getStrategy(CollectionFactoryInterface $factory, $type)
+    protected function getStrategy(CollectionFactoryInterface $factory, $conceptName)
     {
-        return new AddTypeOnNewRootCollection($factory, $type);
+        return new AddTypeOnNewRootCollection($factory, $conceptName);
     }
 }
