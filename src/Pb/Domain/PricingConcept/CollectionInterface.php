@@ -37,4 +37,9 @@ interface CollectionInterface extends ItemInterface
      * @return Currency
      */
     public function currency();
+
+    /**
+     * @return ItemInterface
+     */
+    public function aggregate();
 }

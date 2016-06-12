@@ -16,7 +16,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Pb\\Tests\\": "tests/"
+      "Pb\\Test\\": "tests/"
     }
   },
   "require": {

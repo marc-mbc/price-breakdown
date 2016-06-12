@@ -1,0 +1,73 @@
+<?php
+namespace Pb\Domain\PricingConcept\ValueObject;
+
+use Pb\Domain\PricingConcept\ItemInterface;
+use Money\Money;
+
+/**
+ * Class TaxableItem
+ * @package Domain\ValueObject\PricingConcept
+ */
+class TaxableItem implements ItemInterface
+{
+    /**
+     * @var Money
+     */
+    protected $net;
+    /**
+     * @var Money
+     */
+    protected $vat;
+    /**
+     * @var Money
+     */
+    protected $gross;
+
+    public function __construct(Money $net, Money $vat, Money $gross = null)
+    {
+        $this->checkCurrencies($net, $vat, $gross);
+        $this->net = $net;
+        $this->vat = $vat;
+        $this->gross = $gross === null ? $net->add($vat): $gross;
+    }
+
+    /**
+     * @return Money
+     */
+    public function gross()
+    {
+        return $this->gross;
+    }
+
+    /**
+     * @return Money
+     */
+    public function net()
+    {
+        return $this->net;
+    }
+
+    /**
+     * @return Money
+     */
+    public function vat()
+    {
+        return $this->vat;
+    }
+
+    /**
+     * @param Money $net
+     * @param Money $vat
+     * @param Money $gross
+     */
+    protected function checkCurrencies(Money $net, Money $vat, Money $gross = null)
+    {
+        if (
+            !$net->getCurrency()->equals($vat->getCurrency()) ||
+            ($gross !== null && !$net->getCurrency()->equals($gross->getCurrency()))
+        )
+        {
+            throw new \InvalidArgumentException('All prices must be in the same Currency');
+        }
+    }
+}
