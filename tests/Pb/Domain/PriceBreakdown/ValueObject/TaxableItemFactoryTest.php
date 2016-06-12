@@ -1,17 +1,17 @@
 <?php
 
-namespace Pb\Test\Domain\PricingConcept\ValueObject;
+namespace Pb\Test\Domain\PriceBreakdown\ValueObject;
 
 use Money\Money;
-use Pb\Test\Domain\PricingConcept\PricingConceptTestHelper;
+use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class TaxableItemFactoryTest
- * @package Pb\Test\Domain\PricingConcept\ValueObject
+ * @package Pb\Test\Domain\PriceBreakdown\ValueObject
  */
-class TaxableItemFactoryTest extends PricingConceptTestHelper
+class TaxableItemFactoryTest extends PriceBreakdownTestHelper
 {
-    const CONSTRUCTED_CLASS = 'Pb\Domain\PricingConcept\ValueObject\TaxableItem';
+    const CONSTRUCTED_CLASS = 'Pb\Domain\PriceBreakdown\ValueObject\TaxableItem';
 
     /**
      * @dataProvider getBuildFromBasicTypesCases

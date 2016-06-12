@@ -1,15 +1,15 @@
 <?php
-namespace Pb\Domain\PricingConcept\Collection;
+namespace Pb\Domain\PriceBreakdown\Collection;
 
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemInterface;
-use Pb\Domain\PricingConcept\ValueObject\TaxableItem;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\ItemInterface;
+use Pb\Domain\PriceBreakdown\ValueObject\TaxableItem;
 use Money\Currency;
 use Money\Money;
 
 /**
  * Class TaxableCollection
- * @package Domain\Entity\PricingConcept
+ * @package Domain\Entity\PriceBreakdown
  */
 class TaxableCollection implements CollectionInterface
 {

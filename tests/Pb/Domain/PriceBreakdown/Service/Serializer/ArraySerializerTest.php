@@ -1,18 +1,18 @@
 <?php
 
-namespace Pb\Test\Domain\PricingConcept\Service\Serializer;
+namespace Pb\Test\Domain\PriceBreakdown\Service\Serializer;
 
 use Money\Currency;
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemInterface;
-use Pb\Domain\PricingConcept\Service\Serializer\ArraySerializer;
-use Pb\Test\Domain\PricingConcept\PricingConceptTestHelper;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\ItemInterface;
+use Pb\Domain\PriceBreakdown\Service\Serializer\ArraySerializer;
+use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class ArraySerializerTest
- * @package Pb\Test\Domain\PricingConcept\Service\Serializer
+ * @package Pb\Test\Domain\PriceBreakdown\Service\Serializer
  */
-class ArraySerializerTest extends PricingConceptTestHelper
+class ArraySerializerTest extends PriceBreakdownTestHelper
 {
     const SERIALIZE = 'serialize';
     const UNSERIALIZE = 'unserialize';

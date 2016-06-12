@@ -1,17 +1,17 @@
 <?php
 
-namespace Pb\Domain\PricingConcept\Service\Serializer;
+namespace Pb\Domain\PriceBreakdown\Service\Serializer;
 
 use Money\Currency;
 use Money\MoneyFormatter;
-use Pb\Domain\PricingConcept\CollectionFactoryInterface;
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
-use Pb\Domain\PricingConcept\ItemInterface;
+use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
+use Pb\Domain\PriceBreakdown\ItemInterface;
 
 /**
  * Class ArraySerializer
- * @package Pb\Domain\PricingConcept\Service\Serializer
+ * @package Pb\Domain\PriceBreakdown\Service\Serializer
  */
 class ArraySerializer implements SerializerInterface
 {

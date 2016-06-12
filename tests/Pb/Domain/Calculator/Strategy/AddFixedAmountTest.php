@@ -3,7 +3,7 @@
 namespace Pb\Test\Domain\Calculator\Strategy;
 use Money\Money;
 use Pb\Domain\Calculator\Strategy\AddFixedAmount;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
+use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
  * Class AddFixedAmountTest
@@ -38,7 +38,7 @@ class AddFixedAmountTest extends CalculatorStrategyTest
     /**
      * @param string $conceptName
      * @param Money $gross
-     * @return PricingConceptInterface
+     * @return CalculatorStrategyInterface
      */
     protected function getStrategy($conceptName = 'default', Money $gross = null)
     {

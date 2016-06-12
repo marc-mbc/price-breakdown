@@ -3,7 +3,7 @@
 namespace Pb\Test\Domain\Calculator\Strategy;
 
 use Pb\Domain\Calculator\Strategy\AddTypeOnNewRootCollection;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
+use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
  * Class AddTypeOnNewRootCollectionTest
@@ -40,7 +40,7 @@ class AddTypeOnNewRootCollectionTest extends CalculatorStrategyTest
 
     /**
      * @param string $conceptName
-     * @return PricingConceptInterface
+     * @return CalculatorStrategyInterface
      */
     protected function getStrategy($conceptName = 'default')
     {

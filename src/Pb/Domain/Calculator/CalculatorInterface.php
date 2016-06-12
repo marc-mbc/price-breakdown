@@ -2,10 +2,10 @@
 
 namespace Pb\Domain\Calculator;
 
-use Pb\Domain\PricingConcept\CollectionFactoryInterface;
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
+use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
+use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
  * Interface CalculatorInterface
@@ -20,13 +20,13 @@ interface CalculatorInterface
     public function calculate(CollectionInterface $initialCollection);
 
     /**
-     * @param PricingConceptInterface $concept
+     * @param CalculatorStrategyInterface $concept
      * @param CollectionFactoryInterface $collectionFactory
      * @param ItemFactoryInterface $itemFactory
      * @return CalculatorInterface
      */
-    public function addPricingConcept(
-        PricingConceptInterface $concept,
+    public function addPriceBreakdown(
+        CalculatorStrategyInterface $concept,
         CollectionFactoryInterface $collectionFactory = null,
         ItemFactoryInterface $itemFactory = null
     );

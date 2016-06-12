@@ -3,7 +3,7 @@
 namespace Pb\Domain\Calculator\Strategy;
 
 use Pb\Domain\Calculator\CalculatorInterface;
-use Pb\Domain\PricingConcept\CollectionInterface;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
 
 class AddCalculationFromCalculator extends CalculatorStrategy
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Pb\Domain\PricingConcept;
+namespace Pb\Domain\PriceBreakdown;
 
 /**
- * Interface PricingConceptInterface
- * @package Pb\Domain\PricingConcept
+ * Interface CalculatorStrategyInterface
+ * @package Pb\Domain\PriceBreakdown
  */
-interface PricingConceptInterface
+interface CalculatorStrategyInterface
 {
     /**
      * @param CollectionInterface $collection
@@ -16,13 +16,13 @@ interface PricingConceptInterface
 
     /**
      * @param ItemFactoryInterface $factory
-     * @return PricingConceptInterface
+     * @return CalculatorStrategyInterface
      */
     public function setItemFactory(ItemFactoryInterface $factory);
 
     /**
      * @param CollectionFactoryInterface $factory
-     * @return PricingConceptInterface
+     * @return CalculatorStrategyInterface
      */
     public function setCollectionFactory(CollectionFactoryInterface $factory);
 }

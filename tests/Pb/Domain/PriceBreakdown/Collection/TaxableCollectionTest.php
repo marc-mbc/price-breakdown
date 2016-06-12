@@ -1,13 +1,13 @@
 <?php
-namespace Pb\Test\Domain\PricingConcept\Collection;
+namespace Pb\Test\Domain\PriceBreakdown\Collection;
 
-use Pb\Test\Domain\PricingConcept\PricingConceptTestHelper;
+use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class TaxableCollectionTest
- * @package Pb\Test\Domain\PricingConcept\Collection
+ * @package Pb\Test\Domain\PriceBreakdown\Collection
  */
-class TaxableCollectionTest extends PricingConceptTestHelper
+class TaxableCollectionTest extends PriceBreakdownTestHelper
 {
     const DOES_NOT_EXIST = null;
 

@@ -2,10 +2,10 @@
 
 namespace Pb\Domain\Calculator;
 
-use Pb\Domain\PricingConcept\CollectionFactoryInterface;
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
+use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
+use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
  * Class Calculator
@@ -14,9 +14,9 @@ use Pb\Domain\PricingConcept\PricingConceptInterface;
 class Calculator implements CalculatorInterface
 {
     /**
-     * @var PricingConceptInterface[]
+     * @var CalculatorStrategyInterface[]
      */
-    protected $pricingConcepts = [];
+    protected $PriceBreakdowns = [];
     /**
      * @var CollectionFactoryInterface
      */
@@ -43,30 +43,30 @@ class Calculator implements CalculatorInterface
      */
     public function calculate(CollectionInterface $collection)
     {
-        foreach($this->pricingConcepts as $pricingConcept)
+        foreach($this->PriceBreakdowns as $PriceBreakdown)
         {
-            $collection = $pricingConcept->apply($collection);
+            $collection = $PriceBreakdown->apply($collection);
         }
         return $collection;
     }
 
     /**
-     * @param PricingConceptInterface $pricingConcept
+     * @param CalculatorStrategyInterface $PriceBreakdown
      * @param CollectionFactoryInterface $collectionFactory
      * @param ItemFactoryInterface $itemFactory
      * @return CalculatorInterface
      */
-    public function addPricingConcept(
-        PricingConceptInterface $pricingConcept,
+    public function addPriceBreakdown(
+        CalculatorStrategyInterface $PriceBreakdown,
         CollectionFactoryInterface $collectionFactory = null,
         ItemFactoryInterface $itemFactory = null
     )
     {
-        $pricingConcept->setCollectionFactory(
+        $PriceBreakdown->setCollectionFactory(
             $collectionFactory === null ? $this->collectionFactory : $collectionFactory
         );
-        $pricingConcept->setItemFactory($itemFactory === null ? $this->itemFactory : $itemFactory);
-        $this->pricingConcepts[] = $pricingConcept;
+        $PriceBreakdown->setItemFactory($itemFactory === null ? $this->itemFactory : $itemFactory);
+        $this->PriceBreakdowns[] = $PriceBreakdown;
         return $this;
     }
 }

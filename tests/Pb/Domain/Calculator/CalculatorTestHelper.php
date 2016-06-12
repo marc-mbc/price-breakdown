@@ -4,16 +4,16 @@ namespace Pb\Test\Domain\Calculator;
 
 use Money\Money;
 use Pb\Domain\Calculator\Calculator;
-use Pb\Domain\PricingConcept\CollectionFactoryInterface;
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
-use Pb\Test\Domain\PricingConcept\PricingConceptTestHelper;
+use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
+use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class CalculatorTestHelper
  * @package Pb\Test\Domain\Calculator
  */
-abstract class CalculatorTestHelper extends PricingConceptTestHelper
+abstract class CalculatorTestHelper extends PriceBreakdownTestHelper
 {
     /**
      * @param CollectionFactoryInterface $collectionFactory

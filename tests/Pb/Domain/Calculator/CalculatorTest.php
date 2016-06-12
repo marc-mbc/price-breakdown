@@ -7,10 +7,10 @@ use Pb\Domain\Calculator\Calculator;
 use Pb\Domain\Calculator\Strategy\AddFixedAmount;
 use Pb\Domain\Calculator\Strategy\AddMultiplierIncrement;
 use Pb\Domain\Calculator\Strategy\Multiplier;
-use Pb\Domain\PricingConcept\CollectionFactoryInterface;
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
+use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
+use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
  * Class CalculatorTest
@@ -18,31 +18,31 @@ use Pb\Domain\PricingConcept\PricingConceptInterface;
  */
 class CalculatorTest extends CalculatorTestHelper
 {
-    public function testCalculatorReturnsHimSelfWhenAddAPricingConcept()
+    public function testCalculatorReturnsHimSelfWhenAddAPriceBreakdown()
     {
         $calculator = $this->getCalculator();
         $this->assertSame(
             $calculator,
-            $calculator->addPricingConcept(new AddFixedAmount('test', $this->getMoney(12.25)))
+            $calculator->addPriceBreakdown(new AddFixedAmount('test', $this->getMoney(12.25)))
         );
     }
 
     /**
      * @dataProvider getFactoryInjectionCases
-     * @param PricingConceptInterface $strategy
+     * @param CalculatorStrategyInterface $strategy
      * @param ItemFactoryInterface $defaultItemFactory
      * @param CollectionFactoryInterface $defaultCollectionFactory
      * @param ItemFactoryInterface $customItemFactory
      * @param CollectionFactoryInterface $customCollectionFactory
      */
-    public function testCalculatorShouldBeAbleToInjectFactoriesOnEveryPricingConceptOrUseTheirDefaultFactories(
-        PricingConceptInterface $strategy,
+    public function testCalculatorShouldBeAbleToInjectFactoriesOnEveryPriceBreakdownOrUseTheirDefaultFactories(
+        CalculatorStrategyInterface $strategy,
         ItemFactoryInterface $defaultItemFactory = null, CollectionFactoryInterface $defaultCollectionFactory = null,
         ItemFactoryInterface $customItemFactory = null, CollectionFactoryInterface $customCollectionFactory = null
     )
     {
         $calculator = $this->getCalculator($defaultCollectionFactory, $defaultItemFactory);
-        $calculator->addPricingConcept($strategy, $customCollectionFactory, $customItemFactory);
+        $calculator->addPriceBreakdown($strategy, $customCollectionFactory, $customItemFactory);
 
         $expectedCollectionFactory = $customCollectionFactory === null ?
             $defaultCollectionFactory :
@@ -97,11 +97,11 @@ class CalculatorTest extends CalculatorTestHelper
         $fixedAmountConcept = new AddFixedAmount('testFixedAmount', $gross);
         $multiplierConcept = new AddMultiplierIncrement('testMultiplier', new Multiplier($multiplier));
 
-        $calculatorFixedAmountPlusMultiplier->addPricingConcept($fixedAmountConcept);
-        $calculatorFixedAmountPlusMultiplier->addPricingConcept($multiplierConcept);
+        $calculatorFixedAmountPlusMultiplier->addPriceBreakdown($fixedAmountConcept);
+        $calculatorFixedAmountPlusMultiplier->addPriceBreakdown($multiplierConcept);
 
-        $calculatorMultiplierPlusFixedAmount->addPricingConcept($multiplierConcept);
-        $calculatorMultiplierPlusFixedAmount->addPricingConcept($fixedAmountConcept);
+        $calculatorMultiplierPlusFixedAmount->addPriceBreakdown($multiplierConcept);
+        $calculatorMultiplierPlusFixedAmount->addPriceBreakdown($fixedAmountConcept);
 
         $expectedGrossFixedAmountPlusMultiplier = $gross->add($gross->multiply($multiplier));
         $expectedGrossMultiplierPlusFixedAmount = $this->getMoney(0)->multiply($multiplier)->add($gross);
@@ -114,12 +114,12 @@ class CalculatorTest extends CalculatorTestHelper
             ],
             'single_concept' => [
                     $gross,
-                    $this->getCalculator()->addPricingConcept($fixedAmountConcept),
+                    $this->getCalculator()->addPriceBreakdown($fixedAmountConcept),
                     $this->getEmptyCollection($currencyCode)
             ],
             'single_concept_from_non_empty_initial_collection' => [
                 $gross->add($gross),
-                $this->getCalculator()->addPricingConcept($fixedAmountConcept),
+                $this->getCalculator()->addPriceBreakdown($fixedAmountConcept),
                 $this->getEmptyCollection($currencyCode)->add(
                     'TestExtra',
                     $this->getItemFactory()->buildWithGross($gross)

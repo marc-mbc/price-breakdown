@@ -1,15 +1,15 @@
 <?php
 
-namespace Pb\Domain\PricingConcept\ValueObject;
+namespace Pb\Domain\PriceBreakdown\ValueObject;
 
 use Money\Money;
 use Money\MoneyParser;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
-use Pb\Domain\PricingConcept\ItemInterface;
+use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
+use Pb\Domain\PriceBreakdown\ItemInterface;
 
 /**
  * Class TaxableItemFactory
- * @package Pb\Domain\PricingConcept\ValueObject
+ * @package Pb\Domain\PriceBreakdown\ValueObject
  */
 class TaxableItemFactory implements ItemFactoryInterface
 {

@@ -5,7 +5,7 @@ namespace Pb\Test\Domain\Calculator\Strategy;
 use Pb\Domain\Calculator\Strategy\AddMultiplierIncrement;
 use Pb\Domain\Calculator\Strategy\Multiplier;
 use Pb\Domain\Calculator\Strategy\MultiplierInterface;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
+use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 class AddMultiplierIncrementTest extends CalculatorStrategyTest
 {
@@ -53,7 +53,7 @@ class AddMultiplierIncrementTest extends CalculatorStrategyTest
     /**
      * @param string $conceptName
      * @param MultiplierInterface $multiplier
-     * @return PricingConceptInterface
+     * @return CalculatorStrategyInterface
      */
     protected function getStrategy($conceptName = 'default', MultiplierInterface $multiplier = null)
     {

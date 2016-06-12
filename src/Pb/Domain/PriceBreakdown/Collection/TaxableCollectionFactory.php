@@ -1,15 +1,15 @@
 <?php
 
-namespace Pb\Domain\PricingConcept\Collection;
+namespace Pb\Domain\PriceBreakdown\Collection;
 
 use Money\Currency;
-use Pb\Domain\PricingConcept\CollectionFactoryInterface;
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemInterface;
+use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\ItemInterface;
 
 /**
  * Class TaxableCollectionFactory
- * @package Pb\Domain\PricingConcept\Collection
+ * @package Pb\Domain\PriceBreakdown\Collection
  */
 class TaxableCollectionFactory implements CollectionFactoryInterface
 {

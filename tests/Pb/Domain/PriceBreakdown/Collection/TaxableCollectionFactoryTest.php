@@ -1,18 +1,18 @@
 <?php
 
-namespace Pb\Test\Domain\PricingConcept\Collection;
+namespace Pb\Test\Domain\PriceBreakdown\Collection;
 
 use Money\Currency;
-use Pb\Domain\PricingConcept\ItemInterface;
-use Pb\Test\Domain\PricingConcept\PricingConceptTestHelper;
+use Pb\Domain\PriceBreakdown\ItemInterface;
+use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class TaxableCollectionFactoryTest
- * @package Pb\Test\Domain\PricingConcept\Collection
+ * @package Pb\Test\Domain\PriceBreakdown\Collection
  */
-class TaxableCollectionFactoryTest extends PricingConceptTestHelper
+class TaxableCollectionFactoryTest extends PriceBreakdownTestHelper
 {
-    const CONSTRUCTED_CLASS = 'Pb\Domain\PricingConcept\Collection\TaxableCollection';
+    const CONSTRUCTED_CLASS = 'Pb\Domain\PriceBreakdown\Collection\TaxableCollection';
 
     /**
      * @dataProvider getBuildCases

@@ -1,13 +1,13 @@
 <?php
 
-namespace Pb\Test\Domain\PricingConcept\Service\Serializer;
+namespace Pb\Test\Domain\PriceBreakdown\Service\Serializer;
 
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\Service\Serializer\JsonSerializer;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\Service\Serializer\JsonSerializer;
 
 /**
  * Class JsonSerializerTest
- * @package Pb\Test\Domain\PricingConcept\Service\Serializer
+ * @package Pb\Test\Domain\PriceBreakdown\Service\Serializer
  */
 class JsonSerializerTest extends ArraySerializerTest
 {

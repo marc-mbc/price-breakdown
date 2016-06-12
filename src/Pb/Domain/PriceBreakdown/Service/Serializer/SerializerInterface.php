@@ -1,12 +1,12 @@
 <?php
 
-namespace Pb\Domain\PricingConcept\Service\Serializer;
+namespace Pb\Domain\PriceBreakdown\Service\Serializer;
 
-use Pb\Domain\PricingConcept\CollectionInterface;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
 
 /**
  * Interface SerializerInterface
- * @package Pb\Domain\PricingConcept\Service\Serializer
+ * @package Pb\Domain\PriceBreakdown\Service\Serializer
  */
 interface SerializerInterface
 {

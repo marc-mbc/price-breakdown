@@ -1,15 +1,15 @@
 <?php
-namespace Pb\Test\Domain\PricingConcept;
+namespace Pb\Test\Domain\PriceBreakdown;
 
-use Pb\Domain\PricingConcept\Collection\TaxableCollectionFactory;
-use Pb\Domain\PricingConcept\ValueObject\TaxableItemFactory;
+use Pb\Domain\PriceBreakdown\Collection\TaxableCollectionFactory;
+use Pb\Domain\PriceBreakdown\ValueObject\TaxableItemFactory;
 use Pb\Test\Domain\DomainTestHelper;
 
 /**
- * Class PricingConceptTestHelper
- * @package Pb\Test\Domain\PricingConcept
+ * Class PriceBreakdownTestHelper
+ * @package Pb\Test\Domain\PriceBreakdown
  */
-abstract class PricingConceptTestHelper extends DomainTestHelper
+abstract class PriceBreakdownTestHelper extends DomainTestHelper
 {
     /**
      * @param int|float $vatToApply

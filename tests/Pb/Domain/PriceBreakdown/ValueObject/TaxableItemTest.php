@@ -1,15 +1,15 @@
 <?php
-namespace Pb\Test\Domain\PricingConcept\ValueObject;
+namespace Pb\Test\Domain\PriceBreakdown\ValueObject;
 
-use Pb\Domain\PricingConcept\ValueObject\TaxableItem;
-use Pb\Test\Domain\PricingConcept\PricingConceptTestHelper;
+use Pb\Domain\PriceBreakdown\ValueObject\TaxableItem;
+use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 use Money\Money;
 
 /**
  * Class TaxableItemTest
- * @package Pb\Test\Domain\PricingConcept\ValueObject
+ * @package Pb\Test\Domain\PriceBreakdown\ValueObject
  */
-class TaxableItemTest extends PricingConceptTestHelper
+class TaxableItemTest extends PriceBreakdownTestHelper
 {
     public function testConstructWithoutGrossShouldCreateGross()
     {

@@ -2,12 +2,12 @@
 
 namespace Pb\Domain\Calculator\Strategy;
 
-use Pb\Domain\PricingConcept\CollectionFactoryInterface;
-use Pb\Domain\PricingConcept\CollectionInterface;
-use Pb\Domain\PricingConcept\ItemFactoryInterface;
-use Pb\Domain\PricingConcept\PricingConceptInterface;
+use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
+use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
+use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
-abstract class CalculatorStrategy implements PricingConceptInterface
+abstract class CalculatorStrategy implements CalculatorStrategyInterface
 {
     /**
      * @var ItemFactoryInterface
@@ -26,7 +26,7 @@ abstract class CalculatorStrategy implements PricingConceptInterface
 
     /**
      * @param ItemFactoryInterface $factory
-     * @return PricingConceptInterface
+     * @return CalculatorStrategyInterface
      */
     public function setItemFactory(ItemFactoryInterface $factory)
     {
@@ -36,7 +36,7 @@ abstract class CalculatorStrategy implements PricingConceptInterface
 
     /**
      * @param CollectionFactoryInterface $factory
-     * @return PricingConceptInterface
+     * @return CalculatorStrategyInterface
      */
     public function setCollectionFactory(CollectionFactoryInterface $factory)
     {

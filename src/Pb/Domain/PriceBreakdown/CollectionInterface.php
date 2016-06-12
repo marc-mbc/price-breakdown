@@ -1,12 +1,12 @@
 <?php
 
-namespace Pb\Domain\PricingConcept;
+namespace Pb\Domain\PriceBreakdown;
 
 use Money\Currency;
 
 /**
  * Interface CollectionInterface
- * @package Pb\Domain\PricingConcept
+ * @package Pb\Domain\PriceBreakdown
  */
 interface CollectionInterface extends ItemInterface
 {
