@@ -15,9 +15,9 @@ class AddCalculationFromCalculatorTest extends CalculatorStrategyTest
     {
         $gross = $this->getMoney(100.00);
         $otherCalculator = $this->getCalculator()
-            ->addPriceBreakdown(new AddFixedAmount('test', $gross));
+            ->addStrategy(new AddFixedAmount('test', $gross));
 
-        $calculator = $this->getCalculator()->addPriceBreakdown($this->getStrategy($otherCalculator));
+        $calculator = $this->getCalculator()->addStrategy($this->getStrategy($otherCalculator));
 
         $this->assertEquals(
             $gross,

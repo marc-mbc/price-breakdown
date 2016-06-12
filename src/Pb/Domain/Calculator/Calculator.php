@@ -56,7 +56,7 @@ class Calculator implements CalculatorInterface
      * @param ItemFactoryInterface $itemFactory
      * @return CalculatorInterface
      */
-    public function addPriceBreakdown(
+    public function addStrategy(
         CalculatorStrategyInterface $PriceBreakdown,
         CollectionFactoryInterface $collectionFactory = null,
         ItemFactoryInterface $itemFactory = null

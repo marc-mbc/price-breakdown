@@ -23,7 +23,7 @@ class CalculatorTest extends CalculatorTestHelper
         $calculator = $this->getCalculator();
         $this->assertSame(
             $calculator,
-            $calculator->addPriceBreakdown(new AddFixedAmount('test', $this->getMoney(12.25)))
+            $calculator->addStrategy(new AddFixedAmount('test', $this->getMoney(12.25)))
         );
     }
 
@@ -42,7 +42,7 @@ class CalculatorTest extends CalculatorTestHelper
     )
     {
         $calculator = $this->getCalculator($defaultCollectionFactory, $defaultItemFactory);
-        $calculator->addPriceBreakdown($strategy, $customCollectionFactory, $customItemFactory);
+        $calculator->addStrategy($strategy, $customCollectionFactory, $customItemFactory);
 
         $expectedCollectionFactory = $customCollectionFactory === null ?
             $defaultCollectionFactory :
@@ -94,14 +94,14 @@ class CalculatorTest extends CalculatorTestHelper
         $gross = $this->getMoney(12.25, $currencyCode);
         $multiplier = 2;
 
-        $fixedAmountConcept = new AddFixedAmount('testFixedAmount', $gross);
-        $multiplierConcept = new AddMultiplierIncrement('testMultiplier', new Multiplier($multiplier));
+        $fixedAmountStrategy = new AddFixedAmount('testFixedAmount', $gross);
+        $multiplierStrategy = new AddMultiplierIncrement('testMultiplier', new Multiplier($multiplier));
 
-        $calculatorFixedAmountPlusMultiplier->addPriceBreakdown($fixedAmountConcept);
-        $calculatorFixedAmountPlusMultiplier->addPriceBreakdown($multiplierConcept);
+        $calculatorFixedAmountPlusMultiplier->addStrategy($fixedAmountStrategy);
+        $calculatorFixedAmountPlusMultiplier->addStrategy($multiplierStrategy);
 
-        $calculatorMultiplierPlusFixedAmount->addPriceBreakdown($multiplierConcept);
-        $calculatorMultiplierPlusFixedAmount->addPriceBreakdown($fixedAmountConcept);
+        $calculatorMultiplierPlusFixedAmount->addStrategy($multiplierStrategy);
+        $calculatorMultiplierPlusFixedAmount->addStrategy($fixedAmountStrategy);
 
         $expectedGrossFixedAmountPlusMultiplier = $gross->add($gross->multiply($multiplier));
         $expectedGrossMultiplierPlusFixedAmount = $this->getMoney(0)->multiply($multiplier)->add($gross);
@@ -114,12 +114,12 @@ class CalculatorTest extends CalculatorTestHelper
             ],
             'single_concept' => [
                     $gross,
-                    $this->getCalculator()->addPriceBreakdown($fixedAmountConcept),
+                    $this->getCalculator()->addStrategy($fixedAmountStrategy),
                     $this->getEmptyCollection($currencyCode)
             ],
             'single_concept_from_non_empty_initial_collection' => [
                 $gross->add($gross),
-                $this->getCalculator()->addPriceBreakdown($fixedAmountConcept),
+                $this->getCalculator()->addStrategy($fixedAmountStrategy),
                 $this->getEmptyCollection($currencyCode)->add(
                     'TestExtra',
                     $this->getItemFactory()->buildWithGross($gross)

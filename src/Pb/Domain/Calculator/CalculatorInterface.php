@@ -20,13 +20,13 @@ interface CalculatorInterface
     public function calculate(CollectionInterface $initialCollection);
 
     /**
-     * @param CalculatorStrategyInterface $concept
+     * @param CalculatorStrategyInterface $strategy
      * @param CollectionFactoryInterface $collectionFactory
      * @param ItemFactoryInterface $itemFactory
      * @return CalculatorInterface
      */
-    public function addPriceBreakdown(
-        CalculatorStrategyInterface $concept,
+    public function addStrategy(
+        CalculatorStrategyInterface $strategy,
         CollectionFactoryInterface $collectionFactory = null,
         ItemFactoryInterface $itemFactory = null
     );
