@@ -1,6 +1,8 @@
 <?php
 namespace Pb\Test\Domain\PriceBreakdown;
 
+use Pb\Domain\Calculator\TaxApplicator;
+use Pb\Domain\Calculator\TaxApplicatorInterface;
 use Pb\Domain\PriceBreakdown\Collection\TaxableCollectionFactory;
 use Pb\Domain\PriceBreakdown\ValueObject\TaxableItemFactory;
 use Pb\Test\Domain\DomainTestHelper;
@@ -12,12 +14,15 @@ use Pb\Test\Domain\DomainTestHelper;
 abstract class PriceBreakdownTestHelper extends DomainTestHelper
 {
     /**
-     * @param int|float $vatToApply
+     * @param TaxApplicatorInterface $taxApplicator
      * @return TaxableItemFactory
      */
-    protected function getItemFactory($vatToApply = 0)
+    protected function getItemFactory(TaxApplicatorInterface $taxApplicator = null)
     {
-        return new TaxableItemFactory($this->getMoneyParser(), $vatToApply);
+        return new TaxableItemFactory(
+            $this->getMoneyParser(),
+            $taxApplicator === null ? new TaxApplicator() : $taxApplicator
+        );
     }
 
     /**
