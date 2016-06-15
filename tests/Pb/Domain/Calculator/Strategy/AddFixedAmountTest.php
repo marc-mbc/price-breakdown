@@ -27,6 +27,7 @@ class AddFixedAmountTest extends CalculatorStrategyTest
         $strategy = $this->getStrategy($conceptName, $gross);
         $strategy->setCollectionFactory($this->getCollectionFactory());
         $strategy->setItemFactory($itemFactory);
+
         $this->assertEquals(
             $expectedCollection,
             $strategy->apply(

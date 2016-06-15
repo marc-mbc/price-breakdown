@@ -26,6 +26,7 @@ class ArraySerializerTest extends PriceBreakdownTestHelper
     public function testSerializationCases($operation, $expected, $source)
     {
         $serializer = $this->getSerializer();
+
         $this->assertEquals($expected, $serializer->{$operation}($source));
     }
 
@@ -37,6 +38,7 @@ class ArraySerializerTest extends PriceBreakdownTestHelper
     public function testInvalidSerializationCases(array $source)
     {
         $serializer = $this->getSerializer();
+
         $serializer->unserialize($source);
     }
 
@@ -49,7 +51,7 @@ class ArraySerializerTest extends PriceBreakdownTestHelper
         $arrayItem = $this->getArrayItem($net, $vat, $gross);
         $item = $this->getItemFactory()->buildFromBasicTypes($currencyCode, $net, $vat, $gross);
         $conceptName = 'Margin';
-        $simpleCollectionType = 'simpleCollection';
+        $simpleCollectionConceptName = 'simpleCollection';
 
         $arrayFromEmptyCollection = $this->getArrayFromEmptyCollection($currencyCode);
         $emptyCollection = $this->getEmptyCollection($currencyCode);
@@ -58,10 +60,10 @@ class ArraySerializerTest extends PriceBreakdownTestHelper
         $simpleCollection = $this->getSimpleCollection($currencyCode, $item, $conceptName);
 
         $arrayFromNestedCollection = $this->getArrayFromNestedCollection(
-            $currencyCode, $arrayItem, $conceptName, $simpleCollectionType, $arrayFromSimpleCollection
+            $currencyCode, $arrayItem, $conceptName, $simpleCollectionConceptName, $arrayFromSimpleCollection
         );
         $nestedCollection = $this->getNestedCollection(
-            $currencyCode, $item, $conceptName, $simpleCollectionType, $simpleCollection
+            $currencyCode, $item, $conceptName, $simpleCollectionConceptName, $simpleCollection
         );
 
         return [

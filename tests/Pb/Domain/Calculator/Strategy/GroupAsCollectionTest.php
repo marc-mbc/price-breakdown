@@ -30,6 +30,7 @@ class GroupAsCollectionTest extends CalculatorStrategyTest
         $strategy = $this->getStrategy($conceptName);
         $strategy->setCollectionFactory($collectionFactory);
         $strategy->setItemFactory($itemFactory);
+
         $this->assertEquals(
             $simpleCollection,
             $strategy->apply(

@@ -38,6 +38,7 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
     public function testBuildFromBasicTypesShouldReturnItemProperlySetUp ($currency, $net, $vat, $gross)
     {
         $item = $this->getItemFactory()->buildFromBasicTypes($currency, $net, $vat, $gross);
+
         $this->assertEquals($this->getMoney($net, $currency), $item->net());
         $this->assertEquals($this->getMoney($vat, $currency), $item->vat());
         if ($gross !== null) $this->assertEquals($this->getMoney($gross, $currency), $item->gross());
@@ -112,10 +113,14 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
     {
         $gross = $this->getMoney(100);
         $item = $this->getItemFactory($this->getTaxApplicator($taxToApply))->buildWithGross($gross);
-        $net = $this->getTaxApplicator($taxToApply)->netFromGross($gross);
-        $this->assertEquals($net, $item->net(), 'Net');
-        $this->assertEquals($gross->subtract($net), $item->vat(), 'Vat');
-        $this->assertEquals($gross, $item->gross(), 'Gross');
+
+        $expectedNet = $this->getTaxApplicator($taxToApply)->netFromGross($gross);
+        $expectedVat = $gross->subtract($expectedNet);
+        $expectedGross = $gross;
+
+        $this->assertEquals($expectedNet, $item->net(), 'Net');
+        $this->assertEquals($expectedVat, $item->vat(), 'Vat');
+        $this->assertEquals($expectedGross, $item->gross(), 'Gross');
     }
 
     public function getBuildWithGrossCases()

@@ -40,6 +40,7 @@ class AddPercentageTest extends CalculatorStrategyTest
         $strategy = $this->getStrategy($multiplierType, $multiplierStrategy);
         $strategy->setItemFactory($itemFactory);
         $strategy->setCollectionFactory($collectionFactory);
+
         $this->assertEquals(
             $expectedCollection,
             $strategy->apply(

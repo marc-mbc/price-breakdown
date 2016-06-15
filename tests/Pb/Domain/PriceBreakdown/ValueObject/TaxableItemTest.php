@@ -11,6 +11,22 @@ use Money\Money;
  */
 class TaxableItemTest extends PriceBreakdownTestHelper
 {
+    public function testConstructShouldProperlySetNet()
+    {
+        $net = $this->getMoney(12.5);
+        $vat = $this->getMoney(2.5);
+        $item = new TaxableItem($net, $vat);
+        $this->assertSame($net, $item->net());
+    }
+
+    public function testConstructShouldProperlySetVat()
+    {
+        $net = $this->getMoney(12.5);
+        $vat = $this->getMoney(2.5);
+        $item = new TaxableItem($net, $vat);
+        $this->assertSame($vat, $item->vat());
+    }
+
     public function testConstructWithoutGrossShouldCreateGross()
     {
         $net = $this->getMoney(12.5);
@@ -48,21 +64,5 @@ class TaxableItemTest extends PriceBreakdownTestHelper
             'with_gross_different_from_net' => [$this->getMoney(12.5, 'EUR'), $this->getMoney(2.5, 'USD'), $this->getMoney(15, 'USD')],
             'with_gross_same_as_net' => [$this->getMoney(12.5, 'EUR'), $this->getMoney(2.5, 'USD'), $this->getMoney(15, 'EUR')]
         ];
-    }
-
-    public function testNet()
-    {
-        $net = $this->getMoney(12.5);
-        $vat = $this->getMoney(2.5);
-        $item = new TaxableItem($net, $vat);
-        $this->assertSame($net, $item->net());
-    }
-
-    public function testVat()
-    {
-        $net = $this->getMoney(12.5);
-        $vat = $this->getMoney(2.5);
-        $item = new TaxableItem($net, $vat);
-        $this->assertSame($vat, $item->vat());
     }
 }
