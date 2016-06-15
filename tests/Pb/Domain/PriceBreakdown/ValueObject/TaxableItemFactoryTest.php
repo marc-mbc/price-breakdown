@@ -43,6 +43,14 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
         if ($gross !== null) $this->assertEquals($this->getMoney($gross, $currency), $item->gross());
     }
 
+    public function getBuildFromBasicTypesCases()
+    {
+        return [
+            'without_gross' => ['EUR', 121.89, 2.67, null],
+            'with_gross' => ['EUR', 121.89, 2.67, 124]
+        ];
+    }
+
     /**
      * @dataProvider getBuildCases
      * @param Money $net
@@ -79,52 +87,6 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
         );
     }
 
-    /**
-     * @dataProvider getBuildWithGrossCases
-     * @param float $taxToApply
-     * @param Money $gross
-     */
-    public function testBuildFromGrossShouldReturnItemProperlySetUp($taxToApply, $gross)
-    {
-        $item = $this->getItemFactory($this->getTaxApplicator($taxToApply))->buildWithGross($gross);
-        $net = $gross->divide(1 + $taxToApply);
-        $this->assertEquals($net, $item->net(), 'Net');
-        $this->assertEquals($gross->subtract($net), $item->vat(), 'Vat');
-        $this->assertEquals($gross, $item->gross(), 'Gross');
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Vat to apply must be [0-1] float
-     * @dataProvider getBuildWithGrossInvalidCases
-     * @param float $taxToApply
-     * @param Money $gross
-     */
-    public function testBuildFromGrossShouldReturnExceptionWithInvalidTaxToApply($taxToApply, $gross)
-    {
-        $this->getItemFactory($this->getTaxApplicator($taxToApply))->buildWithGross($gross);
-    }
-
-    public function getBuildWithGrossInvalidCases()
-    {
-        $gross = $this->getMoney(100);
-        return [
-            'with_vat_to_apply_lower_than_0' => [-0.99, $gross],
-            'with_vat_to_apply_higher_than_1' => [1.01, $gross],
-            'string_as_vat_to_apply' => ['invalid', $gross],
-            'out_of_range_numeric_string_as_vat_to_apply' => ['1.1', $gross],
-        ];
-    }
-
-    public function getBuildWithGrossCases()
-    {
-        $gross = $this->getMoney(100);
-        return [
-            'with_vat_to_apply' => [0.20, $gross],
-            'without_vat_to_apply' => [0, $gross],
-        ];
-    }
-
     public function getBuildCases()
     {
         $currency = 'EUR';
@@ -142,11 +104,25 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
         ];
     }
 
-    public function getBuildFromBasicTypesCases()
+    /**
+     * @dataProvider getBuildWithGrossCases
+     * @param float $taxToApply
+     */
+    public function testBuildFromGrossShouldReturnItemProperlySetUp($taxToApply)
+    {
+        $gross = $this->getMoney(100);
+        $item = $this->getItemFactory($this->getTaxApplicator($taxToApply))->buildWithGross($gross);
+        $net = $this->getTaxApplicator($taxToApply)->netFromGross($gross);
+        $this->assertEquals($net, $item->net(), 'Net');
+        $this->assertEquals($gross->subtract($net), $item->vat(), 'Vat');
+        $this->assertEquals($gross, $item->gross(), 'Gross');
+    }
+
+    public function getBuildWithGrossCases()
     {
         return [
-            'without_gross' => ['EUR', 121.89, 2.67, null],
-            'with_gross' => ['EUR', 121.89, 2.67, 124]
+            'with_vat_to_apply' => [0.20],
+            'without_vat_to_apply' => [0],
         ];
     }
 }

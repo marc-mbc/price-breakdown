@@ -35,7 +35,7 @@ abstract class PriceBreakdownTestHelper extends DomainTestHelper
 
     /**
      * @param int|float $taxToApply
-     * @return TaxApplicator
+     * @return TaxApplicatorInterface
      */
     protected function getTaxApplicator($taxToApply = 0)
     {
