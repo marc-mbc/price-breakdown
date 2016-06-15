@@ -81,13 +81,13 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
 
     /**
      * @dataProvider getBuildWithGrossCases
-     * @param float $vatToApply
+     * @param float $taxToApply
      * @param Money $gross
      */
-    public function testBuildFromGrossShouldReturnItemProperlySetUp($vatToApply, $gross)
+    public function testBuildFromGrossShouldReturnItemProperlySetUp($taxToApply, $gross)
     {
-        $item = $this->getItemFactory($this->getTaxApplicator($vatToApply))->buildWithGross($gross);
-        $net = $gross->divide(1 + $vatToApply);
+        $item = $this->getItemFactory($this->getTaxApplicator($taxToApply))->buildWithGross($gross);
+        $net = $gross->divide(1 + $taxToApply);
         $this->assertEquals($net, $item->net(), 'Net');
         $this->assertEquals($gross->subtract($net), $item->vat(), 'Vat');
         $this->assertEquals($gross, $item->gross(), 'Gross');
@@ -97,12 +97,12 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Vat to apply must be [0-1] float
      * @dataProvider getBuildWithGrossInvalidCases
-     * @param float $vatToApply
+     * @param float $taxToApply
      * @param Money $gross
      */
-    public function testBuildFromGrossShouldReturnExceptionWithInvalidTaxToApply($vatToApply, $gross)
+    public function testBuildFromGrossShouldReturnExceptionWithInvalidTaxToApply($taxToApply, $gross)
     {
-        $this->getItemFactory($this->getTaxApplicator($vatToApply))->buildWithGross($gross);
+        $this->getItemFactory($this->getTaxApplicator($taxToApply))->buildWithGross($gross);
     }
 
     public function getBuildWithGrossInvalidCases()

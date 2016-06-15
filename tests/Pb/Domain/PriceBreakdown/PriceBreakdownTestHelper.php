@@ -34,11 +34,11 @@ abstract class PriceBreakdownTestHelper extends DomainTestHelper
     }
 
     /**
-     * @param int|float $vatToApply
+     * @param int|float $taxToApply
      * @return TaxApplicator
      */
-    protected function getTaxApplicator($vatToApply = 0)
+    protected function getTaxApplicator($taxToApply = 0)
     {
-        return new TaxApplicator($vatToApply);
+        return new TaxApplicator($taxToApply);
     }
 }

@@ -13,24 +13,21 @@ class TaxApplicator implements TaxApplicatorInterface
     /**
      * @var int|float
      */
-    protected $vatToApply;
+    protected $taxToApply;
     /**
      * @var int|float
      */
-    protected $netApply;
+    protected $grossApply;
 
     /**
      * TaxApplicator constructor.
-     * @param int|float $vatToApply
+     * @param int|float $taxToApply
      */
-    public function __construct($vatToApply = 0)
+    public function __construct($taxToApply = 0)
     {
-        if (!is_numeric($vatToApply) || $vatToApply > 1 || $vatToApply < 0)
-        {
-            throw new \InvalidArgumentException('Vat to apply must be [0-1] float');
-        }
-        $this->vatToApply = $vatToApply;
-        $this->netApply = 1 + $vatToApply;
+        $this->checkValidTax($taxToApply);
+        $this->taxToApply = $taxToApply;
+        $this->grossApply = 1 + $taxToApply;
     }
 
     /**
@@ -39,7 +36,7 @@ class TaxApplicator implements TaxApplicatorInterface
      */
     public function netFromGross(Money $gross)
     {
-        return $gross->divide($this->netApply);
+        return $gross->divide($this->grossApply);
     }
 
     /**
@@ -48,6 +45,17 @@ class TaxApplicator implements TaxApplicatorInterface
      */
     public function vatFromNet(Money $net)
     {
-        return $net->multiply($this->vatToApply);
+        return $net->multiply($this->taxToApply);
+    }
+
+    /**
+     * @param $taxToApply
+     */
+    protected function checkValidTax($taxToApply)
+    {
+        if (!is_numeric($taxToApply) || $taxToApply > 1 || $taxToApply < 0)
+        {
+            throw new \InvalidArgumentException('Vat to apply must be [0-1] float');
+        }
     }
 }
