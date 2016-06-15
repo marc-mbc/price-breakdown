@@ -2,14 +2,14 @@
 
 namespace Pb\Test\Domain\Calculator\Strategy;
 
-use Pb\Domain\Calculator\Strategy\AddTypeOnNewRootCollection;
+use Pb\Domain\Calculator\Strategy\GroupAsCollection;
 use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
- * Class AddTypeOnNewRootCollectionTest
+ * Class GroupAsCollectionTest
  * @package Pb\Domain\Calculator\Strategy
  */
-class AddTypeOnNewRootCollectionTest extends CalculatorStrategyTest
+class GroupAsCollectionTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
@@ -44,6 +44,6 @@ class AddTypeOnNewRootCollectionTest extends CalculatorStrategyTest
      */
     protected function getStrategy($conceptName = 'default')
     {
-        return new AddTypeOnNewRootCollection($conceptName);
+        return new GroupAsCollection($conceptName);
     }
 }

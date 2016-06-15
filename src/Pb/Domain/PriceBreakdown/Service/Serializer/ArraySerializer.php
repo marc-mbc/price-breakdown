@@ -143,8 +143,7 @@ class ArraySerializer implements SerializerInterface
         {
             $items[$conceptName] = $this->checkValidCollection($item) ?
                 $this->getCollectionFromArray($item) :
-                $this->unserializeItem($data[static::CURRENCY], $item)
-            ;
+                $this->unserializeItem($data[static::CURRENCY], $item);
         }
         return $this->collectionFactory->build(new Currency($data[static::CURRENCY]), $aggregate, $items);
     }

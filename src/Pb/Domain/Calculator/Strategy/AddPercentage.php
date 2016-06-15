@@ -5,10 +5,10 @@ namespace Pb\Domain\Calculator\Strategy;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
 
 /**
- * Class AddMultiplierIncrement
+ * Class AddPercentage
  * @package Pb\Domain\Calculator\Strategy
  */
-class AddMultiplierIncrement extends CalculatorStrategy
+class AddPercentage extends CalculatorStrategy
 {
     /**
      * @var MultiplierInterface
