@@ -37,7 +37,7 @@ class AddFixedAmount extends CalculatorStrategy
      */
     public function apply(CollectionInterface $collection)
     {
-        return $collection->add(
+        return $collection->addUp(
             $this->conceptName,
             $this->itemFactory->buildWithGross($this->gross)
         );

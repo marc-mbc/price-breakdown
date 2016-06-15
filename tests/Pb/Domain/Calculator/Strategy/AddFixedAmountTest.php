@@ -19,7 +19,7 @@ class AddFixedAmountTest extends CalculatorStrategyTest
         $gross = $this->getMoney(120.24, $currencyCode);
 
         $expectedCollection = $this->getEmptyCollection($currencyCode);
-        $expectedCollection->add(
+        $expectedCollection->addUp(
             $conceptName,
             $itemFactory->buildWithGross($gross)
         );

@@ -204,7 +204,7 @@ class TaxableCollectionTest extends PriceBreakdownTestHelper
     public function getOperationTypes()
     {
         return [
-            'add_operator' => ['add'],
+            'add_operator' => ['addUp'],
             'subtract_operator' => ['subtract']
         ];
     }

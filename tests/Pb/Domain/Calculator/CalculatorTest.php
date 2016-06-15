@@ -120,7 +120,7 @@ class CalculatorTest extends CalculatorTestHelper
             'single_concept_from_non_empty_initial_collection' => [
                 $gross->add($gross),
                 $this->getCalculator()->addStrategy($fixedAmountStrategy),
-                $this->getEmptyCollection($currencyCode)->add(
+                $this->getEmptyCollection($currencyCode)->addUp(
                     'TestExtra',
                     $this->getItemFactory()->buildWithGross($gross)
                 )

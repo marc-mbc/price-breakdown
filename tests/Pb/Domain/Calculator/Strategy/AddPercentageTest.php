@@ -32,7 +32,7 @@ class AddPercentageTest extends CalculatorStrategyTest
             $conceptName,
             $gross
         );
-        $expectedCollection->add(
+        $expectedCollection->addUp(
             $multiplierType,
             $itemFactory->buildWithGross($gross->multiply($multiplierStrategy->multiplier()))
         );
