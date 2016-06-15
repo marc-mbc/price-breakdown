@@ -86,7 +86,7 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
      */
     public function testBuildFromGrossShouldReturnItemProperlySetUp($vatToApply, $gross)
     {
-        $item = $this->getItemFactory($vatToApply)->buildWithGross($gross);
+        $item = $this->getItemFactory($this->getTaxApplicator($vatToApply))->buildWithGross($gross);
         $net = $gross->divide(1 + $vatToApply);
         $this->assertEquals($net, $item->net(), 'Net');
         $this->assertEquals($gross->subtract($net), $item->vat(), 'Vat');
@@ -102,7 +102,7 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
      */
     public function testBuildFromGrossShouldReturnExceptionWithInvalidTaxToApply($vatToApply, $gross)
     {
-        $this->getItemFactory($vatToApply)->buildWithGross($gross);
+        $this->getItemFactory($this->getTaxApplicator($vatToApply))->buildWithGross($gross);
     }
 
     public function getBuildWithGrossInvalidCases()

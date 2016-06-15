@@ -21,7 +21,7 @@ abstract class PriceBreakdownTestHelper extends DomainTestHelper
     {
         return new TaxableItemFactory(
             $this->getMoneyParser(),
-            $taxApplicator === null ? new TaxApplicator() : $taxApplicator
+            $taxApplicator === null ? $this->getTaxApplicator() : $taxApplicator
         );
     }
 
@@ -31,5 +31,14 @@ abstract class PriceBreakdownTestHelper extends DomainTestHelper
     protected function getCollectionFactory()
     {
         return new TaxableCollectionFactory();
+    }
+
+    /**
+     * @param int|float $vatToApply
+     * @return TaxApplicator
+     */
+    protected function getTaxApplicator($vatToApply = 0)
+    {
+        return new TaxApplicator($vatToApply);
     }
 }
