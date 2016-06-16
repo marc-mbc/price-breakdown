@@ -2,12 +2,16 @@
 
 namespace Pb\Test\Domain\Calculator\Strategy;
 
-use Pb\Domain\Calculator\Strategy\AddMultiplierIncrement;
+use Pb\Domain\Calculator\Strategy\AddPercentage;
 use Pb\Domain\Calculator\Strategy\Multiplier;
 use Pb\Domain\Calculator\Strategy\MultiplierInterface;
 use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
-class AddMultiplierIncrementTest extends CalculatorStrategyTest
+/**
+ * Class AddPercentageTest
+ * @package Pb\Test\Domain\Calculator\Strategy
+ */
+class AddPercentageTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
@@ -28,7 +32,7 @@ class AddMultiplierIncrementTest extends CalculatorStrategyTest
             $conceptName,
             $gross
         );
-        $expectedCollection->add(
+        $expectedCollection->addUp(
             $multiplierType,
             $itemFactory->buildWithGross($gross->multiply($multiplierStrategy->multiplier()))
         );
@@ -36,6 +40,7 @@ class AddMultiplierIncrementTest extends CalculatorStrategyTest
         $strategy = $this->getStrategy($multiplierType, $multiplierStrategy);
         $strategy->setItemFactory($itemFactory);
         $strategy->setCollectionFactory($collectionFactory);
+
         $this->assertEquals(
             $expectedCollection,
             $strategy->apply(
@@ -57,7 +62,7 @@ class AddMultiplierIncrementTest extends CalculatorStrategyTest
      */
     protected function getStrategy($conceptName = 'default', MultiplierInterface $multiplier = null)
     {
-        return new AddMultiplierIncrement($conceptName, $multiplier === null ? $this->getMultiplier(0.5) : $multiplier);
+        return new AddPercentage($conceptName, $multiplier === null ? $this->getMultiplier(0.5) : $multiplier);
     }
 
     /**

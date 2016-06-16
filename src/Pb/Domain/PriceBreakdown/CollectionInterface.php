@@ -15,7 +15,7 @@ interface CollectionInterface extends ItemInterface
      * @param ItemInterface $item
      * @return CollectionInterface
      */
-    public function add($conceptName, ItemInterface $item);
+    public function addUp($conceptName, ItemInterface $item);
     /**
      * @param string $conceptName
      * @param ItemInterface $item

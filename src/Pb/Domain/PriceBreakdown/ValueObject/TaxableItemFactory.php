@@ -4,6 +4,7 @@ namespace Pb\Domain\PriceBreakdown\ValueObject;
 
 use Money\Money;
 use Money\MoneyParser;
+use Pb\Domain\Calculator\TaxApplicatorInterface;
 use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
 use Pb\Domain\PriceBreakdown\ItemInterface;
 
@@ -18,23 +19,19 @@ class TaxableItemFactory implements ItemFactoryInterface
      */
     protected $moneyParser;
     /**
-     * @var float
+     * @var TaxApplicatorInterface
      */
-    protected $vatToApply;
+    protected $taxApplicator;
 
     /**
      * TaxableItemFactory constructor.
      * @param MoneyParser $moneyParser
-     * @param float|int $vatToApply
+     * @param TaxApplicatorInterface $taxApplicator
      */
-    public function __construct(MoneyParser $moneyParser, $vatToApply = 0)
+    public function __construct(MoneyParser $moneyParser, TaxApplicatorInterface $taxApplicator)
     {
         $this->moneyParser = $moneyParser;
-        if (!is_numeric($vatToApply) || $vatToApply > 1 || $vatToApply < 0)
-        {
-            throw new \InvalidArgumentException('Vat to apply must be [0-1] float');
-        }
-        $this->vatToApply = 1 + $vatToApply;
+        $this->taxApplicator = $taxApplicator;
     }
 
     /**
@@ -54,7 +51,7 @@ class TaxableItemFactory implements ItemFactoryInterface
      */
     public function buildWithGross(Money $gross)
     {
-        $net = $gross->divide($this->vatToApply);
+        $net = $this->taxApplicator->netFromGross($gross);
         return $this->build($net, $gross->subtract($net), $gross);
     }
 

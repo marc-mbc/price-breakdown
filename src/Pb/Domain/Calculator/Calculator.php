@@ -16,7 +16,7 @@ class Calculator implements CalculatorInterface
     /**
      * @var CalculatorStrategyInterface[]
      */
-    protected $PriceBreakdowns = [];
+    protected $strategies = [];
     /**
      * @var CollectionFactoryInterface
      */
@@ -43,30 +43,30 @@ class Calculator implements CalculatorInterface
      */
     public function calculate(CollectionInterface $collection)
     {
-        foreach($this->PriceBreakdowns as $PriceBreakdown)
+        foreach($this->strategies as $strategy)
         {
-            $collection = $PriceBreakdown->apply($collection);
+            $collection = $strategy->apply($collection);
         }
         return $collection;
     }
 
     /**
-     * @param CalculatorStrategyInterface $PriceBreakdown
+     * @param CalculatorStrategyInterface $strategy
      * @param CollectionFactoryInterface $collectionFactory
      * @param ItemFactoryInterface $itemFactory
      * @return CalculatorInterface
      */
     public function addStrategy(
-        CalculatorStrategyInterface $PriceBreakdown,
+        CalculatorStrategyInterface $strategy,
         CollectionFactoryInterface $collectionFactory = null,
         ItemFactoryInterface $itemFactory = null
     )
     {
-        $PriceBreakdown->setCollectionFactory(
+        $strategy->setCollectionFactory(
             $collectionFactory === null ? $this->collectionFactory : $collectionFactory
         );
-        $PriceBreakdown->setItemFactory($itemFactory === null ? $this->itemFactory : $itemFactory);
-        $this->PriceBreakdowns[] = $PriceBreakdown;
+        $strategy->setItemFactory($itemFactory === null ? $this->itemFactory : $itemFactory);
+        $this->strategies[] = $strategy;
         return $this;
     }
 }

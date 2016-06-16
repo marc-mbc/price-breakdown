@@ -56,7 +56,7 @@ abstract class CalculatorTestHelper extends PriceBreakdownTestHelper
     )
     {
         $expectedCollection = $taxableCollectionFactory->build($this->getCurrency($currencyCode));
-        $expectedCollection->add(
+        $expectedCollection->addUp(
             $conceptName,
             $taxableItemFactory->buildWithGross($gross)
         );

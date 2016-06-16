@@ -76,43 +76,47 @@ class TaxableCollectionTest extends PriceBreakdownTestHelper
     public function testCollectionShouldBeAbleToOperateWithNewTaxableItems($operation)
     {
         $currency = 'EUR';
+        $moneyOperation = $operation === 'addUp' ? 'add' : $operation;
         $collection = $this->getCollectionFactory()->build($this->getCurrency($currency));
+
         $emptyItem = $this->getItemFactory()->buildFromBasicTypes($currency, 0, 0, 0);
         $itemA = $this->getItemFactory()->buildFromBasicTypes($currency, 100.25, 12.5);
         $itemB = $this->getItemFactory()->buildFromBasicTypes($currency, 101.25, 11.5);
         $itemC = $this->getItemFactory()->buildFromBasicTypes($currency, 101.25, 12.5);
+
         $collection->{$operation}('testA', $itemA);
         $collection->{$operation}('testB', $itemB);
         $collection->{$operation}('testC', $itemC);
 
+
         $this->assertEquals(
-            $emptyItem->gross()->{$operation}(
+            $emptyItem->gross()->{$moneyOperation}(
                 $itemA->gross()
-            )->{$operation}(
+            )->{$moneyOperation}(
                 $itemB->gross()
-            )->{$operation}(
+            )->{$moneyOperation}(
                $itemC->gross()
             ),
             $collection->gross(),
             'Error operating with ' . $operation . ' calculating gross'
         );
         $this->assertEquals(
-            $emptyItem->net()->{$operation}(
+            $emptyItem->net()->{$moneyOperation}(
                 $itemA->net()
-            )->{$operation}(
+            )->{$moneyOperation}(
                 $itemB->net()
-            )->{$operation}(
+            )->{$moneyOperation}(
                 $itemC->net()
             ),
             $collection->net(),
             'Error operating with ' . $operation . ' calculating net'
         );
         $this->assertEquals(
-            $emptyItem->vat()->{$operation}(
+            $emptyItem->vat()->{$moneyOperation}(
                 $itemA->vat()
-            )->{$operation}(
+            )->{$moneyOperation}(
                 $itemB->vat()
-            )->{$operation}(
+            )->{$moneyOperation}(
                 $itemC->vat()
             ),
             $collection->vat(),
@@ -204,7 +208,7 @@ class TaxableCollectionTest extends PriceBreakdownTestHelper
     public function getOperationTypes()
     {
         return [
-            'add_operator' => ['add'],
+            'add_operator' => ['addUp'],
             'subtract_operator' => ['subtract']
         ];
     }

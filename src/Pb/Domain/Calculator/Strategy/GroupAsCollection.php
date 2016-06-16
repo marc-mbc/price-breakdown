@@ -5,10 +5,10 @@ namespace Pb\Domain\Calculator\Strategy;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
 
 /**
- * Class AddTypeOnNewRootCollection
+ * Class GroupAsCollection
  * @package Pb\Domain\Calculator\Strategy
  */
-class AddTypeOnNewRootCollection extends CalculatorStrategy
+class GroupAsCollection extends CalculatorStrategy
 {
     /**
      * @var string

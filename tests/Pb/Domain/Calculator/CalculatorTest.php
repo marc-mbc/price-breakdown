@@ -5,7 +5,7 @@ namespace Pb\Test\Domain\Calculator;
 use Money\Money;
 use Pb\Domain\Calculator\Calculator;
 use Pb\Domain\Calculator\Strategy\AddFixedAmount;
-use Pb\Domain\Calculator\Strategy\AddMultiplierIncrement;
+use Pb\Domain\Calculator\Strategy\AddPercentage;
 use Pb\Domain\Calculator\Strategy\Multiplier;
 use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
@@ -95,7 +95,7 @@ class CalculatorTest extends CalculatorTestHelper
         $multiplier = 2;
 
         $fixedAmountStrategy = new AddFixedAmount('testFixedAmount', $gross);
-        $multiplierStrategy = new AddMultiplierIncrement('testMultiplier', new Multiplier($multiplier));
+        $multiplierStrategy = new AddPercentage('testMultiplier', new Multiplier($multiplier));
 
         $calculatorFixedAmountPlusMultiplier->addStrategy($fixedAmountStrategy);
         $calculatorFixedAmountPlusMultiplier->addStrategy($multiplierStrategy);
@@ -120,7 +120,7 @@ class CalculatorTest extends CalculatorTestHelper
             'single_concept_from_non_empty_initial_collection' => [
                 $gross->add($gross),
                 $this->getCalculator()->addStrategy($fixedAmountStrategy),
-                $this->getEmptyCollection($currencyCode)->add(
+                $this->getEmptyCollection($currencyCode)->addUp(
                     'TestExtra',
                     $this->getItemFactory()->buildWithGross($gross)
                 )

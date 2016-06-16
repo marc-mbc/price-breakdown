@@ -64,7 +64,7 @@ class TaxableCollection implements CollectionInterface
      * @param ItemInterface $item
      * @return CollectionInterface
      */
-    public function add($conceptName, ItemInterface $item)
+    public function addUp($conceptName, ItemInterface $item)
     {
         return $this->operate($conceptName, $item, 'add');
     }
