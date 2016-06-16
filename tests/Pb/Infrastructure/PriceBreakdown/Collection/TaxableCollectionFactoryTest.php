@@ -1,6 +1,6 @@
 <?php
 
-namespace Pb\Test\Domain\PriceBreakdown\Collection;
+namespace Pb\Test\Infrastructure\PriceBreakdown\Collection;
 
 use Money\Currency;
 use Pb\Domain\PriceBreakdown\ItemInterface;
@@ -8,7 +8,7 @@ use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class TaxableCollectionFactoryTest
- * @package Pb\Test\Domain\PriceBreakdown\Collection
+ * @package Pb\Test\Infrastructure\PriceBreakdown\Collection
  */
 class TaxableCollectionFactoryTest extends PriceBreakdownTestHelper
 {

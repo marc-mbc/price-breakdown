@@ -1,12 +1,13 @@
 <?php
 
-namespace Pb\Domain\PriceBreakdown\ValueObject;
+namespace Pb\Infrastructure\PriceBreakdown\ValueObject;
 
 use Money\Money;
 use Money\MoneyParser;
 use Pb\Domain\Calculator\TaxApplicatorInterface;
 use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
 use Pb\Domain\PriceBreakdown\ItemInterface;
+use Pb\Domain\PriceBreakdown\ValueObject\TaxableItem;
 
 /**
  * Class TaxableItemFactory

@@ -1,13 +1,13 @@
 <?php
 
-namespace Pb\Test\Domain\PriceBreakdown\ValueObject;
+namespace Pb\Test\Infrastructure\PriceBreakdown\ValueObject;
 
 use Money\Money;
 use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class TaxableItemFactoryTest
- * @package Pb\Test\Domain\PriceBreakdown\ValueObject
+ * @package Pb\Test\Infrastructure\PriceBreakdown\ValueObject
  */
 class TaxableItemFactoryTest extends PriceBreakdownTestHelper
 {

@@ -1,8 +1,9 @@
 <?php
 
-namespace Pb\Domain\PriceBreakdown\Collection;
+namespace Pb\Infrastructure\PriceBreakdown\Collection;
 
 use Money\Currency;
+use Pb\Domain\PriceBreakdown\Collection\TaxableCollection;
 use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
 use Pb\Domain\PriceBreakdown\ItemInterface;

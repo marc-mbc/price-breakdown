@@ -1,10 +1,10 @@
 <?php
+
 namespace Pb\Test\Domain\PriceBreakdown;
 
-use Pb\Domain\Calculator\TaxApplicator;
 use Pb\Domain\Calculator\TaxApplicatorInterface;
-use Pb\Domain\PriceBreakdown\Collection\TaxableCollectionFactory;
-use Pb\Domain\PriceBreakdown\ValueObject\TaxableItemFactory;
+use Pb\Infrastructure\PriceBreakdown\Collection\TaxableCollectionFactory;
+use Pb\Infrastructure\PriceBreakdown\ValueObject\TaxableItemFactory;
 use Pb\Test\Domain\DomainTestHelper;
 
 /**
@@ -31,14 +31,5 @@ abstract class PriceBreakdownTestHelper extends DomainTestHelper
     protected function getCollectionFactory()
     {
         return new TaxableCollectionFactory();
-    }
-
-    /**
-     * @param int|float $taxToApply
-     * @return TaxApplicatorInterface
-     */
-    protected function getTaxApplicator($taxToApply = 0)
-    {
-        return new TaxApplicator($taxToApply);
     }
 }

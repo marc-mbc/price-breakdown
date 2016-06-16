@@ -5,6 +5,8 @@ use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use Money\Parser\StringToUnitsParser;
+use Pb\Domain\Calculator\TaxApplicator;
+use Pb\Domain\Calculator\TaxApplicatorInterface;
 
 /**
  * Class DomainTestHelper
@@ -46,5 +48,14 @@ abstract class DomainTestHelper extends \PHPUnit_Framework_TestCase
     protected function getCurrency($currency)
     {
         return new Currency($currency);
+    }
+
+    /**
+     * @param int|float $taxToApply
+     * @return TaxApplicatorInterface
+     */
+    protected function getTaxApplicator($taxToApply = 0)
+    {
+        return new TaxApplicator($taxToApply);
     }
 }
