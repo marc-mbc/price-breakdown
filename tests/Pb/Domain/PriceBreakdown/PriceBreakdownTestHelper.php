@@ -3,9 +3,8 @@
 namespace Pb\Test\Domain\PriceBreakdown;
 
 use Pb\Domain\Calculator\TaxApplicatorInterface;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
 use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
-use Pb\Infrastructure\PriceBreakdown\Collection\TaxableCollectionFactory;
-use Pb\Infrastructure\PriceBreakdown\TaxableItem\BasicTaxableItemFactory;
 use Pb\Test\Domain\DomainTestHelper;
 
 /**
@@ -18,9 +17,9 @@ abstract class PriceBreakdownTestHelper extends DomainTestHelper
      * @param TaxApplicatorInterface $taxApplicator
      * @return TaxableItemFactory
      */
-    protected function getItemFactory(TaxApplicatorInterface $taxApplicator = null)
+    protected function getTaxableItemFactory(TaxApplicatorInterface $taxApplicator = null)
     {
-        return new BasicTaxableItemFactory(
+        return new TaxableItemFactory(
             $this->getMoneyParser(),
             $taxApplicator === null ? $this->getTaxApplicator() : $taxApplicator
         );
@@ -29,7 +28,7 @@ abstract class PriceBreakdownTestHelper extends DomainTestHelper
     /**
      * @return TaxableCollectionFactory
      */
-    protected function getCollectionFactory()
+    protected function getTaxableCollectionFactory()
     {
         return new TaxableCollectionFactory();
     }

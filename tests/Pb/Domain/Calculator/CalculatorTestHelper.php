@@ -4,8 +4,8 @@ namespace Pb\Test\Domain\Calculator;
 
 use Money\Money;
 use Pb\Domain\Calculator\Calculator;
-use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
-use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
 use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
@@ -16,39 +16,39 @@ use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 abstract class CalculatorTestHelper extends PriceBreakdownTestHelper
 {
     /**
-     * @param CollectionFactoryInterface $collectionFactory
+     * @param TaxableCollectionFactory $collectionFactory
      * @param TaxableItemFactory $itemFactory
      * @return Calculator
      */
     protected function getCalculator(
-        CollectionFactoryInterface $collectionFactory = null, TaxableItemFactory $itemFactory = null
+        TaxableCollectionFactory $collectionFactory = null, TaxableItemFactory $itemFactory = null
     )
     {
         return new Calculator(
-            $collectionFactory === null ? $this->getCollectionFactory() : $collectionFactory,
-            $itemFactory === null ? $this->getItemFactory() : $itemFactory
+            $collectionFactory === null ? $this->getTaxableCollectionFactory() : $collectionFactory,
+            $itemFactory === null ? $this->getTaxableItemFactory() : $itemFactory
         );
     }
 
     /**
      * @param $currencyCode
-     * @return CollectionInterface
+     * @return TaxableCollection
      */
     protected function getEmptyCollection($currencyCode = 'EUR')
     {
-        return $this->getCollectionFactory()->build($this->getCurrency($currencyCode));
+        return $this->getTaxableCollectionFactory()->build($this->getCurrency($currencyCode));
     }
 
     /**
-     * @param CollectionFactoryInterface $taxableCollectionFactory
+     * @param TaxableCollectionFactory $taxableCollectionFactory
      * @param TaxableItemFactory $taxableItemFactory
      * @param string $currencyCode
      * @param string $conceptName
      * @param Money $gross
-     * @return CollectionInterface
+     * @return TaxableCollection
      */
     protected function getCollectionWithSingleItem(
-        CollectionFactoryInterface $taxableCollectionFactory,
+        TaxableCollectionFactory $taxableCollectionFactory,
         TaxableItemFactory $taxableItemFactory,
         $currencyCode,
         $conceptName,

@@ -35,19 +35,19 @@ class ItemDtoDataTransformerTest extends PriceBreakdownTestHelper
         $vat = 20.25;
         $gross = 120.5;
 
-        $arrayItem = $this->getArrayItem($currencyCode, $net, $vat, $gross);
-        $item = $this->getItemFactory()->buildFromBasicTypes($currencyCode, $net, $vat, $gross);
+        $arrayTaxableItem = $this->getArrayItem($currencyCode, $net, $vat, $gross);
+        $taxableItem = $this->getTaxableItemFactory()->buildFromBasicTypes($currencyCode, $net, $vat, $gross);
 
         return [
             'simple_case_transform_to_dto' => [
                 static::TRANSFORM_TO_DTO,
-                $arrayItem,
-                $item
+                $arrayTaxableItem,
+                $taxableItem
             ],
             'simple_case_transform_to_domain' => [
                 static::TRANSFORM_TO_DOMAIN,
-                $item,
-                $arrayItem,
+                $taxableItem,
+                $arrayTaxableItem,
             ]
         ];
     }
@@ -103,7 +103,7 @@ class ItemDtoDataTransformerTest extends PriceBreakdownTestHelper
      */
     protected function getDataTransformer()
     {
-        return new ItemDtoDataTransformer($this->getItemFactory(), $this->getMoneyFormatter());
+        return new ItemDtoDataTransformer($this->getTaxableItemFactory(), $this->getMoneyFormatter());
     }
 
     /**

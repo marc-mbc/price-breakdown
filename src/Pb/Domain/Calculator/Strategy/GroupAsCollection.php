@@ -3,6 +3,7 @@
 namespace Pb\Domain\Calculator\Strategy;
 
 use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 
 /**
  * Class GroupAsCollection
@@ -25,13 +26,13 @@ class GroupAsCollection extends CalculatorStrategy
     }
 
     /**
-     * @param CollectionInterface $collection
-     * @return CollectionInterface
+     * @param TaxableCollection $taxableCollection
+     * @return TaxableCollection
      */
-    public function apply(CollectionInterface $collection)
+    public function apply(TaxableCollection $taxableCollection)
     {
-        return $this->collectionFactory->build(
-            $collection->currency(), $collection->aggregate() , [$this->conceptName => $collection]
+        return $this->taxableCollectionFactory->build(
+            $taxableCollection->currency(), $taxableCollection->aggregate() , [$this->conceptName => $taxableCollection]
         );
     }
 }

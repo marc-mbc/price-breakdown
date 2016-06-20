@@ -3,7 +3,7 @@
 namespace Pb\Domain\Calculator\Strategy;
 
 use Money\Money;
-use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 
 /**
  * Class AddFixedAmount
@@ -32,12 +32,12 @@ class AddFixedAmount extends CalculatorStrategy
     }
 
     /**
-     * @param CollectionInterface $collection
-     * @return CollectionInterface
+     * @param TaxableCollection $taxableCollection
+     * @return TaxableCollection
      */
-    public function apply(CollectionInterface $collection)
+    public function apply(TaxableCollection $taxableCollection)
     {
-        return $collection->addUp(
+        return $taxableCollection->addUp(
             $this->conceptName,
             $this->taxableItemFactory->buildWithGross($this->gross)
         );

@@ -1,7 +1,6 @@
 <?php
-namespace Pb\Domain\PriceBreakdown\Collection;
+namespace Pb\Domain\PriceBreakdown\TaxableCollection;
 
-use Pb\Domain\PriceBreakdown\CollectionInterface;
 use Pb\Domain\PriceBreakdown\Taxable;
 use Money\Currency;
 use Money\Money;
@@ -9,9 +8,9 @@ use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItem;
 
 /**
  * Class TaxableCollection
- * @package Domain\Entity\PriceBreakdown
+ * @package Pb\Domain\PriceBreakdown\TaxableCollection
  */
-class TaxableCollection implements CollectionInterface
+class TaxableCollection implements Taxable
 {
     /**
      * @var Taxable[]
@@ -61,27 +60,27 @@ class TaxableCollection implements CollectionInterface
 
     /**
      * @param string $conceptName
-     * @param Taxable $item
-     * @return CollectionInterface
+     * @param Taxable $taxableItem
+     * @return TaxableCollection
      */
-    public function addUp($conceptName, Taxable $item)
+    public function addUp($conceptName, Taxable $taxableItem)
     {
-        return $this->operate($conceptName, $item, 'add');
+        return $this->operate($conceptName, $taxableItem, 'add');
     }
 
     /**
      * @param string $conceptName
-     * @param Taxable $item
-     * @return CollectionInterface
+     * @param Taxable $taxableItem
+     * @return TaxableCollection
      */
-    public function subtract($conceptName, Taxable $item)
+    public function subtract($conceptName, Taxable $taxableItem)
     {
-        return $this->operate($conceptName, $item, 'subtract');
+        return $this->operate($conceptName, $taxableItem, 'subtract');
     }
 
     /**
      * @param string $conceptName
-     * @return CollectionInterface
+     * @return TaxableCollection
      */
     public function find($conceptName)
     {
@@ -90,22 +89,22 @@ class TaxableCollection implements CollectionInterface
 
     /**
      * @param string $conceptName
-     * @param Taxable $item
+     * @param Taxable $taxableItem
      * @param string $operation
-     * @return CollectionInterface
+     * @return TaxableCollection
      */
-    protected function operate($conceptName, Taxable $item, $operation)
+    protected function operate($conceptName, Taxable $taxableItem, $operation)
     {
-        if (!$this->currency->equals($item->gross()->getCurrency()))
+        if (!$this->currency->equals($taxableItem->gross()->getCurrency()))
         {
             throw new \InvalidArgumentException('New TaxableItem must operate in the same currency');
         }
         if (!isset($this->items[$conceptName]))
         {
-            $this->items[$conceptName] = $item;
+            $this->items[$conceptName] = $taxableItem;
             $this->aggregate = new TaxableItem(
-                $this->aggregate->net()->{$operation}($item->net()),
-                $this->aggregate->vat()->{$operation}($item->vat())
+                $this->aggregate->net()->{$operation}($taxableItem->net()),
+                $this->aggregate->vat()->{$operation}($taxableItem->vat())
             );
             return $this;
         }

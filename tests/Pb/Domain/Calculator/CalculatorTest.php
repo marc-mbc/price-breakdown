@@ -7,9 +7,9 @@ use Pb\Domain\Calculator\Calculator;
 use Pb\Domain\Calculator\Strategy\AddFixedAmount;
 use Pb\Domain\Calculator\Strategy\AddPercentage;
 use Pb\Domain\Calculator\Strategy\Multiplier;
-use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
-use Pb\Domain\PriceBreakdown\CollectionInterface;
 use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
 use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 
 /**
@@ -31,14 +31,14 @@ class CalculatorTest extends CalculatorTestHelper
      * @dataProvider getFactoryInjectionCases
      * @param CalculatorStrategyInterface $strategy
      * @param TaxableItemFactory $defaultItemFactory
-     * @param CollectionFactoryInterface $defaultCollectionFactory
+     * @param TaxableCollectionFactory $defaultCollectionFactory
      * @param TaxableItemFactory $customItemFactory
-     * @param CollectionFactoryInterface $customCollectionFactory
+     * @param TaxableCollectionFactory $customCollectionFactory
      */
     public function testCalculatorShouldBeAbleToInjectFactoriesOnEveryPriceBreakdownOrUseTheirDefaultFactories(
         CalculatorStrategyInterface $strategy,
-        TaxableItemFactory $defaultItemFactory = null, CollectionFactoryInterface $defaultCollectionFactory = null,
-        TaxableItemFactory $customItemFactory = null, CollectionFactoryInterface $customCollectionFactory = null
+        TaxableItemFactory $defaultItemFactory = null, TaxableCollectionFactory $defaultCollectionFactory = null,
+        TaxableItemFactory $customItemFactory = null, TaxableCollectionFactory $customCollectionFactory = null
     )
     {
         $calculator = $this->getCalculator($defaultCollectionFactory, $defaultItemFactory);
@@ -51,16 +51,16 @@ class CalculatorTest extends CalculatorTestHelper
             $defaultItemFactory :
             $customItemFactory;
 
-        $this->assertAttributeSame($expectedCollectionFactory, 'collectionFactory', $strategy);
+        $this->assertAttributeSame($expectedCollectionFactory, 'taxableCollectionFactory', $strategy);
         $this->assertAttributeSame($expectedItemFactory, 'taxableItemFactory', $strategy);
     }
 
     public function getFactoryInjectionCases()
     {
-        $collectionFactoryA = $this->getCollectionFactory();
-        $collectionFactoryB = $this->getCollectionFactory();
-        $taxableItemFactoryA = $this->getItemFactory();
-        $taxableItemFactoryB = $this->getItemFactory();
+        $collectionFactoryA = $this->getTaxableCollectionFactory();
+        $collectionFactoryB = $this->getTaxableCollectionFactory();
+        $taxableItemFactoryA = $this->getTaxableItemFactory();
+        $taxableItemFactoryB = $this->getTaxableItemFactory();
         $strategy = new AddFixedAmount('test', $this->getMoney(100));
         return [
             [$strategy, $taxableItemFactoryA, $collectionFactoryA, null, null],
@@ -74,7 +74,7 @@ class CalculatorTest extends CalculatorTestHelper
      * @dataProvider getCalculatorCases
      * @param Money $expectedGross
      * @param Calculator $calculator
-     * @param CollectionInterface $initialCollection
+     * @param TaxableCollection $initialCollection
      */
     public function testCalculatorShouldCalculateProperly($expectedGross, $calculator, $initialCollection)
     {
@@ -122,7 +122,7 @@ class CalculatorTest extends CalculatorTestHelper
                 $this->getCalculator()->addStrategy($fixedAmountStrategy),
                 $this->getEmptyCollection($currencyCode)->addUp(
                     'TestExtra',
-                    $this->getItemFactory()->buildWithGross($gross)
+                    $this->getTaxableItemFactory()->buildWithGross($gross)
                 )
             ],
             'multiple_concepts' => [

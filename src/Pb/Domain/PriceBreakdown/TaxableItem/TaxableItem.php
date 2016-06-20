@@ -6,7 +6,7 @@ use Pb\Domain\PriceBreakdown\Taxable;
 
 /**
  * Class TaxableItem
- * @package Domain\TaxableItem\PriceBreakdown
+ * @package Pb\Domain\PriceBreakdown\TaxableItem
  */
 class TaxableItem implements Taxable
 {

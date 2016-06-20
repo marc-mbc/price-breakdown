@@ -1,13 +1,13 @@
 <?php
 
-namespace Pb\Test\Infrastructure\PriceBreakdown\ValueObject;
+namespace Pb\Test\Domain\PriceBreakdown\ValueObject;
 
 use Money\Money;
 use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class TaxableItemFactoryTest
- * @package Pb\Test\Infrastructure\PriceBreakdown\TaxableItem
+ * @package Pb\Test\Domain\PriceBreakdown\ValueObject
  */
 class TaxableItemFactoryTest extends PriceBreakdownTestHelper
 {
@@ -24,7 +24,7 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
     {
         $this->assertInstanceOf(
             self::CONSTRUCTED_CLASS,
-            $this->getItemFactory()->buildFromBasicTypes($currency, $net, $vat, $gross)
+            $this->getTaxableItemFactory()->buildFromBasicTypes($currency, $net, $vat, $gross)
         );
     }
 
@@ -37,7 +37,7 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
      */
     public function testBuildFromBasicTypesShouldReturnItemProperlySetUp ($currency, $net, $vat, $gross)
     {
-        $item = $this->getItemFactory()->buildFromBasicTypes($currency, $net, $vat, $gross);
+        $item = $this->getTaxableItemFactory()->buildFromBasicTypes($currency, $net, $vat, $gross);
 
         $this->assertEquals($this->getMoney($net, $currency), $item->net());
         $this->assertEquals($this->getMoney($vat, $currency), $item->vat());
@@ -62,7 +62,7 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
     {
         $this->assertInstanceOf(
             self::CONSTRUCTED_CLASS,
-            $this->getItemFactory()->build($net, $vat, $gross)
+            $this->getTaxableItemFactory()->build($net, $vat, $gross)
         );
     }
 
@@ -74,7 +74,7 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
      */
     public function testBuildShouldReturnItemProperlySetUp ($net, $vat, $gross)
     {
-        $item = $this->getItemFactory()->build($net, $vat, $gross);
+        $item = $this->getTaxableItemFactory()->build($net, $vat, $gross);
         $this->assertEquals($net, $item->net());
         $this->assertEquals($vat, $item->vat());
         if ($gross !== null) $this->assertEquals($gross, $item->gross());
@@ -84,7 +84,7 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
     {
         $this->assertInstanceOf(
             self::CONSTRUCTED_CLASS,
-            $this->getItemFactory()->buildWithGross($this->getMoney(100))
+            $this->getTaxableItemFactory()->buildWithGross($this->getMoney(100))
         );
     }
 
@@ -112,7 +112,7 @@ class TaxableItemFactoryTest extends PriceBreakdownTestHelper
     public function testBuildFromGrossShouldReturnItemProperlySetUp($taxToApply)
     {
         $gross = $this->getMoney(100);
-        $item = $this->getItemFactory($this->getTaxApplicator($taxToApply))->buildWithGross($gross);
+        $item = $this->getTaxableItemFactory($this->getTaxApplicator($taxToApply))->buildWithGross($gross);
 
         $expectedNet = $this->getTaxApplicator($taxToApply)->netFromGross($gross);
         $expectedVat = $gross->subtract($expectedNet);

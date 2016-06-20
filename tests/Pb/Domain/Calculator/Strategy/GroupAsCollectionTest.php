@@ -13,8 +13,8 @@ class GroupAsCollectionTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
-        $collectionFactory = $this->getCollectionFactory();
-        $taxableItemFactory = $this->getItemFactory();
+        $collectionFactory = $this->getTaxableCollectionFactory();
+        $taxableItemFactory = $this->getTaxableItemFactory();
         $conceptName = 'basePrice';
         $currencyCode = 'EUR';
         $gross = $this->getMoney(120.24, $currencyCode);
@@ -28,7 +28,7 @@ class GroupAsCollectionTest extends CalculatorStrategyTest
         );
 
         $strategy = $this->getStrategy($conceptName);
-        $strategy->setCollectionFactory($collectionFactory);
+        $strategy->setTaxableCollectionFactory($collectionFactory);
         $strategy->setTaxableItemFactory($taxableItemFactory);
 
         $this->assertEquals(

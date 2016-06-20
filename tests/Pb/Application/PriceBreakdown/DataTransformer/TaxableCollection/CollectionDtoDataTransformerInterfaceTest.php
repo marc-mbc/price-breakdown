@@ -1,17 +1,17 @@
 <?php
 
-namespace Pb\Test\Application\PriceBreakdown\DataTransformer\Collection;
+namespace Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableCollection;
 
 use Money\Currency;
-use Pb\Application\PriceBreakdown\DataTransformer\Collection\CollectionDtoDataTransformer;
+use Pb\Application\PriceBreakdown\DataTransformer\TaxableCollection\CollectionDtoDataTransformer;
 use Pb\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformer;
-use Pb\Domain\PriceBreakdown\CollectionInterface;
 use Pb\Domain\PriceBreakdown\Taxable;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 use Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformerTest;
 
 /**
  * Class CollectionDtoDataTransformerInterfaceTest
- * @package Pb\Test\Application\PriceBreakdown\DataTransformer\Collection
+ * @package Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableCollection
  */
 class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTest
 {
@@ -42,7 +42,7 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
         $arrayFromEmptyCollection = $this->getArrayFromEmptyCollection($currencyCode);
 
         $arrayItem = $this->getArrayItem($currencyCode, $net, $vat, $gross);
-        $item = $this->getItemFactory()->buildFromBasicTypes($currencyCode, $net, $vat, $gross);
+        $item = $this->getTaxableItemFactory()->buildFromBasicTypes($currencyCode, $net, $vat, $gross);
 
         $arrayFromSimpleCollection = $this->getArrayFromSimpleCollection($currencyCode, $arrayItem, $conceptName);
         $simpleCollection = $this->getSimpleCollection($currencyCode, $item, $conceptName);
@@ -182,11 +182,11 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
 
     /**
      * @param string $currencyCode
-     * @return CollectionInterface
+     * @return TaxableCollection
      */
     protected function getEmptyCollection($currencyCode)
     {
-        return $this->getCollectionFactory()->build(
+        return $this->getTaxableCollectionFactory()->build(
             new Currency($currencyCode)
         );
     }
@@ -222,7 +222,7 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
      */
     protected function getDataTransformer()
     {
-        return new CollectionDtoDataTransformer($this->getCollectionFactory(), $this->getItemDataTransformer());
+        return new CollectionDtoDataTransformer($this->getTaxableCollectionFactory(), $this->getItemDataTransformer());
     }
 
     /**
@@ -251,11 +251,11 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
      * @param string $currencyCode
      * @param Taxable $item
      * @param string $conceptName
-     * @return CollectionInterface
+     * @return TaxableCollection
      */
     protected function getSimpleCollection($currencyCode, Taxable $item, $conceptName)
     {
-        return $this->getCollectionFactory()->build(
+        return $this->getTaxableCollectionFactory()->build(
             new Currency($currencyCode),
             $item,
             [$conceptName => $item]
@@ -289,18 +289,18 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
      * @param Taxable $item
      * @param string $conceptNameItem
      * @param string $conceptNameCollection
-     * @param CollectionInterface $simpleCollection
-     * @return CollectionInterface
+     * @param TaxableCollection $simpleCollection
+     * @return TaxableCollection
      */
     protected function getNestedCollection(
         $currencyCode,
         Taxable $item,
         $conceptNameItem,
         $conceptNameCollection,
-        CollectionInterface $simpleCollection
+        TaxableCollection $simpleCollection
     )
     {
-        return $this->getCollectionFactory()->build(
+        return $this->getTaxableCollectionFactory()->build(
             new Currency($currencyCode),
             $item,
             [

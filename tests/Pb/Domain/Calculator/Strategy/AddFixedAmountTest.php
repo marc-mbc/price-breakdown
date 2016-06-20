@@ -14,7 +14,7 @@ class AddFixedAmountTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
-        $taxableItemFactory = $this->getItemFactory();
+        $taxableItemFactory = $this->getTaxableItemFactory();
         $conceptName = 'basePrice';
         $currencyCode = 'EUR';
         $gross = $this->getMoney(120.24, $currencyCode);
@@ -26,7 +26,7 @@ class AddFixedAmountTest extends CalculatorStrategyTest
         );
 
         $strategy = $this->getStrategy($conceptName, $gross);
-        $strategy->setCollectionFactory($this->getCollectionFactory());
+        $strategy->setTaxableCollectionFactory($this->getTaxableCollectionFactory());
         $strategy->setTaxableItemFactory($taxableItemFactory);
 
         $this->assertEquals(

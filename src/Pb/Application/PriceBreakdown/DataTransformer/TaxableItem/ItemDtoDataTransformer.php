@@ -3,8 +3,8 @@
 namespace Pb\Application\PriceBreakdown\DataTransformer\TaxableItem;
 
 use Money\MoneyFormatter;
-use Pb\Domain\PriceBreakdown\CollectionInterface;
 use Pb\Domain\PriceBreakdown\Taxable;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
 use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 
 /**
@@ -53,7 +53,7 @@ class ItemDtoDataTransformer implements ItemDtoDataTransformerInterface
 
     /**
      * @param mixed $dto
-     * @return CollectionInterface
+     * @return TaxableCollectionFactory
      */
     public function transformToDomain($dto)
     {
@@ -65,39 +65,39 @@ class ItemDtoDataTransformer implements ItemDtoDataTransformerInterface
     }
 
     /**
-     * @param Taxable $item
+     * @param Taxable $taxableItem
      * @return array
      */
-    protected function getArrayFromItem(Taxable $item)
+    protected function getArrayFromItem(Taxable $taxableItem)
     {
         return [
-            static::CURRENCY => $item->gross()->getCurrency()->getCode(),
-            static::VAT => $this->moneyFormatter->format($item->vat()),
-            static::NET => $this->moneyFormatter->format($item->net()),
-            static::GROSS => $this->moneyFormatter->format($item->gross())
+            static::CURRENCY => $taxableItem->gross()->getCurrency()->getCode(),
+            static::VAT => $this->moneyFormatter->format($taxableItem->vat()),
+            static::NET => $this->moneyFormatter->format($taxableItem->net()),
+            static::GROSS => $this->moneyFormatter->format($taxableItem->gross())
         ];
     }
 
     /**
-     * @param array $item
+     * @param array $taxableItem
      * @return Taxable
      */
-    protected function getItemFromArray(array $item)
+    protected function getItemFromArray(array $taxableItem)
     {
         return $this->taxableItemFactory->buildFromBasicTypes(
-            $item[static::CURRENCY], $item[static::NET], $item[static::VAT], $item[static::GROSS]
+            $taxableItem[static::CURRENCY], $taxableItem[static::NET], $taxableItem[static::VAT], $taxableItem[static::GROSS]
         );
     }
 
     /**
-     * @param array $item
+     * @param array $taxableItem
      * @return bool
      */
-    protected function checkValidItem(array $item)
+    protected function checkValidItem(array $taxableItem)
     {
-        return  isset($item[static::CURRENCY]) &&
-                isset($item[static::NET]) &&
-                isset($item[static::VAT]) &&
-                isset($item[static::GROSS]);
+        return  isset($taxableItem[static::CURRENCY]) &&
+                isset($taxableItem[static::NET]) &&
+                isset($taxableItem[static::VAT]) &&
+                isset($taxableItem[static::GROSS]);
     }
 }

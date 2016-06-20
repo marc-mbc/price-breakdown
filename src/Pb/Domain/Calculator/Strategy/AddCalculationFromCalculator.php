@@ -3,7 +3,7 @@
 namespace Pb\Domain\Calculator\Strategy;
 
 use Pb\Domain\Calculator\CalculatorInterface;
-use Pb\Domain\PriceBreakdown\CollectionInterface;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 
 /**
  * Class AddCalculationFromCalculator
@@ -26,11 +26,11 @@ class AddCalculationFromCalculator extends CalculatorStrategy
     }
 
     /**
-     * @param CollectionInterface $collection
-     * @return CollectionInterface
+     * @param TaxableCollection $taxableCollection
+     * @return TaxableCollection
      */
-    public function apply(CollectionInterface $collection)
+    public function apply(TaxableCollection $taxableCollection)
     {
-        return $this->calculator->calculate($collection);
+        return $this->calculator->calculate($taxableCollection);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Pb\Domain\PriceBreakdown;
 
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
 use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 
 /**
@@ -11,10 +13,10 @@ use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 interface CalculatorStrategyInterface
 {
     /**
-     * @param CollectionInterface $collection
-     * @return CollectionInterface
+     * @param TaxableCollection $taxableCollection
+     * @return TaxableCollection
      */
-    public function apply(CollectionInterface $collection);
+    public function apply(TaxableCollection $taxableCollection);
 
     /**
      * @param TaxableItemFactory $factory
@@ -23,8 +25,8 @@ interface CalculatorStrategyInterface
     public function setTaxableItemFactory(TaxableItemFactory $factory);
 
     /**
-     * @param CollectionFactoryInterface $factory
+     * @param TaxableCollectionFactory $factory
      * @return CalculatorStrategyInterface
      */
-    public function setCollectionFactory(CollectionFactoryInterface $factory);
+    public function setTaxableCollectionFactory(TaxableCollectionFactory $factory);
 }

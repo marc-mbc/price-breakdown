@@ -1,25 +1,22 @@
 <?php
 
-namespace Pb\Infrastructure\PriceBreakdown\Collection;
+namespace Pb\Domain\PriceBreakdown\TaxableCollection;
 
 use Money\Currency;
-use Pb\Domain\PriceBreakdown\Collection\TaxableCollection;
-use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
-use Pb\Domain\PriceBreakdown\CollectionInterface;
 use Pb\Domain\PriceBreakdown\Taxable;
 
 /**
  * Class TaxableCollectionFactory
- * @package Pb\Domain\PriceBreakdown\Collection
+ * @package Pb\Domain\PriceBreakdown\TaxableCollection
  */
-class TaxableCollectionFactory implements CollectionFactoryInterface
+class TaxableCollectionFactory
 {
 
     /**
      * @param Currency $currency
      * @param Taxable|null $aggregate
      * @param array $items
-     * @return CollectionInterface
+     * @return TaxableCollection
      */
     public function build(Currency $currency, $aggregate = null, array $items = [])
     {

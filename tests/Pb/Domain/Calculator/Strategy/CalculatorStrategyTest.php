@@ -26,11 +26,11 @@ abstract class CalculatorStrategyTest extends CalculatorTestHelper
 
     public function getFactorySetters()
     {
-        $itemFactory = $this->getItemFactory();
-        $collectionFactory = $this->getCollectionFactory();
+        $itemFactory = $this->getTaxableItemFactory();
+        $collectionFactory = $this->getTaxableCollectionFactory();
         return [
             'item_factory' => ['setTaxableItemFactory', 'taxableItemFactory', $itemFactory],
-            'collection_factory' => ['setCollectionFactory', 'collectionFactory', $collectionFactory]
+            'collection_factory' => ['setTaxableCollectionFactory', 'taxableCollectionFactory', $collectionFactory]
         ];
     }
 

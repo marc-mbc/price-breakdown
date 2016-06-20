@@ -2,9 +2,9 @@
 
 namespace Pb\Domain\Calculator;
 
-use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
-use Pb\Domain\PriceBreakdown\CollectionInterface;
 use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
+use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
 use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 
 /**
@@ -18,9 +18,9 @@ class Calculator implements CalculatorInterface
      */
     protected $strategies = [];
     /**
-     * @var CollectionFactoryInterface
+     * @var TaxableCollectionFactory
      */
-    protected $collectionFactory;
+    protected $taxableCollectionFactory;
     /**
      * @var TaxableItemFactory
      */
@@ -28,42 +28,42 @@ class Calculator implements CalculatorInterface
 
     /**
      * Calculator constructor.
-     * @param CollectionFactoryInterface $collectionFactory
-     * @param TaxableItemFactory $itemFactory
+     * @param TaxableCollectionFactory $taxableCollectionFactory
+     * @param TaxableItemFactory $taxableItemFactory
      */
-    public function __construct(CollectionFactoryInterface $collectionFactory, TaxableItemFactory $itemFactory)
+    public function __construct(TaxableCollectionFactory $taxableCollectionFactory, TaxableItemFactory $taxableItemFactory)
     {
-        $this->collectionFactory = $collectionFactory;
-        $this->taxableItemFactory = $itemFactory;
+        $this->taxableCollectionFactory = $taxableCollectionFactory;
+        $this->taxableItemFactory = $taxableItemFactory;
     }
 
     /**
-     * @param CollectionInterface $collection
-     * @return CollectionInterface
+     * @param TaxableCollection $taxableCollection
+     * @return TaxableCollection
      */
-    public function calculate(CollectionInterface $collection)
+    public function calculate(TaxableCollection $taxableCollection)
     {
         foreach($this->strategies as $strategy)
         {
-            $collection = $strategy->apply($collection);
+            $taxableCollection = $strategy->apply($taxableCollection);
         }
-        return $collection;
+        return $taxableCollection;
     }
 
     /**
      * @param CalculatorStrategyInterface $strategy
-     * @param CollectionFactoryInterface $collectionFactory
+     * @param TaxableCollectionFactory $taxableCollectionFactory
      * @param TaxableItemFactory $itemFactory
      * @return CalculatorInterface
      */
     public function addStrategy(
         CalculatorStrategyInterface $strategy,
-        CollectionFactoryInterface $collectionFactory = null,
+        TaxableCollectionFactory $taxableCollectionFactory = null,
         TaxableItemFactory $itemFactory = null
     )
     {
-        $strategy->setCollectionFactory(
-            $collectionFactory === null ? $this->collectionFactory : $collectionFactory
+        $strategy->setTaxableCollectionFactory(
+            $taxableCollectionFactory === null ? $this->taxableCollectionFactory : $taxableCollectionFactory
         );
         $strategy->setTaxableItemFactory($itemFactory === null ? $this->taxableItemFactory : $itemFactory);
         $this->strategies[] = $strategy;
