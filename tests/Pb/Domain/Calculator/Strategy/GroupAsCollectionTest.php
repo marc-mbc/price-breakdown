@@ -2,8 +2,8 @@
 
 namespace Pb\Test\Domain\Calculator\Strategy;
 
+use Pb\Domain\Calculator\Strategy\CalculatorStrategy;
 use Pb\Domain\Calculator\Strategy\GroupAsCollection;
-use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
  * Class GroupAsCollectionTest
@@ -41,7 +41,7 @@ class GroupAsCollectionTest extends CalculatorStrategyTest
 
     /**
      * @param string $conceptName
-     * @return CalculatorStrategyInterface
+     * @return CalculatorStrategy
      */
     protected function getStrategy($conceptName = 'default')
     {

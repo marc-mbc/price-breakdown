@@ -2,7 +2,6 @@
 
 namespace Pb\Domain\Calculator\Strategy;
 
-use Pb\Domain\PriceBreakdown\CollectionInterface;
 use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 
 /**

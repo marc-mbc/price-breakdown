@@ -3,30 +3,13 @@
 namespace Pb\Domain\Calculator\Strategy;
 
 /**
- * Class Multiplier
+ * Interface Multiplier
  * @package Pb\Domain\Calculator\Strategy
  */
-class Multiplier implements MultiplierInterface
+interface Multiplier
 {
-    /**
-     * @var float|int
-     */
-    protected $multiplier;
-
-    /**
-     * Multiplier constructor.
-     * @param float|int $multiplier
-     */
-    public function __construct($multiplier)
-    {
-        $this->multiplier = $multiplier;
-    }
-
     /**
      * @return float|int
      */
-    public function multiplier()
-    {
-        return $this->multiplier;
-    }
+    public function multiplier();
 }

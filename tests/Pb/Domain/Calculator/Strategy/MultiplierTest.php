@@ -2,6 +2,7 @@
 
 namespace Pb\Test\Domain\Calculator\Strategy;
 
+use Pb\Domain\Calculator\Strategy\BasicMultiplier;
 use Pb\Domain\Calculator\Strategy\Multiplier;
 
 /**
@@ -14,7 +15,7 @@ class MultiplierTest extends \PHPUnit_Framework_TestCase
     {
         $multiplier = 0.2;
         /** @var Multiplier $multiplierStrategy */
-        $multiplierStrategy = new Multiplier($multiplier);
+        $multiplierStrategy = new BasicMultiplier($multiplier);
         $this->assertEquals($multiplier, $multiplierStrategy->multiplier());
     }
 }

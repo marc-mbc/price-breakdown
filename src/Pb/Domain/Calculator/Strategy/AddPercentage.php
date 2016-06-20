@@ -11,7 +11,7 @@ use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 class AddPercentage extends CalculatorStrategy
 {
     /**
-     * @var MultiplierInterface
+     * @var Multiplier
      */
     protected $multiplier;
     /**
@@ -22,9 +22,9 @@ class AddPercentage extends CalculatorStrategy
     /**
      * AddAmount constructor.
      * @param string $conceptName
-     * @param MultiplierInterface $multiplier
+     * @param Multiplier $multiplier
      */
-    public function __construct($conceptName, MultiplierInterface $multiplier)
+    public function __construct($conceptName, Multiplier $multiplier)
     {
         $this->conceptName = $conceptName;
         $this->multiplier = $multiplier;

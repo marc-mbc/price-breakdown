@@ -2,7 +2,7 @@
 
 namespace Pb\Domain\Calculator\Strategy;
 
-use Pb\Domain\Calculator\CalculatorInterface;
+use Pb\Domain\Calculator\Calculator;
 use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 
 /**
@@ -12,15 +12,15 @@ use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 class AddCalculationFromCalculator extends CalculatorStrategy
 {
     /**
-     * @var CalculatorInterface
+     * @var Calculator
      */
     protected $calculator;
 
     /**
      * AddCalculationFromCalculator constructor.
-     * @param CalculatorInterface $calculator
+     * @param Calculator $calculator
      */
-    public function __construct(CalculatorInterface $calculator)
+    public function __construct(Calculator $calculator)
     {
         $this->calculator = $calculator;
     }

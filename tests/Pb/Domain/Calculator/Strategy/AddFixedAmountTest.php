@@ -4,7 +4,6 @@ namespace Pb\Test\Domain\Calculator\Strategy;
 
 use Money\Money;
 use Pb\Domain\Calculator\Strategy\AddFixedAmount;
-use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
  * Class AddFixedAmountTest

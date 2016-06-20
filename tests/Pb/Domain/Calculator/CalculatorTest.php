@@ -3,11 +3,11 @@
 namespace Pb\Test\Domain\Calculator;
 
 use Money\Money;
-use Pb\Domain\Calculator\Calculator;
+use Pb\Domain\Calculator\BasicCalculator;
 use Pb\Domain\Calculator\Strategy\AddFixedAmount;
 use Pb\Domain\Calculator\Strategy\AddPercentage;
-use Pb\Domain\Calculator\Strategy\Multiplier;
-use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
+use Pb\Domain\Calculator\Strategy\CalculatorStrategy;
+use Pb\Domain\Calculator\Strategy\BasicMultiplier;
 use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
 use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
@@ -29,14 +29,14 @@ class CalculatorTest extends CalculatorTestHelper
 
     /**
      * @dataProvider getFactoryInjectionCases
-     * @param CalculatorStrategyInterface $strategy
+     * @param CalculatorStrategy $strategy
      * @param TaxableItemFactory $defaultItemFactory
      * @param TaxableCollectionFactory $defaultCollectionFactory
      * @param TaxableItemFactory $customItemFactory
      * @param TaxableCollectionFactory $customCollectionFactory
      */
     public function testCalculatorShouldBeAbleToInjectFactoriesOnEveryPriceBreakdownOrUseTheirDefaultFactories(
-        CalculatorStrategyInterface $strategy,
+        CalculatorStrategy $strategy,
         TaxableItemFactory $defaultItemFactory = null, TaxableCollectionFactory $defaultCollectionFactory = null,
         TaxableItemFactory $customItemFactory = null, TaxableCollectionFactory $customCollectionFactory = null
     )
@@ -73,7 +73,7 @@ class CalculatorTest extends CalculatorTestHelper
     /**
      * @dataProvider getCalculatorCases
      * @param Money $expectedGross
-     * @param Calculator $calculator
+     * @param BasicCalculator $calculator
      * @param TaxableCollection $initialCollection
      */
     public function testCalculatorShouldCalculateProperly($expectedGross, $calculator, $initialCollection)
@@ -95,7 +95,7 @@ class CalculatorTest extends CalculatorTestHelper
         $multiplier = 2;
 
         $fixedAmountStrategy = new AddFixedAmount('testFixedAmount', $gross);
-        $multiplierStrategy = new AddPercentage('testMultiplier', new Multiplier($multiplier));
+        $multiplierStrategy = new AddPercentage('testMultiplier', new BasicMultiplier($multiplier));
 
         $calculatorFixedAmountPlusMultiplier->addStrategy($fixedAmountStrategy);
         $calculatorFixedAmountPlusMultiplier->addStrategy($multiplierStrategy);

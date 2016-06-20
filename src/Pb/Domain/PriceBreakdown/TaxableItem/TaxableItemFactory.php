@@ -4,7 +4,7 @@ namespace Pb\Domain\PriceBreakdown\TaxableItem;
 
 use Money\Money;
 use Money\MoneyParser;
-use Pb\Domain\Calculator\TaxApplicatorInterface;
+use Pb\Domain\Calculator\TaxApplicator;
 use Pb\Domain\PriceBreakdown\Taxable;
 
 /**
@@ -18,16 +18,16 @@ class TaxableItemFactory
      */
     protected $moneyParser;
     /**
-     * @var TaxApplicatorInterface
+     * @var TaxApplicator
      */
     protected $taxApplicator;
 
     /**
      * TaxableItemFactory constructor.
      * @param MoneyParser $moneyParser
-     * @param TaxApplicatorInterface $taxApplicator
+     * @param TaxApplicator $taxApplicator
      */
-    public function __construct(MoneyParser $moneyParser, TaxApplicatorInterface $taxApplicator)
+    public function __construct(MoneyParser $moneyParser, TaxApplicator $taxApplicator)
     {
         $this->moneyParser = $moneyParser;
         $this->taxApplicator = $taxApplicator;

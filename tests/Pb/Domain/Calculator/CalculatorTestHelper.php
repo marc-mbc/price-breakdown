@@ -3,6 +3,7 @@
 namespace Pb\Test\Domain\Calculator;
 
 use Money\Money;
+use Pb\Domain\Calculator\BasicCalculator;
 use Pb\Domain\Calculator\Calculator;
 use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
@@ -24,7 +25,7 @@ abstract class CalculatorTestHelper extends PriceBreakdownTestHelper
         TaxableCollectionFactory $collectionFactory = null, TaxableItemFactory $itemFactory = null
     )
     {
-        return new Calculator(
+        return new BasicCalculator(
             $collectionFactory === null ? $this->getTaxableCollectionFactory() : $collectionFactory,
             $itemFactory === null ? $this->getTaxableItemFactory() : $itemFactory
         );

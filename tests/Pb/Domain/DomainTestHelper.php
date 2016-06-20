@@ -5,8 +5,8 @@ use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use Money\Parser\StringToUnitsParser;
+use Pb\Domain\Calculator\BasicTaxApplicator;
 use Pb\Domain\Calculator\TaxApplicator;
-use Pb\Domain\Calculator\TaxApplicatorInterface;
 
 /**
  * Class DomainTestHelper
@@ -52,10 +52,10 @@ abstract class DomainTestHelper extends \PHPUnit_Framework_TestCase
 
     /**
      * @param int|float $taxToApply
-     * @return TaxApplicatorInterface
+     * @return TaxApplicator
      */
     protected function getTaxApplicator($taxToApply = 0)
     {
-        return new TaxApplicator($taxToApply);
+        return new BasicTaxApplicator($taxToApply);
     }
 }

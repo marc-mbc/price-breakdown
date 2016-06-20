@@ -3,9 +3,9 @@
 namespace Pb\Test\Domain\Calculator\Strategy;
 
 use Pb\Domain\Calculator\Strategy\AddPercentage;
+use Pb\Domain\Calculator\Strategy\CalculatorStrategy;
+use Pb\Domain\Calculator\Strategy\BasicMultiplier;
 use Pb\Domain\Calculator\Strategy\Multiplier;
-use Pb\Domain\Calculator\Strategy\MultiplierInterface;
-use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
  * Class AddPercentageTest
@@ -57,20 +57,20 @@ class AddPercentageTest extends CalculatorStrategyTest
 
     /**
      * @param string $conceptName
-     * @param MultiplierInterface $multiplier
-     * @return CalculatorStrategyInterface
+     * @param Multiplier $multiplier
+     * @return CalculatorStrategy
      */
-    protected function getStrategy($conceptName = 'default', MultiplierInterface $multiplier = null)
+    protected function getStrategy($conceptName = 'default', Multiplier $multiplier = null)
     {
         return new AddPercentage($conceptName, $multiplier === null ? $this->getMultiplier(0.5) : $multiplier);
     }
 
     /**
      * @param float|int $multiplier
-     * @return Multiplier
+     * @return BasicMultiplier
      */
     protected function getMultiplier($multiplier)
     {
-        return new Multiplier($multiplier);
+        return new BasicMultiplier($multiplier);
     }
 }
