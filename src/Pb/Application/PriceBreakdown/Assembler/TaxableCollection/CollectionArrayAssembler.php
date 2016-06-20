@@ -1,17 +1,17 @@
 <?php
 
-namespace Pb\Application\PriceBreakdown\DataTransformer\TaxableCollection;
+namespace Pb\Application\PriceBreakdown\Assembler\TaxableCollection;
 
 use Money\Currency;
-use Pb\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformerInterface;
+use Pb\Application\PriceBreakdown\Assembler\Taxable\TaxableAssembler;
 use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
 use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
 
 /**
- * Class CollectionDtoDataTransformer
- * @package Pb\Application\PriceBreakdown\DataTransformer\TaxableCollection
+ * Class TaxableCollectionArrayAssembler
+ * @package Pb\Application\PriceBreakdown\Assembler\TaxableCollection
  */
-class CollectionDtoDataTransformer implements CollectionDtoDataTransformerInterface
+class TaxableCollectionArrayAssembler implements TaxableCollectionAssembler
 {
     const AGGREGATE = 'aggregate';
     const ITEMS = 'items';
@@ -24,18 +24,18 @@ class CollectionDtoDataTransformer implements CollectionDtoDataTransformerInterf
     protected $taxableCollectionFactory;
 
     /**
-     * @var ItemDtoDataTransformerInterface
+     * @var TaxableAssembler
      */
     protected $itemDtoDataTransformer;
 
     /**
      * ArraySerializer constructor.
      * @param TaxableCollectionFactory $taxableCollectionFactory
-     * @param ItemDtoDataTransformerInterface $itemDtoDataTransformer
+     * @param TaxableAssembler $itemDtoDataTransformer
      */
     public function __construct(
         TaxableCollectionFactory $taxableCollectionFactory,
-        ItemDtoDataTransformerInterface $itemDtoDataTransformer
+        TaxableAssembler $itemDtoDataTransformer
     )
     {
         $this->taxableCollectionFactory = $taxableCollectionFactory;
@@ -44,23 +44,23 @@ class CollectionDtoDataTransformer implements CollectionDtoDataTransformerInterf
 
 
     /**
-     * @param TaxableCollection $domainObject
+     * @param TaxableCollection $object
      * @return mixed
      */
-    public function transformToDto(TaxableCollection $domainObject)
+    public function assemble(TaxableCollection $object)
     {
-        return $this->getArrayFromCollection($domainObject);
+        return $this->getArrayFromCollection($object);
     }
 
     /**
-     * @param mixed $dto
+     * @param mixed $data
      * @return TaxableCollection
      */
-    public function transformToDomain($dto)
+    public function disassemble($data)
     {
-        if ($this->checkValidCollection($dto))
+        if ($this->checkValidCollection($data))
         {
-            return $this->getCollectionFromArray($dto);
+            return $this->getCollectionFromArray($data);
         }
         throw new \InvalidArgumentException('Invalid Array Format for TaxableCollection');
     }
@@ -73,7 +73,7 @@ class CollectionDtoDataTransformer implements CollectionDtoDataTransformerInterf
     {
         $data = [
             static::CURRENCY => $taxableCollection->currency()->getCode(),
-            static::AGGREGATE => $this->itemDtoDataTransformer->transformToDto($taxableCollection->aggregate()),
+            static::AGGREGATE => $this->itemDtoDataTransformer->assemble($taxableCollection->aggregate()),
             static::ITEMS => []
         ];
         foreach ($taxableCollection->itemTypes() as $conceptName)
@@ -81,7 +81,7 @@ class CollectionDtoDataTransformer implements CollectionDtoDataTransformerInterf
             $taxableItem = $taxableCollection->find($conceptName);
             $data[static::ITEMS][$conceptName] = $taxableItem instanceof TaxableCollection ?
                 $this->getArrayFromCollection($taxableItem) :
-                $this->itemDtoDataTransformer->transformToDto($taxableItem);
+                $this->itemDtoDataTransformer->assemble($taxableItem);
         }
         return $data;
     }
@@ -92,13 +92,13 @@ class CollectionDtoDataTransformer implements CollectionDtoDataTransformerInterf
      */
     protected function getCollectionFromArray(array $data)
     {
-        $aggregate = $this->itemDtoDataTransformer->transformToDomain($data[static::AGGREGATE]);
+        $aggregate = $this->itemDtoDataTransformer->disassemble($data[static::AGGREGATE]);
         $TaxableItems = [];
         foreach ($data[static::ITEMS] as $conceptName => $taxableItem)
         {
             $TaxableItems[$conceptName] = $this->checkValidCollection($taxableItem) ?
                 $this->getCollectionFromArray($taxableItem) :
-                $this->itemDtoDataTransformer->transformToDomain($taxableItem);
+                $this->itemDtoDataTransformer->disassemble($taxableItem);
         }
         return $this->taxableCollectionFactory->build(new Currency($data[static::CURRENCY]), $aggregate, $TaxableItems);
     }

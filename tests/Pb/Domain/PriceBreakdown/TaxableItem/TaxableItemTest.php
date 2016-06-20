@@ -7,7 +7,7 @@ use Money\Money;
 
 /**
  * Class TaxableItemTest
- * @package Pb\Test\Domain\PriceBreakdown\TaxableItem
+ * @package Pb\Test\Domain\PriceBreakdown\Taxable
  */
 class TaxableItemTest extends PriceBreakdownTestHelper
 {

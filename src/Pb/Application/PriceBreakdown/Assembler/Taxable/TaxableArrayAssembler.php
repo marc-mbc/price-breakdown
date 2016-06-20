@@ -1,17 +1,16 @@
 <?php
 
-namespace Pb\Application\PriceBreakdown\DataTransformer\TaxableItem;
+namespace Pb\Application\PriceBreakdown\Assembler\Taxable;
 
 use Money\MoneyFormatter;
 use Pb\Domain\PriceBreakdown\Taxable;
-use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollectionFactory;
 use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 
 /**
- * Class ItemDtoDataTransformer
- * @package Pb\Application\PriceBreakdown\DataTransformer\TaxableItem
+ * Class TaxableArrayAssembler
+ * @package Pb\Application\PriceBreakdown\Assembler\Taxable
  */
-class ItemDtoDataTransformer implements ItemDtoDataTransformerInterface
+class TaxableArrayAssembler implements TaxableAssembler
 {
     const GROSS = 'gross';
     const NET = 'net';
@@ -43,25 +42,25 @@ class ItemDtoDataTransformer implements ItemDtoDataTransformerInterface
     }
 
     /**
-     * @param Taxable $domainObject
-     * @return mixed
+     * @param Taxable $object
+     * @return array
      */
-    public function transformToDto(Taxable $domainObject)
+    public function assemble(Taxable $object)
     {
-        return $this->getArrayFromItem($domainObject);
+        return $this->getArrayFromItem($object);
     }
 
     /**
-     * @param mixed $dto
-     * @return TaxableCollectionFactory
+     * @param array $data
+     * @return Taxable
      */
-    public function transformToDomain($dto)
+    public function disassemble($data)
     {
-        if ($this->checkValidItem($dto))
+        if ($this->checkValidItem($data))
         {
-            return $this->getItemFromArray($dto);
+            return $this->getItemFromArray($data);
         }
-        throw new \InvalidArgumentException('Invalid Array Format for TaxableItem');
+        throw new \InvalidArgumentException('Invalid Array Format for Taxable');
     }
 
     /**

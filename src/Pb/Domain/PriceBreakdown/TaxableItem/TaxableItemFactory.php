@@ -9,7 +9,7 @@ use Pb\Domain\PriceBreakdown\Taxable;
 
 /**
  * Class TaxableItemFactory
- * @package Pb\Domain\PriceBreakdown\TaxableItem
+ * @package Pb\Domain\PriceBreakdown\Taxable
  */
 class TaxableItemFactory
 {

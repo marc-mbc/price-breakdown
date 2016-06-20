@@ -97,7 +97,7 @@ class TaxableCollection implements Taxable
     {
         if (!$this->currency->equals($taxableItem->gross()->getCurrency()))
         {
-            throw new \InvalidArgumentException('New TaxableItem must operate in the same currency');
+            throw new \InvalidArgumentException('New Taxable must operate in the same currency');
         }
         if (!isset($this->items[$conceptName]))
         {
@@ -108,7 +108,7 @@ class TaxableCollection implements Taxable
             );
             return $this;
         }
-        throw new \InvalidArgumentException('Taxable TaxableItem: ' . $conceptName . ' already exists.');
+        throw new \InvalidArgumentException('Taxable Taxable: ' . $conceptName . ' already exists.');
     }
 
     /**

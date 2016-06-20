@@ -5,8 +5,8 @@ use Money\Money;
 use Pb\Domain\PriceBreakdown\Taxable;
 
 /**
- * Class TaxableItem
- * @package Pb\Domain\PriceBreakdown\TaxableItem
+ * Class Taxable
+ * @package Pb\Domain\PriceBreakdown\Taxable
  */
 class TaxableItem implements Taxable
 {

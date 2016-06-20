@@ -3,33 +3,21 @@
 namespace Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableCollection;
 
 use Money\Currency;
-use Pb\Application\PriceBreakdown\DataTransformer\TaxableCollection\CollectionDtoDataTransformer;
-use Pb\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformer;
+use Pb\Application\PriceBreakdown\Assembler\Taxable\TaxableAssembler;
+use Pb\Application\PriceBreakdown\Assembler\TaxableCollection\TaxableCollectionArrayAssembler;
 use Pb\Domain\PriceBreakdown\Taxable;
 use Pb\Domain\PriceBreakdown\TaxableCollection\TaxableCollection;
-use Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformerTest;
+use Pb\Test\Application\PriceBreakdown\Assembler\Taxable\TaxableArrayAssemblerTest;
+
 
 /**
- * Class CollectionDtoDataTransformerInterfaceTest
- * @package Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableCollection
+ * Class TaxableCollectionArrayAssemblerTest
+ * @package Pb\Test\Application\PriceBreakdown\Assembler\TaxableCollection
  */
-class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTest
+class TaxableCollectionArrayAssemblerTest extends TaxableArrayAssemblerTest
 {
 
-    /**
-     * @dataProvider getTransformToDtoCases
-     * @param string $operation
-     * @param array|Taxable $expected
-     * @param array|Taxable $source
-     */
-    public function testTransformToDto($operation, $expected, $source)
-    {
-        $dataTransformer = $this->getDataTransformer();
-
-        $this->assertEquals($expected, $dataTransformer->{$operation}($source));
-    }
-
-    public function getTransformToDtoCases()
+    public function getAssemblerValidCases()
     {
         $currencyCode = 'EUR';
         $net = 100.25;
@@ -56,51 +44,39 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
 
         return [
             'empty_case_transform_to_dto' => [
-                static::TRANSFORM_TO_DTO,
+                static::ASSEMBLE_OPERATION,
                 $arrayFromEmptyCollection,
                 $emptyCollection
             ],
             'empty_case_transform_to_domain' => [
-                static::TRANSFORM_TO_DOMAIN,
+                static::DISASSEMBLE_OPERATION,
                 $emptyCollection,
                 $arrayFromEmptyCollection,
             ],
             'simple_case_transform_to_dto' => [
-                static::TRANSFORM_TO_DTO,
+                static::ASSEMBLE_OPERATION,
                 $arrayFromSimpleCollection,
                 $simpleCollection
             ],
             'simple_case_transform_to_domain' => [
-                static::TRANSFORM_TO_DOMAIN,
+                static::DISASSEMBLE_OPERATION,
                 $simpleCollection,
                 $arrayFromSimpleCollection,
             ],
             'nested_case_transform_to_dto' => [
-                static::TRANSFORM_TO_DTO,
+                static::ASSEMBLE_OPERATION,
                 $arrayFromNestedCollection,
                 $nestedCollection
             ],
             'nested_case_transform_to_domain' => [
-                static::TRANSFORM_TO_DOMAIN,
+                static::DISASSEMBLE_OPERATION,
                 $nestedCollection,
                 $arrayFromNestedCollection
             ]
         ];
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     * @dataProvider getInvalidDtoCases
-     * @param array $source
-     */
-    public function testInvalidSerializationCases(array $source)
-    {
-        $dataTransformer = $this->getDataTransformer();
-
-        $dataTransformer->transformToDomain($source);
-    }
-
-    public function getInvalidDtoCases()
+    public function getInvalidCases()
     {
         $currencyCode = 'EUR';
         $arrayItem = $this->getArrayItem($currencyCode, 100.25, 20.25, 120.5);
@@ -111,19 +87,19 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
             'collection_without_aggregate' => [
                 $this->removeKeyFromCollection(
                     $this->getArrayFromSimpleCollection($currencyCode, $arrayItem, $conceptName),
-                    CollectionDtoDataTransformer::AGGREGATE
+                    TaxableCollectionArrayAssembler::AGGREGATE
                 ),
             ],
             'collection_without_currency' => [
                 $this->removeKeyFromCollection(
                     $this->getArrayFromSimpleCollection($currencyCode, $arrayItem, $conceptName),
-                    CollectionDtoDataTransformer::CURRENCY
+                    TaxableCollectionArrayAssembler::CURRENCY
                 ),
             ],
             'collection_without_items' => [
                 $this->removeKeyFromCollection(
                     $this->getArrayFromSimpleCollection($currencyCode, $arrayItem, $conceptName),
-                    CollectionDtoDataTransformer::ITEMS
+                    TaxableCollectionArrayAssembler::ITEMS
                 ),
             ],
             'nested_collection_without_aggregate' => [
@@ -136,7 +112,7 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
                         $this->getArrayFromSimpleCollection($currencyCode, $arrayItem, $conceptName)
                     ),
                     $simpleCollectionType,
-                    CollectionDtoDataTransformer::AGGREGATE
+                    TaxableCollectionArrayAssembler::AGGREGATE
                 ),
             ],
             'nested_collection_without_currency' => [
@@ -149,7 +125,7 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
                         $this->getArrayFromSimpleCollection($currencyCode, $arrayItem, $conceptName)
                     ),
                     $simpleCollectionType,
-                    CollectionDtoDataTransformer::CURRENCY
+                    TaxableCollectionArrayAssembler::CURRENCY
                 ),
             ],
             'nested_collection_without_items' => [
@@ -162,7 +138,7 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
                         $this->getArrayFromSimpleCollection($currencyCode, $arrayItem, $conceptName)
                     ),
                     $simpleCollectionType,
-                    CollectionDtoDataTransformer::ITEMS
+                    TaxableCollectionArrayAssembler::ITEMS
                 ),
             ]
         ];
@@ -200,9 +176,9 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
     protected function getArrayFromCollection($currencyCode, array $aggregate, array $items = [])
     {
         return [
-            CollectionDtoDataTransformer::CURRENCY => $currencyCode,
-            CollectionDtoDataTransformer::AGGREGATE => $aggregate,
-            CollectionDtoDataTransformer::ITEMS => $items
+            TaxableCollectionArrayAssembler::CURRENCY => $currencyCode,
+            TaxableCollectionArrayAssembler::AGGREGATE => $aggregate,
+            TaxableCollectionArrayAssembler::ITEMS => $items
         ];
     }
 
@@ -218,19 +194,19 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
     }
 
     /**
-     * @return CollectionDtoDataTransformer
+     * @return TaxableCollectionArrayAssembler
      */
-    protected function getDataTransformer()
+    protected function getAssembler()
     {
-        return new CollectionDtoDataTransformer($this->getTaxableCollectionFactory(), $this->getItemDataTransformer());
+        return new TaxableCollectionArrayAssembler($this->getTaxableCollectionFactory(), $this->getItemDataTransformer());
     }
 
     /**
-     * @return ItemDtoDataTransformer
+     * @return TaxableAssembler
      */
     protected function getItemDataTransformer()
     {
-        return parent::getDataTransformer();
+        return parent::getAssembler();
     }
     /**
      * @param string $currencyCode
@@ -318,7 +294,7 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
      */
     protected function removeKeyFromNestedCollection(array $arrayFromCollection, $conceptNameCollection, $key)
     {
-        unset($arrayFromCollection[CollectionDtoDataTransformer::ITEMS][$conceptNameCollection][$key]);
+        unset($arrayFromCollection[TaxableCollectionArrayAssembler::ITEMS][$conceptNameCollection][$key]);
         return $arrayFromCollection;
     }
 }

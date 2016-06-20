@@ -1,34 +1,34 @@
 <?php
 
-namespace Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableItem;
+namespace Pb\Test\Application\PriceBreakdown\Assembler\Taxable;
 
-use Pb\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformer;
+use Pb\Application\PriceBreakdown\Assembler\Taxable\TaxableArrayAssembler;
 use Pb\Domain\PriceBreakdown\Taxable;
 use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
- * Class ItemDtoDataTransformerTest
- * @package Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableItem
+ * Class TaxableArrayAssemblerTest
+ * @package Pb\Test\Application\PriceBreakdown\Assembler\Taxable
  */
-class ItemDtoDataTransformerTest extends PriceBreakdownTestHelper
+class TaxableArrayAssemblerTest extends PriceBreakdownTestHelper
 {
-    const TRANSFORM_TO_DTO = 'transformToDto';
-    const TRANSFORM_TO_DOMAIN = 'transformToDomain';
+    const ASSEMBLE_OPERATION = 'assemble';
+    const DISASSEMBLE_OPERATION = 'disassemble';
 
     /**
-     * @dataProvider getTransformToDtoCases
+     * @dataProvider getAssemblerValidCases
      * @param string $operation
      * @param array|Taxable $expected
      * @param array|Taxable $source
      */
-    public function testTransformToDto($operation, $expected, $source)
+    public function testAssembler($operation, $expected, $source)
     {
-        $dataTransformer = $this->getDataTransformer();
+        $dataTransformer = $this->getAssembler();
 
         $this->assertEquals($expected, $dataTransformer->{$operation}($source));
     }
 
-    public function getSerializationCases()
+    public function getAssemblerValidCases()
     {
         $currencyCode = 'EUR';
         $net = 100.25;
@@ -40,12 +40,12 @@ class ItemDtoDataTransformerTest extends PriceBreakdownTestHelper
 
         return [
             'simple_case_transform_to_dto' => [
-                static::TRANSFORM_TO_DTO,
+                static::ASSEMBLE_OPERATION,
                 $arrayTaxableItem,
                 $taxableItem
             ],
             'simple_case_transform_to_domain' => [
-                static::TRANSFORM_TO_DOMAIN,
+                static::DISASSEMBLE_OPERATION,
                 $taxableItem,
                 $arrayTaxableItem,
             ]
@@ -54,17 +54,17 @@ class ItemDtoDataTransformerTest extends PriceBreakdownTestHelper
 
     /**
      * @expectedException \InvalidArgumentException
-     * @dataProvider getInvalidDtoCases
+     * @dataProvider getInvalidCases
      * @param array $source
      */
-    public function testInvalidSerializationCases(array $source)
+    public function testAssemblerInvalidCases(array $source)
     {
-        $dataTransformer = $this->getDataTransformer();
+        $dataTransformer = $this->getAssembler();
 
-        $dataTransformer->transformToDomain($source);
+        $dataTransformer->{static::DISASSEMBLE_OPERATION}($source);
     }
 
-    public function getInvalidDtoCases()
+    public function getInvalidCases()
     {
         $currencyCode = 'EUR';
         $net = 100.25;
@@ -77,33 +77,33 @@ class ItemDtoDataTransformerTest extends PriceBreakdownTestHelper
             ],
             'item_without_gross' => [
                 $this->removeKeyFromItem(
-                    $this->getArrayItem($currencyCode, $net, $vat, $gross), ItemDtoDataTransformer::GROSS
+                    $this->getArrayItem($currencyCode, $net, $vat, $gross), TaxableArrayAssembler::GROSS
                 ),
             ],
             'item_without_net' => [
                 $this->removeKeyFromItem(
-                    $this->getArrayItem($currencyCode, $net, $vat, $gross), ItemDtoDataTransformer::NET
+                    $this->getArrayItem($currencyCode, $net, $vat, $gross), TaxableArrayAssembler::NET
                 ),
             ],
             'item_without_vat' => [
                 $this->removeKeyFromItem(
-                    $this->getArrayItem($currencyCode, $net, $vat, $gross), ItemDtoDataTransformer::VAT
+                    $this->getArrayItem($currencyCode, $net, $vat, $gross), TaxableArrayAssembler::VAT
                 ),
             ],
             'item_without_currency' => [
                 $this->removeKeyFromItem(
-                    $this->getArrayItem($currencyCode, $net, $vat, $gross), ItemDtoDataTransformer::CURRENCY
+                    $this->getArrayItem($currencyCode, $net, $vat, $gross), TaxableArrayAssembler::CURRENCY
                 ),
             ]
         ];
     }
 
     /**
-     * @return ItemDtoDataTransformer
+     * @return TaxableArrayAssembler
      */
-    protected function getDataTransformer()
+    protected function getAssembler()
     {
-        return new ItemDtoDataTransformer($this->getTaxableItemFactory(), $this->getMoneyFormatter());
+        return new TaxableArrayAssembler($this->getTaxableItemFactory(), $this->getMoneyFormatter());
     }
 
     /**
@@ -116,10 +116,10 @@ class ItemDtoDataTransformerTest extends PriceBreakdownTestHelper
     protected function getArrayItem($currencyCode, $net, $vat, $gross)
     {
         return [
-            ItemDtoDataTransformer::CURRENCY => $currencyCode,
-            ItemDtoDataTransformer::NET => $net,
-            ItemDtoDataTransformer::VAT => $vat,
-            ItemDtoDataTransformer::GROSS => $gross
+            TaxableArrayAssembler::CURRENCY => $currencyCode,
+            TaxableArrayAssembler::NET => $net,
+            TaxableArrayAssembler::VAT => $vat,
+            TaxableArrayAssembler::GROSS => $gross
         ];
     }
 

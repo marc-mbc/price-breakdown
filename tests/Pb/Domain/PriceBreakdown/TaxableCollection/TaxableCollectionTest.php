@@ -166,7 +166,7 @@ class TaxableCollectionTest extends PriceBreakdownTestHelper
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage New TaxableItem must operate in the same currency
+     * @expectedExceptionMessage New Taxable must operate in the same currency
      * @dataProvider getOperationTypes
      * @param string $operation
      */
