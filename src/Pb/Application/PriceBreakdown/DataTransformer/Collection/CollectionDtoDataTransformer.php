@@ -3,6 +3,7 @@
 namespace Pb\Application\PriceBreakdown\DataTransformer\Collection;
 
 use Money\Currency;
+use Pb\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformerInterface;
 use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
 
