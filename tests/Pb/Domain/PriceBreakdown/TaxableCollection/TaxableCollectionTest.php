@@ -1,6 +1,7 @@
 <?php
 namespace Pb\Test\Domain\PriceBreakdown\Collection;
 
+use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItem;
 use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
@@ -31,11 +32,69 @@ class TaxableCollectionTest extends PriceBreakdownTestHelper
         $currency = $this->getCurrency($currencyCode);
         $taxableCollection = $this->getTaxableCollectionFactory()->build($currency, $aggregate);
 
-        $this->assertEquals($aggregate->gross(), $taxableCollection->gross());
-        $this->assertEquals($aggregate->net(), $taxableCollection->net());
-        $this->assertEquals($aggregate->vat(), $taxableCollection->vat());
-        $this->assertEquals($currency, $taxableCollection->currency());
+        $this->assertTrue($taxableCollection->equals($aggregate));
         $this->assertSame($aggregate, $taxableCollection->aggregate());
+    }
+
+    /**
+     * @dataProvider getComparisonCases
+     * @param TaxableItem $taxableItemA
+     * @param TaxableItem $taxableItemB
+     */
+    public function testTaxableItemEquals(TaxableItem $taxableItemA, TaxableItem $taxableItemB)
+    {
+        $taxableCollectionFactory = $this->getTaxableCollectionFactory();
+
+        $taxableCollectionA = $taxableCollectionFactory->build(
+            $taxableItemA->gross()->getCurrency(),
+            $taxableItemA,
+            [
+                $taxableItemA
+            ]
+        );
+
+        $taxableCollectionB = $taxableCollectionFactory->build(
+            $taxableItemB->gross()->getCurrency(),
+            $taxableItemB,
+            [
+                $taxableItemB
+            ]
+        );
+
+        $this->assertEquals(
+            $taxableItemA->equals($taxableItemB),
+            $taxableCollectionA->equals($taxableCollectionB)
+        );
+    }
+
+    public function getComparisonCases()
+    {
+        $taxableItemFactory = $this->getTaxableItemFactory();
+        $item = $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120);
+
+        return [
+            'same_instance' => [$item, $item],
+            'different_instance_same_properties' => [
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120),
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120)
+            ],
+            'different_net' => [
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120),
+                $taxableItemFactory->buildFromBasicTypes('EUR', 101, 20, 120)
+            ],
+            'different_vat' => [
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 21, 120),
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120)
+            ],
+            'different_gross' => [
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120),
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 121)
+            ],
+            'all_different' => [
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 22, 122),
+                $taxableItemFactory->buildFromBasicTypes('USD', 101, 20, 121)
+            ],
+        ];
     }
 
     public function testCollectionCanBeBuiltWithItems()

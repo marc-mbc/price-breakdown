@@ -134,4 +134,16 @@ class TaxableCollection implements Taxable
     {
         return $this->aggregate;
     }
+
+    /**
+     * @param Taxable $taxable
+     * @return bool
+     */
+    public function equals(Taxable $taxable)
+    {
+        return
+            $this->aggregate->gross()->equals($taxable->gross()) &&
+            $this->aggregate->net()->equals($taxable->net()) &&
+            $this->aggregate->vat()->equals($taxable->vat());
+    }
 }

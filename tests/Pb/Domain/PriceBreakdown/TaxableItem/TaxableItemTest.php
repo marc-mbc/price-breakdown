@@ -45,6 +45,57 @@ class TaxableItemTest extends PriceBreakdownTestHelper
     }
 
     /**
+     * @dataProvider getComparisonCases
+     * @param bool $expected
+     * @param TaxableItem $taxableItemA
+     * @param TaxableItem $taxableItemB
+     */
+    public function testTaxableItemEquals($expected, TaxableItem $taxableItemA, TaxableItem $taxableItemB)
+    {
+        $this->assertEquals($expected, $taxableItemA->equals($taxableItemB));
+    }
+
+    public function getComparisonCases()
+    {
+        $taxableItemFactory = $this->getTaxableItemFactory();
+        $item = $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120);
+
+        return [
+            'same_instance' => [true, $item, $item],
+            'different_instance_same_properties' => [
+                true,
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120),
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120)
+            ],
+            'different_currency' => [
+                false,
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120),
+                $taxableItemFactory->buildFromBasicTypes('USD', 100, 20, 120)
+            ],
+            'different_net' => [
+                false,
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120),
+                $taxableItemFactory->buildFromBasicTypes('EUR', 101, 20, 120)
+            ],
+            'different_vat' => [
+                false,
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 21, 120),
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120)
+            ],
+            'different_gross' => [
+                false,
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 120),
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 20, 121)
+            ],
+            'all_different' => [
+                false,
+                $taxableItemFactory->buildFromBasicTypes('EUR', 100, 22, 122),
+                $taxableItemFactory->buildFromBasicTypes('USD', 101, 20, 121)
+            ],
+        ];
+    }
+
+    /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage All prices must be in the same Currency
      * @dataProvider getInvalidConstructionsDifferentCurrencies

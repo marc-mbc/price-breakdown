@@ -70,4 +70,16 @@ class TaxableItem implements Taxable
             throw new \InvalidArgumentException('All prices must be in the same Currency');
         }
     }
+
+    /**
+     * @param Taxable $taxable
+     * @return bool
+     */
+    public function equals(Taxable $taxable)
+    {
+        return
+            $this->gross->equals($taxable->gross()) &&
+            $this->net->equals($taxable->net()) &&
+            $this->vat->equals($taxable->vat());
+    }
 }
