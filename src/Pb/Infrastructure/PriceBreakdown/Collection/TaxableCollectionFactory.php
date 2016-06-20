@@ -6,7 +6,7 @@ use Money\Currency;
 use Pb\Domain\PriceBreakdown\Collection\TaxableCollection;
 use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
-use Pb\Domain\PriceBreakdown\ItemInterface;
+use Pb\Domain\PriceBreakdown\Taxable;
 
 /**
  * Class TaxableCollectionFactory
@@ -17,7 +17,7 @@ class TaxableCollectionFactory implements CollectionFactoryInterface
 
     /**
      * @param Currency $currency
-     * @param ItemInterface|null $aggregate
+     * @param Taxable|null $aggregate
      * @param array $items
      * @return CollectionInterface
      */

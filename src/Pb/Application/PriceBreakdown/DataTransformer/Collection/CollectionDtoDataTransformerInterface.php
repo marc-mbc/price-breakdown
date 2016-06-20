@@ -1,12 +1,12 @@
 <?php
 
-namespace Pb\Application\PriceBreakdown\DataTransformer;
+namespace Pb\Application\PriceBreakdown\DataTransformer\Collection;
 
 use Pb\Domain\PriceBreakdown\CollectionInterface;
 
 /**
  * Interface CollectionDtoDataTransformerInterface
- * @package Pb\Application\PriceBreakdown\DataTransformer
+ * @package Pb\Application\PriceBreakdown\DataTransformer\Collection
  */
 interface CollectionDtoDataTransformerInterface
 {

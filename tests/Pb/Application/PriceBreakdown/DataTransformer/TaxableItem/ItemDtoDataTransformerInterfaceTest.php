@@ -1,14 +1,14 @@
 <?php
 
-namespace Pb\Test\Application\PriceBreakdown\DataTransformer;
+namespace Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableItem;
 
-use Pb\Application\PriceBreakdown\DataTransformer\ItemDtoDataTransformer;
-use Pb\Domain\PriceBreakdown\ItemInterface;
+use Pb\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformer;
+use Pb\Domain\PriceBreakdown\Taxable;
 use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class ItemDtoDataTransformerTest
- * @package Pb\Test\Application\PriceBreakdown\DataTransformer
+ * @package Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableItem
  */
 class ItemDtoDataTransformerTest extends PriceBreakdownTestHelper
 {
@@ -18,8 +18,8 @@ class ItemDtoDataTransformerTest extends PriceBreakdownTestHelper
     /**
      * @dataProvider getTransformToDtoCases
      * @param string $operation
-     * @param array|ItemInterface $expected
-     * @param array|ItemInterface $source
+     * @param array|Taxable $expected
+     * @param array|Taxable $source
      */
     public function testTransformToDto($operation, $expected, $source)
     {

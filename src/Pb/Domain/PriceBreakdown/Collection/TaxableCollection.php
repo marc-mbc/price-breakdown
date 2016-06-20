@@ -2,10 +2,10 @@
 namespace Pb\Domain\PriceBreakdown\Collection;
 
 use Pb\Domain\PriceBreakdown\CollectionInterface;
-use Pb\Domain\PriceBreakdown\ItemInterface;
-use Pb\Domain\PriceBreakdown\ValueObject\TaxableItem;
+use Pb\Domain\PriceBreakdown\Taxable;
 use Money\Currency;
 use Money\Money;
+use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItem;
 
 /**
  * Class TaxableCollection
@@ -14,7 +14,7 @@ use Money\Money;
 class TaxableCollection implements CollectionInterface
 {
     /**
-     * @var ItemInterface[]
+     * @var Taxable[]
      */
     protected $items;
     /**
@@ -61,20 +61,20 @@ class TaxableCollection implements CollectionInterface
 
     /**
      * @param string $conceptName
-     * @param ItemInterface $item
+     * @param Taxable $item
      * @return CollectionInterface
      */
-    public function addUp($conceptName, ItemInterface $item)
+    public function addUp($conceptName, Taxable $item)
     {
         return $this->operate($conceptName, $item, 'add');
     }
 
     /**
      * @param string $conceptName
-     * @param ItemInterface $item
+     * @param Taxable $item
      * @return CollectionInterface
      */
-    public function subtract($conceptName, ItemInterface $item)
+    public function subtract($conceptName, Taxable $item)
     {
         return $this->operate($conceptName, $item, 'subtract');
     }
@@ -90,11 +90,11 @@ class TaxableCollection implements CollectionInterface
 
     /**
      * @param string $conceptName
-     * @param ItemInterface $item
+     * @param Taxable $item
      * @param string $operation
      * @return CollectionInterface
      */
-    protected function operate($conceptName, ItemInterface $item, $operation)
+    protected function operate($conceptName, Taxable $item, $operation)
     {
         if (!$this->currency->equals($item->gross()->getCurrency()))
         {
@@ -109,7 +109,7 @@ class TaxableCollection implements CollectionInterface
             );
             return $this;
         }
-        throw new \InvalidArgumentException('Taxable Item: ' . $conceptName . ' already exists.');
+        throw new \InvalidArgumentException('Taxable TaxableItem: ' . $conceptName . ' already exists.');
     }
 
     /**
@@ -129,7 +129,7 @@ class TaxableCollection implements CollectionInterface
     }
 
     /**
-     * @return ItemInterface
+     * @return Taxable
      */
     public function aggregate()
     {

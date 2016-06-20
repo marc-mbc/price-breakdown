@@ -29,7 +29,7 @@ abstract class CalculatorStrategyTest extends CalculatorTestHelper
         $itemFactory = $this->getItemFactory();
         $collectionFactory = $this->getCollectionFactory();
         return [
-            'item_factory' => ['setItemFactory', 'itemFactory', $itemFactory],
+            'item_factory' => ['setTaxableItemFactory', 'taxableItemFactory', $itemFactory],
             'collection_factory' => ['setCollectionFactory', 'collectionFactory', $collectionFactory]
         ];
     }

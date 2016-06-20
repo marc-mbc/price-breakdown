@@ -6,7 +6,7 @@ use Money\Money;
 use Pb\Domain\Calculator\Calculator;
 use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
-use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
+use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
@@ -17,11 +17,11 @@ abstract class CalculatorTestHelper extends PriceBreakdownTestHelper
 {
     /**
      * @param CollectionFactoryInterface $collectionFactory
-     * @param ItemFactoryInterface $itemFactory
+     * @param TaxableItemFactory $itemFactory
      * @return Calculator
      */
     protected function getCalculator(
-        CollectionFactoryInterface $collectionFactory = null, ItemFactoryInterface $itemFactory = null
+        CollectionFactoryInterface $collectionFactory = null, TaxableItemFactory $itemFactory = null
     )
     {
         return new Calculator(
@@ -41,7 +41,7 @@ abstract class CalculatorTestHelper extends PriceBreakdownTestHelper
 
     /**
      * @param CollectionFactoryInterface $taxableCollectionFactory
-     * @param ItemFactoryInterface $taxableItemFactory
+     * @param TaxableItemFactory $taxableItemFactory
      * @param string $currencyCode
      * @param string $conceptName
      * @param Money $gross
@@ -49,7 +49,7 @@ abstract class CalculatorTestHelper extends PriceBreakdownTestHelper
      */
     protected function getCollectionWithSingleItem(
         CollectionFactoryInterface $taxableCollectionFactory,
-        ItemFactoryInterface $taxableItemFactory,
+        TaxableItemFactory $taxableItemFactory,
         $currencyCode,
         $conceptName,
         Money $gross

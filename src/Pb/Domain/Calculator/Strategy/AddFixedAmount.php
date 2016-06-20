@@ -39,7 +39,7 @@ class AddFixedAmount extends CalculatorStrategy
     {
         return $collection->addUp(
             $this->conceptName,
-            $this->itemFactory->buildWithGross($this->gross)
+            $this->taxableItemFactory->buildWithGross($this->gross)
         );
     }
 }

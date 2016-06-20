@@ -1,19 +1,19 @@
 <?php
 
-namespace Pb\Infrastructure\PriceBreakdown\ValueObject;
+namespace Pb\Infrastructure\PriceBreakdown\TaxableItem;
 
 use Money\Money;
 use Money\MoneyParser;
 use Pb\Domain\Calculator\TaxApplicatorInterface;
-use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
-use Pb\Domain\PriceBreakdown\ItemInterface;
-use Pb\Domain\PriceBreakdown\ValueObject\TaxableItem;
+use Pb\Domain\PriceBreakdown\Taxable;
+use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItem;
+use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 
 /**
- * Class TaxableItemFactory
- * @package Pb\Domain\PriceBreakdown\ValueObject
+ * Class BasicTaxableItemFactory
+ * @package Pb\Infrastructure\PriceBreakdown\TaxableItem
  */
-class TaxableItemFactory implements ItemFactoryInterface
+class BasicTaxableItemFactory implements TaxableItemFactory
 {
     /**
      * @var MoneyParser
@@ -39,7 +39,7 @@ class TaxableItemFactory implements ItemFactoryInterface
      * @param Money $net
      * @param Money $vat
      * @param Money|null $gross
-     * @return ItemInterface
+     * @return Taxable
      */
     public function build(Money $net, Money $vat, Money $gross = null)
     {
@@ -48,7 +48,7 @@ class TaxableItemFactory implements ItemFactoryInterface
 
     /**
      * @param Money $gross
-     * @return ItemInterface
+     * @return Taxable
      */
     public function buildWithGross(Money $gross)
     {
@@ -61,7 +61,7 @@ class TaxableItemFactory implements ItemFactoryInterface
      * @param float $net
      * @param float $vat
      * @param float|null $gross
-     * @return ItemInterface
+     * @return Taxable
      */
     public function buildFromBasicTypes($currency, $net, $vat, $gross = null)
     {

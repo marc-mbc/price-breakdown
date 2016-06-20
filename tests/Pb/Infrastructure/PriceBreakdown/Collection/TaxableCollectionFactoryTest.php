@@ -3,7 +3,7 @@
 namespace Pb\Test\Infrastructure\PriceBreakdown\Collection;
 
 use Money\Currency;
-use Pb\Domain\PriceBreakdown\ItemInterface;
+use Pb\Domain\PriceBreakdown\Taxable;
 use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
@@ -17,10 +17,10 @@ class TaxableCollectionFactoryTest extends PriceBreakdownTestHelper
     /**
      * @dataProvider getBuildCases
      * @param Currency $currency
-     * @param ItemInterface $aggregate
+     * @param Taxable $aggregate
      * @param array $items
      */
-    public function testBuildShouldReturnProperClass (Currency $currency, ItemInterface $aggregate = null, array $items)
+    public function testBuildShouldReturnProperClass (Currency $currency, Taxable $aggregate = null, array $items)
     {
         $this->assertInstanceOf(
             self::CONSTRUCTED_CLASS,

@@ -4,8 +4,8 @@ namespace Pb\Domain\Calculator;
 
 use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
-use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
 use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
+use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 
 /**
  * Class Calculator
@@ -22,19 +22,19 @@ class Calculator implements CalculatorInterface
      */
     protected $collectionFactory;
     /**
-     * @var ItemFactoryInterface
+     * @var TaxableItemFactory
      */
-    protected $itemFactory;
+    protected $taxableItemFactory;
 
     /**
      * Calculator constructor.
      * @param CollectionFactoryInterface $collectionFactory
-     * @param ItemFactoryInterface $itemFactory
+     * @param TaxableItemFactory $itemFactory
      */
-    public function __construct(CollectionFactoryInterface $collectionFactory, ItemFactoryInterface $itemFactory)
+    public function __construct(CollectionFactoryInterface $collectionFactory, TaxableItemFactory $itemFactory)
     {
         $this->collectionFactory = $collectionFactory;
-        $this->itemFactory = $itemFactory;
+        $this->taxableItemFactory = $itemFactory;
     }
 
     /**
@@ -53,19 +53,19 @@ class Calculator implements CalculatorInterface
     /**
      * @param CalculatorStrategyInterface $strategy
      * @param CollectionFactoryInterface $collectionFactory
-     * @param ItemFactoryInterface $itemFactory
+     * @param TaxableItemFactory $itemFactory
      * @return CalculatorInterface
      */
     public function addStrategy(
         CalculatorStrategyInterface $strategy,
         CollectionFactoryInterface $collectionFactory = null,
-        ItemFactoryInterface $itemFactory = null
+        TaxableItemFactory $itemFactory = null
     )
     {
         $strategy->setCollectionFactory(
             $collectionFactory === null ? $this->collectionFactory : $collectionFactory
         );
-        $strategy->setItemFactory($itemFactory === null ? $this->itemFactory : $itemFactory);
+        $strategy->setTaxableItemFactory($itemFactory === null ? $this->taxableItemFactory : $itemFactory);
         $this->strategies[] = $strategy;
         return $this;
     }

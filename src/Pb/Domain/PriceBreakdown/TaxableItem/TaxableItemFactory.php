@@ -1,20 +1,21 @@
 <?php
 
-namespace Pb\Domain\PriceBreakdown;
+namespace Pb\Domain\PriceBreakdown\TaxableItem;
 
 use Money\Money;
+use Pb\Domain\PriceBreakdown\Taxable;
 
 /**
- * Interface ItemFactoryInterface
- * @package Pb\Domain\PriceBreakdown
+ * Interface TaxableItemFactory
+ * @package Pb\Domain\PriceBreakdown\TaxableItem
  */
-interface ItemFactoryInterface
+interface TaxableItemFactory
 {
     /**
      * @param Money $net
      * @param Money $vat
      * @param Money|null $gross
-     * @return ItemInterface
+     * @return Taxable
      */
     public function build(Money $net, Money $vat, Money $gross = null);
 
@@ -23,13 +24,13 @@ interface ItemFactoryInterface
      * @param float $net
      * @param float $vat
      * @param float|null $gross
-     * @return ItemInterface
+     * @return Taxable
      */
     public function buildFromBasicTypes($currency, $net, $vat, $gross = null);
 
     /**
      * @param Money $gross
-     * @return ItemInterface
+     * @return Taxable
      */
     public function buildWithGross(Money $gross);
 }

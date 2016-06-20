@@ -4,15 +4,19 @@ namespace Pb\Domain\Calculator\Strategy;
 
 use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
-use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
 use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
+use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 
+/**
+ * Class CalculatorStrategy
+ * @package Pb\Domain\Calculator\Strategy
+ */
 abstract class CalculatorStrategy implements CalculatorStrategyInterface
 {
     /**
-     * @var ItemFactoryInterface
+     * @var TaxableItemFactory
      */
-    protected $itemFactory;
+    protected $taxableItemFactory;
     /**
      * @var CollectionFactoryInterface
      */
@@ -25,12 +29,12 @@ abstract class CalculatorStrategy implements CalculatorStrategyInterface
     abstract public function apply(CollectionInterface $collection);
 
     /**
-     * @param ItemFactoryInterface $factory
+     * @param TaxableItemFactory $factory
      * @return CalculatorStrategyInterface
      */
-    public function setItemFactory(ItemFactoryInterface $factory)
+    public function setTaxableItemFactory(TaxableItemFactory $factory)
     {
-        $this->itemFactory = $factory;
+        $this->taxableItemFactory = $factory;
         return $this;
     }
 

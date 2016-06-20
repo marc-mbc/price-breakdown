@@ -1,16 +1,17 @@
 <?php
 
-namespace Pb\Test\Application\PriceBreakdown\DataTransformer;
+namespace Pb\Test\Application\PriceBreakdown\DataTransformer\Collection;
 
 use Money\Currency;
-use Pb\Application\PriceBreakdown\DataTransformer\CollectionDtoDataTransformer;
-use Pb\Application\PriceBreakdown\DataTransformer\ItemDtoDataTransformer;
+use Pb\Application\PriceBreakdown\DataTransformer\Collection\CollectionDtoDataTransformer;
+use Pb\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformer;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
-use Pb\Domain\PriceBreakdown\ItemInterface;
+use Pb\Domain\PriceBreakdown\Taxable;
+use Pb\Test\Application\PriceBreakdown\DataTransformer\TaxableItem\ItemDtoDataTransformerTest;
 
 /**
  * Class CollectionDtoDataTransformerInterfaceTest
- * @package Pb\Test\Application\PriceBreakdown\DataTransformer
+ * @package Pb\Test\Application\PriceBreakdown\DataTransformer\Collection
  */
 class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTest
 {
@@ -18,8 +19,8 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
     /**
      * @dataProvider getTransformToDtoCases
      * @param string $operation
-     * @param array|ItemInterface $expected
-     * @param array|ItemInterface $source
+     * @param array|Taxable $expected
+     * @param array|Taxable $source
      */
     public function testTransformToDto($operation, $expected, $source)
     {
@@ -248,11 +249,11 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
 
     /**
      * @param string $currencyCode
-     * @param ItemInterface $item
+     * @param Taxable $item
      * @param string $conceptName
      * @return CollectionInterface
      */
-    protected function getSimpleCollection($currencyCode, ItemInterface $item, $conceptName)
+    protected function getSimpleCollection($currencyCode, Taxable $item, $conceptName)
     {
         return $this->getCollectionFactory()->build(
             new Currency($currencyCode),
@@ -285,7 +286,7 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
 
     /**
      * @param string $currencyCode
-     * @param ItemInterface $item
+     * @param Taxable $item
      * @param string $conceptNameItem
      * @param string $conceptNameCollection
      * @param CollectionInterface $simpleCollection
@@ -293,7 +294,7 @@ class CollectionDtoDataTransformerInterfaceTest extends ItemDtoDataTransformerTe
      */
     protected function getNestedCollection(
         $currencyCode,
-        ItemInterface $item,
+        Taxable $item,
         $conceptNameItem,
         $conceptNameCollection,
         CollectionInterface $simpleCollection

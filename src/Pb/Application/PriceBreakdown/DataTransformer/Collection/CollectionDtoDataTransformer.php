@@ -1,6 +1,6 @@
 <?php
 
-namespace Pb\Application\PriceBreakdown\DataTransformer;
+namespace Pb\Application\PriceBreakdown\DataTransformer\Collection;
 
 use Money\Currency;
 use Pb\Domain\PriceBreakdown\CollectionFactoryInterface;
@@ -8,7 +8,7 @@ use Pb\Domain\PriceBreakdown\CollectionInterface;
 
 /**
  * Class CollectionDtoDataTransformer
- * @package Pb\Application\PriceBreakdown\DataTransformer
+ * @package Pb\Application\PriceBreakdown\DataTransformer\Collection
  */
 class CollectionDtoDataTransformer implements CollectionDtoDataTransformerInterface
 {

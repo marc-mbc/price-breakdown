@@ -5,10 +5,10 @@ namespace Pb\Domain\PriceBreakdown;
 use Money\Money;
 
 /**
- * Interface ItemInterface
+ * Interface Taxable
  * @package Pb\Domain\PriceBreakdown
  */
-interface ItemInterface
+interface Taxable
 {
     /**
      * @return Money

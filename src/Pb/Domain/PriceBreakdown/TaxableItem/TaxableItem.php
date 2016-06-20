@@ -1,14 +1,14 @@
 <?php
-namespace Pb\Domain\PriceBreakdown\ValueObject;
+namespace Pb\Domain\PriceBreakdown\TaxableItem;
 
-use Pb\Domain\PriceBreakdown\ItemInterface;
 use Money\Money;
+use Pb\Domain\PriceBreakdown\Taxable;
 
 /**
  * Class TaxableItem
- * @package Domain\ValueObject\PriceBreakdown
+ * @package Domain\TaxableItem\PriceBreakdown
  */
-class TaxableItem implements ItemInterface
+class TaxableItem implements Taxable
 {
     /**
      * @var Money

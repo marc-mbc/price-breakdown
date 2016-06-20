@@ -1,6 +1,7 @@
 <?php
 
 namespace Pb\Test\Domain\Calculator\Strategy;
+
 use Money\Money;
 use Pb\Domain\Calculator\Strategy\AddFixedAmount;
 use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
@@ -13,7 +14,7 @@ class AddFixedAmountTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
-        $itemFactory = $this->getItemFactory();
+        $taxableItemFactory = $this->getItemFactory();
         $conceptName = 'basePrice';
         $currencyCode = 'EUR';
         $gross = $this->getMoney(120.24, $currencyCode);
@@ -21,12 +22,12 @@ class AddFixedAmountTest extends CalculatorStrategyTest
         $expectedCollection = $this->getEmptyCollection($currencyCode);
         $expectedCollection->addUp(
             $conceptName,
-            $itemFactory->buildWithGross($gross)
+            $taxableItemFactory->buildWithGross($gross)
         );
 
         $strategy = $this->getStrategy($conceptName, $gross);
         $strategy->setCollectionFactory($this->getCollectionFactory());
-        $strategy->setItemFactory($itemFactory);
+        $strategy->setTaxableItemFactory($taxableItemFactory);
 
         $this->assertEquals(
             $expectedCollection,

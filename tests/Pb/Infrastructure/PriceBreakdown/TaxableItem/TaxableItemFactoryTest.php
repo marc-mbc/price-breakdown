@@ -7,11 +7,11 @@ use Pb\Test\Domain\PriceBreakdown\PriceBreakdownTestHelper;
 
 /**
  * Class TaxableItemFactoryTest
- * @package Pb\Test\Infrastructure\PriceBreakdown\ValueObject
+ * @package Pb\Test\Infrastructure\PriceBreakdown\TaxableItem
  */
 class TaxableItemFactoryTest extends PriceBreakdownTestHelper
 {
-    const CONSTRUCTED_CLASS = 'Pb\Domain\PriceBreakdown\ValueObject\TaxableItem';
+    const CONSTRUCTED_CLASS = 'Pb\Domain\PriceBreakdown\TaxableItem\TaxableItem';
 
     /**
      * @dataProvider getBuildFromBasicTypesCases

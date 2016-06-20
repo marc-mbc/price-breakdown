@@ -8,20 +8,20 @@ use Money\Currency;
  * Interface CollectionInterface
  * @package Pb\Domain\PriceBreakdown
  */
-interface CollectionInterface extends ItemInterface
+interface CollectionInterface extends Taxable
 {
     /**
      * @param string $conceptName
-     * @param ItemInterface $item
+     * @param Taxable $item
      * @return CollectionInterface
      */
-    public function addUp($conceptName, ItemInterface $item);
+    public function addUp($conceptName, Taxable $item);
     /**
      * @param string $conceptName
-     * @param ItemInterface $item
+     * @param Taxable $item
      * @return CollectionInterface
      */
-    public function subtract($conceptName, ItemInterface $item);
+    public function subtract($conceptName, Taxable $item);
     /**
      * @param string $conceptName
      * @return CollectionInterface
@@ -39,7 +39,7 @@ interface CollectionInterface extends ItemInterface
     public function currency();
 
     /**
-     * @return ItemInterface
+     * @return Taxable
      */
     public function aggregate();
 }

@@ -5,6 +5,10 @@ namespace Pb\Domain\Calculator\Strategy;
 use Pb\Domain\Calculator\CalculatorInterface;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
 
+/**
+ * Class AddCalculationFromCalculator
+ * @package Pb\Domain\Calculator\Strategy
+ */
 class AddCalculationFromCalculator extends CalculatorStrategy
 {
     /**

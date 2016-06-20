@@ -6,7 +6,7 @@ use Pb\Domain\Calculator\Strategy\Multiplier;
 
 /**
  * Class MultiplierTest
- * @package Pb\Domain\Calculator\Strategy
+ * @package Pb\Test\Domain\Calculator\Strategy
  */
 class MultiplierTest extends \PHPUnit_Framework_TestCase
 {

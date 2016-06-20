@@ -7,21 +7,21 @@ use Pb\Domain\PriceBreakdown\CalculatorStrategyInterface;
 
 /**
  * Class GroupAsCollectionTest
- * @package Pb\Domain\Calculator\Strategy
+ * @package Pb\Test\Domain\Calculator\Strategy
  */
 class GroupAsCollectionTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
         $collectionFactory = $this->getCollectionFactory();
-        $itemFactory = $this->getItemFactory();
+        $taxableItemFactory = $this->getItemFactory();
         $conceptName = 'basePrice';
         $currencyCode = 'EUR';
         $gross = $this->getMoney(120.24, $currencyCode);
 
         $simpleCollection = $this->getCollectionWithSingleItem(
             $collectionFactory,
-            $itemFactory,
+            $taxableItemFactory,
             $currencyCode,
             $conceptName,
             $gross
@@ -29,7 +29,7 @@ class GroupAsCollectionTest extends CalculatorStrategyTest
 
         $strategy = $this->getStrategy($conceptName);
         $strategy->setCollectionFactory($collectionFactory);
-        $strategy->setItemFactory($itemFactory);
+        $strategy->setTaxableItemFactory($taxableItemFactory);
 
         $this->assertEquals(
             $simpleCollection,

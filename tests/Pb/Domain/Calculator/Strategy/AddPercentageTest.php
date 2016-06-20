@@ -15,7 +15,7 @@ class AddPercentageTest extends CalculatorStrategyTest
 {
     public function testStrategyWorksAsExpected()
     {
-        $itemFactory = $this->getItemFactory();
+        $taxableItemFactory = $this->getItemFactory();
         $collectionFactory = $this->getCollectionFactory();
         $conceptName = 'basePrice';
         $multiplierType = 'extraFee';
@@ -27,18 +27,18 @@ class AddPercentageTest extends CalculatorStrategyTest
 
         $expectedCollection = $this->getCollectionWithSingleItem(
             $collectionFactory,
-            $itemFactory,
+            $taxableItemFactory,
             $currencyCode,
             $conceptName,
             $gross
         );
         $expectedCollection->addUp(
             $multiplierType,
-            $itemFactory->buildWithGross($gross->multiply($multiplierStrategy->multiplier()))
+            $taxableItemFactory->buildWithGross($gross->multiply($multiplierStrategy->multiplier()))
         );
 
         $strategy = $this->getStrategy($multiplierType, $multiplierStrategy);
-        $strategy->setItemFactory($itemFactory);
+        $strategy->setTaxableItemFactory($taxableItemFactory);
         $strategy->setCollectionFactory($collectionFactory);
 
         $this->assertEquals(
@@ -46,7 +46,7 @@ class AddPercentageTest extends CalculatorStrategyTest
             $strategy->apply(
                 $this->getCollectionWithSingleItem(
                     $collectionFactory,
-                    $itemFactory,
+                    $taxableItemFactory,
                     $currencyCode,
                     $conceptName,
                     $gross

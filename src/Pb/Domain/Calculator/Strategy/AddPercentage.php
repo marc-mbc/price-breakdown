@@ -37,7 +37,7 @@ class AddPercentage extends CalculatorStrategy
     {
         return $collection->addUp(
             $this->conceptName,
-            $this->itemFactory->buildWithGross($collection->gross()->multiply($this->multiplier->multiplier()))
+            $this->taxableItemFactory->buildWithGross($collection->gross()->multiply($this->multiplier->multiplier()))
         );
     }
 }

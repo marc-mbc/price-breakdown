@@ -1,15 +1,15 @@
 <?php
 
-namespace Pb\Application\PriceBreakdown\DataTransformer;
+namespace Pb\Application\PriceBreakdown\DataTransformer\TaxableItem;
 
 use Money\MoneyFormatter;
 use Pb\Domain\PriceBreakdown\CollectionInterface;
-use Pb\Domain\PriceBreakdown\ItemFactoryInterface;
-use Pb\Domain\PriceBreakdown\ItemInterface;
+use Pb\Domain\PriceBreakdown\Taxable;
+use Pb\Domain\PriceBreakdown\TaxableItem\TaxableItemFactory;
 
 /**
  * Class ItemDtoDataTransformer
- * @package Pb\Application\PriceBreakdown\DataTransformer
+ * @package Pb\Application\PriceBreakdown\DataTransformer\TaxableItem
  */
 class ItemDtoDataTransformer implements ItemDtoDataTransformerInterface
 {
@@ -24,29 +24,29 @@ class ItemDtoDataTransformer implements ItemDtoDataTransformerInterface
     protected $moneyFormatter;
 
     /**
-     * @var ItemFactoryInterface
+     * @var TaxableItemFactory
      */
-    protected $itemFactory;
+    protected $taxableItemFactory;
 
     /**
      * ArraySerializer constructor.
-     * @param ItemFactoryInterface $itemFactory
+     * @param TaxableItemFactory $itemFactory
      * @param MoneyFormatter $moneyFormatter
      */
     public function __construct(
-        ItemFactoryInterface $itemFactory,
+        TaxableItemFactory $itemFactory,
         MoneyFormatter $moneyFormatter
     )
     {
-        $this->itemFactory = $itemFactory;
+        $this->taxableItemFactory = $itemFactory;
         $this->moneyFormatter = $moneyFormatter;
     }
 
     /**
-     * @param ItemInterface $domainObject
+     * @param Taxable $domainObject
      * @return mixed
      */
-    public function transformToDto(ItemInterface $domainObject)
+    public function transformToDto(Taxable $domainObject)
     {
         return $this->getArrayFromItem($domainObject);
     }
@@ -61,14 +61,14 @@ class ItemDtoDataTransformer implements ItemDtoDataTransformerInterface
         {
             return $this->getItemFromArray($dto);
         }
-        throw new \InvalidArgumentException('Invalid Array Format for Item');
+        throw new \InvalidArgumentException('Invalid Array Format for TaxableItem');
     }
 
     /**
-     * @param ItemInterface $item
+     * @param Taxable $item
      * @return array
      */
-    protected function getArrayFromItem(ItemInterface $item)
+    protected function getArrayFromItem(Taxable $item)
     {
         return [
             static::CURRENCY => $item->gross()->getCurrency()->getCode(),
@@ -80,11 +80,11 @@ class ItemDtoDataTransformer implements ItemDtoDataTransformerInterface
 
     /**
      * @param array $item
-     * @return ItemInterface
+     * @return Taxable
      */
     protected function getItemFromArray(array $item)
     {
-        return $this->itemFactory->buildFromBasicTypes(
+        return $this->taxableItemFactory->buildFromBasicTypes(
             $item[static::CURRENCY], $item[static::NET], $item[static::VAT], $item[static::GROSS]
         );
     }

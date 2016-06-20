@@ -12,7 +12,7 @@ interface CollectionFactoryInterface
 {
     /**
      * @param Currency $currency
-     * @param ItemInterface|null $aggregate
+     * @param Taxable|null $aggregate
      * @param array $items
      * @return CollectionInterface
      */
